@@ -1,5 +1,3 @@
-// src/components/Footer.js
-
 import React from "react";
 import styled from "styled-components";
 import { personalInfo, socialLinks } from "../data/data";
@@ -12,45 +10,44 @@ import {
 } from "react-icons/fa";
 
 const FooterContainer = styled.footer`
-  text-align: center;
+  width: 100%;
   padding: 40px 20px;
+  text-align: center;
 
   .social-icons {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     margin-bottom: 20px;
-
-    a {
-      color: ${({ theme }) => theme.colors.text};
-      font-size: 30px;
-      transition: transform 0.3s ease, color 0.3s ease;
-
-      &:hover {
-        color: ${({ theme }) => theme.colors.primary};
-        transform: scale(1.2);
-      }
-    }
   }
 
-  .footer-text {
+  .social-icons a {
     color: ${({ theme }) => theme.colors.text};
-    font-size: 14px;
+    font-size: 28px;
+    transition: transform 0.3s ease, color 0.3s ease;
 
-    a {
+    &:hover {
       color: ${({ theme }) => theme.colors.primary};
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
+      transform: scale(1.2);
     }
   }
 
+  .footer-text,
   .credits {
-    margin-top: 20px;
-    font-size: 12px;
+    width: 100%;
+    text-align: center;
     color: ${({ theme }) => theme.colors.text};
+    margin: 5px 0;
+  }
+
+  .footer-text a {
+    color: ${({ theme }) => theme.colors.primary};
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -89,21 +86,17 @@ const Footer = () => (
       })}
     </div>
     <div className="footer-text">
-      <p>
-        Designed & Built by{" "}
-        <a
-          href="https://www.linkedin.com/in/dibyajyoti-pradhan-83a649146/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {personalInfo.name}
-        </a>
-      </p>
+      Designed & Built by{" "}
+      <a
+        href="https://www.linkedin.com/in/dibyajyoti-pradhan-83a649146/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {personalInfo.name}
+      </a>
     </div>
     <div className="credits">
-      <p>
-        © {new Date().getFullYear()} {personalInfo.name}. All Rights Reserved.
-      </p>
+      © {new Date().getFullYear()} {personalInfo.name}. All Rights Reserved.
     </div>
   </FooterContainer>
 );

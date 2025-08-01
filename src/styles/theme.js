@@ -2,7 +2,7 @@
 
 const shared = {
   fonts: {
-    main: `'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif`,
+    main: `'Playfair Display', serif`,
     mono: `'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace`,
   },
   fontSizes: {
@@ -22,25 +22,25 @@ export const darkTheme = {
   colors: {
     background: "#0a192f",
     text: "#a8b2d1",
-    primary: "#64ffda",
+    primary: "#ffb86b", // orange-ish, replaces cyan/green
     secondary: "#112240",
     accent: "#233554",
     white: "#e6f1ff",
-    greenTint: "rgba(100, 255, 218, 0.1)",
+    greenTint: "rgba(255, 184, 107, 0.1)", // match new primary
     darkNavy: "#020c1b",
     navy: "#0a192f",
     lightNavy: "#112240",
     headerBackground: "#020c1b",
-    linkHover: "#64ffda",
-    cardGlow: "rgba(0, 255, 255, 0.2)", // Updated to match original glow color
-    cardGlowGradient: "rgba(100, 255, 218, 0.15)", // For radial gradient in ::before
-    profileGlow: "rgba(100, 255, 218, 0.7)", // Increased opacity and adjusted color
-    cardHoverBackground: "rgba(17, 34, 64, 0.8)", // Background on hover
-    cardBackground: "rgba(17, 34, 64, 0.6)", // Original card background color
+    linkHover: "#ffb86b",
+    cardGlow: "rgba(255, 184, 107, 0.2)", // match new primary
+    cardGlowGradient: "rgba(255, 184, 107, 0.15)",
+    profileGlow: "rgba(255, 184, 107, 0.7)",
+    cardHoverBackground: "rgba(17, 34, 64, 0.8)",
+    cardBackground: "rgba(17, 34, 64, 0.6)",
     slate: "#8892b0",
     lightSlate: "#a8b2d1",
     lightestSlate: "#ccd6f6",
-    green: "#64ffda",
+    green: "#ffb86b", // match new primary
   },
 };
 

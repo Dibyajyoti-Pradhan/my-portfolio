@@ -56,6 +56,7 @@ const HeaderContainer = styled.header`
 
     .resume-button {
       display: block;
+      width: 100%;
       margin-top: 40px;
       color: ${({ theme }) => theme.colors.primary};
       border: 1px solid ${({ theme }) => theme.colors.primary};
@@ -66,6 +67,9 @@ const HeaderContainer = styled.header`
       text-decoration: none;
       cursor: pointer;
       transition: ${({ theme }) => theme.transition};
+      max-width: 100%;
+      box-sizing: border-box;
+      word-wrap: break-word;
 
       &:hover,
       &:focus {
@@ -76,6 +80,8 @@ const HeaderContainer = styled.header`
 
   .theme-toggle {
     margin-top: 40px;
+    overflow: visible;
+    z-index: 1001;
 
     @media (max-width: 768px) {
       margin-top: 0px;

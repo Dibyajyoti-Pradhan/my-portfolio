@@ -3,6 +3,14 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+  @font-face {
+    font-family: 'Canopee';
+    src: url('https://fonts.cdnfonts.com/s/104233/Canopee.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
   html {
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -28,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
       ${({ theme }) => theme.colors.darkNavy} 100%
     );
     color: ${({ theme }) => theme.colors.text};
-    font-family: ${({ theme }) => theme.fonts.main};
+    font-family: 'Canopee', serif;
     font-size: ${({ theme }) => theme.fontSizes.base};
     line-height: 1.5;
     overflow-x: hidden;
