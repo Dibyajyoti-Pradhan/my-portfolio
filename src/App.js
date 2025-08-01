@@ -17,18 +17,44 @@ const AppContainer = styled.div`
 
 const LeftColumn = styled.div`
   width: ${(props) => props.width}%;
-  padding: 20px;
+  padding: 32px 24px 32px 24px;
   position: fixed;
   height: 100vh;
   left: 0;
-  background-color: ${({ theme }) => theme.colors.headerBackground};
+  background: linear-gradient(
+    120deg,
+    ${({ theme }) => theme.colors.headerBackground} 60%,
+    ${({ theme }) => theme.colors.primary}22 100%
+  );
+  box-shadow: 8px 0 40px 0 ${({ theme }) => theme.colors.primary}22;
+  border-top-right-radius: 48px;
+  border-bottom-right-radius: 48px;
   overflow: visible;
-  transition: width 0.25s ease;
+  transition: background 0.5s, box-shadow 0.5s;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  position: fixed;
+  z-index: 10;
   @media (max-width: 768px) {
     display: none;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top-right-radius: 48px;
+    border-bottom-right-radius: 48px;
+    pointer-events: none;
+    box-shadow: 0 0 80px 0 ${({ theme }) => theme.colors.primary}33 inset;
+    opacity: 0.7;
+    z-index: 1;
+    border: 2.5px solid ${({ theme }) => theme.colors.primary};
+    border-left: none;
+    border-right: 2.5px solid ${({ theme }) => theme.colors.primary};
   }
 `;
 
@@ -36,36 +62,32 @@ const Divider = styled.div`
   position: fixed;
   top: 0;
   left: ${(props) => props.width}%;
-  width: 4px;
+  width: 18px;
   height: 100vh;
-  transform: translateX(-2px);
+  transform: translateX(-9px);
   cursor: ew-resize;
-  background: ${({ theme }) => theme.colors.primary}33;
   z-index: 1000;
-  transition: width 0.2s, background 0.2s;
-  &::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 47.5%;
-    width: 11px;
-    height: 5%;
-    min-height: 22px;
-    min-width: 11px;
-    max-width: 16px;
-    background: ${({ theme }) => theme.colors.primary};
-    border-radius: 6px;
-    transform: translate(-50%, 0);
-    opacity: 0.8;
-    box-shadow: 0 0 8px ${({ theme }) => theme.colors.primary}33;
-  }
-  &:hover::before {
-    opacity: 1;
-    background: ${({ theme }) => theme.colors.primary}cc;
-    box-shadow: 0 0 16px ${({ theme }) => theme.colors.primary}99;
-  }
+  background: none;
+  pointer-events: auto;
   @media (max-width: 768px) {
     display: none;
+  }
+  .divider-handle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 3%;
+    min-height: 24px;
+    max-height: 36px;
+    background: ${({ theme }) => theme.colors.primary}cc;
+    border-radius: 8px;
+    transition: background 0.2s;
+    pointer-events: none;
+  }
+  &:hover .divider-handle {
+    background: ${({ theme }) => theme.colors.primary};
   }
 `;
 
@@ -81,7 +103,6 @@ const RightColumn = styled.div`
   margin-left: ${(props) => props.width}%;
   flex: 1;
   padding: 20px;
-  transition: margin-left 0.25s ease;
   @media (max-width: 768px) {
     margin-left: 0;
     padding: 10px;
@@ -145,7 +166,9 @@ function App() {
                 </LeftColumn>
               )}
               {!isMobile && (
-                <Divider width={panelWidth} onMouseDown={handleMouseDown} />
+                <Divider width={panelWidth} onMouseDown={handleMouseDown}>
+                  <div className="divider-handle" />
+                </Divider>
               )}
               <RightColumn width={isMobile ? 0 : panelWidth}>
                 <Home />
