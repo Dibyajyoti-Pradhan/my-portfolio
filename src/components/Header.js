@@ -8,6 +8,7 @@ import ThemeToggle from "./common/ThemeToggle";
 const HeaderContainer = styled.header`
   width: 100%;
   /* Removed background-color as it's now set in GlobalStyle.js */
+  background-color: inherit;
 
   .logo {
     margin-top: 50px;

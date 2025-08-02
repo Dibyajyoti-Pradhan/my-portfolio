@@ -37,7 +37,7 @@ const SkillsSection = styled.section`
 
       h3 {
         font-size: 20px;
-        color: ${({ theme }) => theme.colors.text};
+        color: ${({ theme }) => theme.colors.primary};
         font-weight: bold;
         flex: 0.2;
         display: flex;
@@ -58,7 +58,6 @@ const SkillsSection = styled.section`
         @media (max-width: 768px) {
           flex: 0.7;
         }
-      }
     }
   }
 `;

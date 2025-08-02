@@ -3,14 +3,8 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Canopee';
-    src: url('https://fonts.cdnfonts.com/s/104233/Canopee.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-  }
-
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cormorant:wght@300;400;500;600&display=swap');
+  
   html {
     box-sizing: border-box;
     scroll-behavior: smooth;
@@ -28,15 +22,14 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     width: 100%;
     min-height: 100%;
-    background: linear-gradient(
+    background: var(--dynamic-gradient, linear-gradient(
       135deg,
-      ${({ theme }) => theme.colors.lightNavy} 0%,
-      ${({ theme }) => theme.colors.darkNavy} 33.3%,
-      ${({ theme }) => theme.colors.lightNavy} 66.6%,
-      ${({ theme }) => theme.colors.darkNavy} 100%
-    );
+      #0f1419 0%,
+      #6b8faf 50%,
+      #0f1419 100%
+    ));
     color: ${({ theme }) => theme.colors.text};
-    font-family: 'Canopee', serif;
+    font-family: ${({ theme }) => theme.fonts.main};
     font-size: ${({ theme }) => theme.fontSizes.base};
     line-height: 1.5;
     overflow-x: hidden;
@@ -44,7 +37,12 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: 768px) {
       font-size: ${({ theme }) => theme.fontSizes.sm};
       margin-left: 0;
-      background: ${({ theme }) => theme.colors.darkNavy};
+      background: var(--dynamic-gradient, linear-gradient(
+        135deg,
+        #0f1419 0%,
+        #6b8faf 50%,
+        #0f1419 100%
+      ));
     }
   }
 
@@ -65,6 +63,8 @@ const GlobalStyle = createGlobalStyle`
     margin: 0 0 10px 0;
     font-weight: 600;
     line-height: 1.1;
+    font-family: ${({ theme }) => theme.fonts.main};
+    letter-spacing: 0.5px;
 
     @media (max-width: 768px) {
       font-size: 70%;
@@ -74,6 +74,8 @@ const GlobalStyle = createGlobalStyle`
   p {
     margin: 0 0 15px 0;
     max-width: 600px;
+    font-family: ${({ theme }) => theme.fonts.main};
+    line-height: 1.6;
 
     @media (max-width: 768px) {
       font-size: ${({ theme }) => theme.fontSizes.sm};

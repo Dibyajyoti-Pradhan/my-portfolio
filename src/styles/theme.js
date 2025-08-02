@@ -1,9 +1,7 @@
-// src/styles/theme.js
-
 const shared = {
   fonts: {
-    main: `'Playfair Display', serif`,
-    mono: `'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace`,
+    main: `'Cormorant Garamond', 'Garamond', 'Times New Roman', serif`,
+    mono: `'Cormorant', 'Garamond', 'Times New Roman', serif`,
   },
   fontSizes: {
     xs: "12px",
@@ -20,27 +18,27 @@ const shared = {
 export const darkTheme = {
   ...shared,
   colors: {
-    background: "#0a192f",
-    text: "#a8b2d1",
-    primary: "#ffb86b", // orange-ish, replaces cyan/green
-    secondary: "#112240",
-    accent: "#233554",
-    white: "#e6f1ff",
-    greenTint: "rgba(255, 184, 107, 0.1)", // match new primary
-    darkNavy: "#020c1b",
-    navy: "#0a192f",
-    lightNavy: "#112240",
-    headerBackground: "#020c1b",
-    linkHover: "#ffb86b",
-    cardGlow: "rgba(255, 184, 107, 0.2)", // match new primary
-    cardGlowGradient: "rgba(255, 184, 107, 0.15)",
-    profileGlow: "rgba(255, 184, 107, 0.7)",
-    cardHoverBackground: "rgba(17, 34, 64, 0.8)",
-    cardBackground: "rgba(17, 34, 64, 0.6)",
-    slate: "#8892b0",
-    lightSlate: "#a8b2d1",
-    lightestSlate: "#ccd6f6",
-    green: "#ffb86b", // match new primary
+    background: "#0f1419",
+    text: "#e8f4f8",
+    primary: "#ff8c42",
+    secondary: "#1a2332",
+    accent: "#2d3a4a",
+    white: "#f0f8ff",
+    greenTint: "rgba(255, 140, 66, 0.1)",
+    darkNavy: "#0a0f14",
+    navy: "#0f1419",
+    lightNavy: "#1a2332",
+    headerBackground: "#0a0f14",
+    linkHover: "#ffa366",
+    cardGlow: "rgba(255, 140, 66, 0.2)",
+    cardGlowGradient: "rgba(255, 140, 66, 0.15)",
+    profileGlow: "rgba(255, 140, 66, 0.7)",
+    cardHoverBackground: "rgba(26, 35, 50, 0.8)",
+    cardBackground: "rgba(26, 35, 50, 0.6)",
+    slate: "#a8c4d4",
+    lightSlate: "#ff8c42",
+    lightestSlate: "#ffa366",
+    green: "#ff8c42",
   },
 };
 

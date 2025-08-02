@@ -21,14 +21,12 @@ const LeftColumn = styled.div`
   position: fixed;
   height: 100vh;
   left: 0;
-  background: linear-gradient(
-    120deg,
-    ${({ theme }) => theme.colors.headerBackground} 60%,
-    ${({ theme }) => theme.colors.primary}22 100%
-  );
+  background: ${({ theme }) => theme.colors.headerBackground};
   box-shadow: 8px 0 40px 0 ${({ theme }) => theme.colors.primary}22;
-  border-top-right-radius: 48px;
-  border-bottom-right-radius: 48px;
+  ${
+    "" /* border-top-right-radius: 48px;
+  border-bottom-right-radius: 48px; */
+  }
   overflow: visible;
   transition: background 0.5s, box-shadow 0.5s;
   display: flex;
@@ -45,14 +43,16 @@ const LeftColumn = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    ${
+      "" /* height: 100%;
     border-top-right-radius: 48px;
-    border-bottom-right-radius: 48px;
+    border-bottom-right-radius: 48px; */
+    }
     pointer-events: none;
     box-shadow: 0 0 80px 0 ${({ theme }) => theme.colors.primary}33 inset;
     opacity: 0.7;
     z-index: 1;
-    border: 2.5px solid ${({ theme }) => theme.colors.primary};
+    ${"" /* border: 2.5px solid ${({ theme }) => theme.colors.primary}; */}
     border-left: none;
     border-right: 2.5px solid ${({ theme }) => theme.colors.primary};
   }
@@ -77,12 +77,14 @@ const Divider = styled.div`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 12px;
-    height: 3%;
-    min-height: 24px;
-    max-height: 36px;
+    width: 6px;
+    height: 30%;
+    ${
+      "" /* min-height: 60px;
+    max-height: 100px; */
+    }
     background: ${({ theme }) => theme.colors.primary}cc;
-    border-radius: 8px;
+    border-radius: 3px;
     transition: background 0.2s;
     pointer-events: none;
   }
