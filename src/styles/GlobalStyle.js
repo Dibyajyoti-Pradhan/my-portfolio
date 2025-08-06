@@ -41,8 +41,9 @@ const GlobalStyle = createGlobalStyle`
       background: var(--dynamic-gradient, linear-gradient(
         145deg,
         #0f1419 0%,
-        #6b8faf 33%,
-        #0f1419 66%,
+        #6b8faf 25%,
+        #0f1419 50%,
+        #6b8faf 75%,
         #0f1419 100%
       ));
       background-size: 150%;
