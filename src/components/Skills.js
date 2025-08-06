@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
+import { useTheme } from "styled-components";
 import styled from "styled-components";
 import { skills as defaultSkills } from "../data/data";
 import {
@@ -76,14 +77,16 @@ const DraggableSkill = ({
   hovered,
   onMouseEnter,
   onMouseLeave,
+  bgColor,
+  textColor,
 }) => (
   <span
     ref={refCallback}
     {...listeners}
     {...attributes}
     style={{
-      backgroundColor: "#112240",
-      color: "#fff",
+      backgroundColor: bgColor,
+      color: textColor,
       padding: "10px 15px",
       borderRadius: "4px",
       fontSize: "14px",
@@ -116,6 +119,8 @@ function SortableSkill({
   selected,
   onClick,
   glowColor,
+  bgColor,
+  textColor,
   hovered,
   onMouseEnter,
   onMouseLeave,
@@ -148,6 +153,8 @@ function SortableSkill({
       onClick={onClick}
       glowColor={glowColor}
       hovered={hovered}
+      bgColor={bgColor}
+      textColor={textColor}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     />
@@ -172,6 +179,9 @@ const Skills = () => {
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [hoveredSkill, setHoveredSkill] = useState(null);
   const { theme } = useContext(ThemeContext);
+  const themeStyles = useTheme();
+  const chipBg = theme === "dark" ? "#112240" : themeStyles.colors.cardBackground || themeStyles.colors.secondary || "#e6f1ff";
+  const chipText = theme === "dark" ? "#ffffff" : themeStyles.colors.text;
   const skillsSectionRef = useRef();
 
   // Save to localStorage whenever skills change
@@ -242,6 +252,8 @@ const Skills = () => {
                       selected={selectedSkill === skill}
                       onClick={() => setSelectedSkill(skill)}
                       glowColor={glowColor}
+                      bgColor={chipBg}
+                      textColor={chipText}
                       hovered={hoveredSkill === skill}
                       onMouseEnter={() => setHoveredSkill(skill)}
                       onMouseLeave={() => setHoveredSkill(null)}
