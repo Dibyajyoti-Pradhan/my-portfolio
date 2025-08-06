@@ -5,6 +5,7 @@ import styled, { keyframes } from "styled-components";
 import { personalInfo } from "../data/data";
 import { ThemeContext } from "../context/ThemeContext";
 
+
 const heartBurst = keyframes`
   0% {
     opacity: 0.8;
@@ -24,6 +25,23 @@ const heartBurst = keyframes`
   }
 `;
 
+const evilPulse = keyframes`
+  0%, 100% {
+    box-shadow:
+      0 0 30px rgba(255, 0, 0, 0.8),
+      0 0 60px rgba(255, 0, 0, 0.6),
+      inset 0 0 30px rgba(255, 0, 0, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(255, 0, 0, 1),
+      0 0 80px rgba(255, 0, 0, 0.8),
+      inset 0 0 40px rgba(255, 0, 0, 0.5);
+    transform: scale(1.02);
+  }
+`;
+
 const AboutSection = styled.section`
   max-width: 1100px;
   margin: 100px auto 0;
@@ -39,25 +57,53 @@ const AboutSection = styled.section`
       align-items: center;
     }
 
-    .profile-picture {
+        .profile-picture {
       flex: 1;
       position: relative;
       overflow: visible;
       cursor: pointer;
       outline: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       img {
         width: 350px;
         height: 350px;
         object-fit: cover;
         border-radius: 50%;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 
         &:hover,
         &:focus {
           box-shadow: 0 0 50px 15px ${({ theme }) => theme.colors.profileGlow};
           transform: translateY(-5px);
+        }
+      }
+
+      .evil-icon {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1a0000, #330000, #1a0000);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 150px;
+        color: #ff0000;
+        border: 3px solid #ff0000;
+        box-shadow:
+          0 0 30px rgba(255, 0, 0, 0.8),
+          0 0 60px rgba(255, 0, 0, 0.6),
+          inset 0 0 30px rgba(255, 0, 0, 0.3);
+        animation: ${evilPulse} 2s infinite;
+        transition: transform 0.3s ease;
+        filter: drop-shadow(0 0 20px #ff0000);
+
+        &:hover {
+          transform: translateY(-5px) scale(1.05);
+          filter: drop-shadow(0 0 40px #ff0000);
         }
       }
     }
@@ -111,7 +157,7 @@ const Heart = styled.svg`
 
 const About = () => {
   const [hearts, setHearts] = useState([]);
-  const { theme } = useContext(ThemeContext);
+  const { theme, gameMode } = useContext(ThemeContext);
 
   const handleDoubleClick = (e) => {
     const id = Math.random().toString(36).substr(2, 9);
@@ -128,35 +174,37 @@ const About = () => {
   return (
     <AboutSection id="about">
       <div className="content-wrapper">
-        <div
-          className="profile-picture"
-          tabIndex={0}
-          onDoubleClick={handleDoubleClick}
-        >
-          <img
-            tabIndex="0"
-            src={`${process.env.PUBLIC_URL}/profile.png`}
-            alt={personalInfo.name}
-          />
-          {hearts.map((h) => (
-            <Heart
-              key={h.id}
-              style={{
-                left: h.x ? `${h.x}px` : "50%",
-                top: h.y ? `${h.y}px` : "50%",
-              }}
-              viewBox="0 0 60 60"
-              fill="none"
-            >
-              <path
-                d="M30 53s-17-10.7-17-23.2C13 19.2 21.2 13 30 21.5 38.8 13 47 19.2 47 29.8 47 42.3 30 53 30 53z"
-                fill={theme === "dark" ? "#ffb86b" : "#007acc"}
-                stroke={theme === "dark" ? "#ffb86b" : "#007acc"}
-                strokeWidth="2"
-              />
-            </Heart>
-          ))}
-        </div>
+        {!gameMode && (
+          <div
+            className="profile-picture"
+            tabIndex={0}
+            onDoubleClick={handleDoubleClick}
+          >
+            <img
+              tabIndex="0"
+              src={`${process.env.PUBLIC_URL}/profile.png`}
+              alt={personalInfo.name}
+            />
+            {hearts.map((h) => (
+              <Heart
+                key={h.id}
+                style={{
+                  left: h.x ? `${h.x}px` : "50%",
+                  top: h.y ? `${h.y}px` : "50%",
+                }}
+                viewBox="0 0 60 60"
+                fill="none"
+              >
+                <path
+                  d="M30 53s-17-10.7-17-23.2C13 19.2 21.2 13 30 21.5 38.8 13 47 19.2 47 29.8 47 42.3 30 53 30 53z"
+                  fill={theme === "dark" ? "#ffb86b" : "#007acc"}
+                  stroke={theme === "dark" ? "#ffb86b" : "#007acc"}
+                  strokeWidth="2"
+                />
+              </Heart>
+            ))}
+          </div>
+        )}
         <div className="text-content" tabIndex="0">
           <h1>Hi 👋, I'm {personalInfo.shortName}.</h1>
           <h2>{personalInfo.description}</h2>

@@ -71,6 +71,10 @@ const HeaderContainer = styled.header`
       max-width: 100%;
       box-sizing: border-box;
       word-wrap: break-word;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       &:hover,
       &:focus {

@@ -80,12 +80,20 @@ const VisuallyHidden = styled.span`
 `;
 
 const ThemeToggle = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme, gameMode } = useContext(ThemeContext);
   const isDark = theme === "dark";
 
   const handleToggle = () => {
-    toggleTheme();
+    // Only toggle if not in game mode
+    if (!gameMode) {
+      toggleTheme();
+    }
   };
+
+  // Hide theme toggle in game mode
+  if (gameMode) {
+    return null;
+  }
 
   return (
     <ToggleButton onClick={handleToggle} isDark={isDark} aria-label="Toggle theme">

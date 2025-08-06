@@ -19,8 +19,7 @@ export const darkTheme = {
   ...shared,
   colors: {
     background: "#0f1419",
-    backgroundGradient:
-      "linear-gradient(145deg, #0f1419 0%, #6b8faf 60%, #0f1419 100%)",
+    backgroundGradient: "#0f1419", // Solid color instead of gradient
     text: "#e8f4f8",
     primary: "#ff8c42",
     secondary: "#1a2332",
@@ -48,8 +47,7 @@ export const lightTheme = {
   ...shared,
   colors: {
     background: "#ffffff",
-    backgroundGradient:
-      "linear-gradient(145deg, #ffffff 0%, #e0eafc 60%, #ffffff 100%)",
+    backgroundGradient: "#ffffff", // Solid color instead of gradient
     text: "#333333",
     primary: "#007acc",
     secondary: "#f0f0f0",

@@ -86,7 +86,7 @@ const ExperienceItem = styled.div`
 
       .job-title {
         font-size: 22px;
-        color: ${({ theme }) => theme.colors.text};
+        color: ${({ theme }) => theme.colors.slate};
         font-weight: bold;
       }
 
@@ -122,7 +122,7 @@ const ExperienceItem = styled.div`
     }
 
     .responsibilities {
-      color: ${({ theme }) => theme.colors.lightSlate};
+      color: ${({ theme }) => theme.colors.slate};
       font-size: 16px;
       line-height: 1.6;
       margin-bottom: 20px;
@@ -141,7 +141,7 @@ const ExperienceItem = styled.div`
       span {
         background-color: ${({ theme }) =>
           theme.colors.accent}; /* Updated background color */
-        color: ${({ theme }) => theme.colors.text};
+        color: ${({ theme }) => theme.colors.slate};
         padding: 5px 15px;
         border-radius: 20px;
         font-size: 14px;

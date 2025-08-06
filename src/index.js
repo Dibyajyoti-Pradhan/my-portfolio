@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import SimpleGameApp from "./SimpleGameApp";
 
 const handleKeyboardNavigation = (event) => {
   const focusableElements = 'a, button, [tabindex="0"]';
@@ -24,6 +24,6 @@ document.addEventListener("keydown", handleKeyboardNavigation);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <SimpleGameApp />
   </React.StrictMode>
 );
