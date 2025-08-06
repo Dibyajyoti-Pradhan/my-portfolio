@@ -22,12 +22,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     width: 100%;
     min-height: 100%;
-    background: var(--dynamic-gradient, linear-gradient(
-      135deg,
-      #0f1419 0%,
-      #6b8faf 50%,
-      #0f1419 100%
-    ));
+    background: ${({ theme }) => theme.colors.backgroundGradient};
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.main};
     font-size: ${({ theme }) => theme.fontSizes.base};
@@ -38,14 +33,7 @@ const GlobalStyle = createGlobalStyle`
       font-size: ${({ theme }) => theme.fontSizes.sm};
       margin-left: 0;
       /* Smoother gradient for mobile, avoids sharp line */
-      background: var(--dynamic-gradient, linear-gradient(
-        145deg,
-        #0f1419 0%,
-        #6b8faf 25%,
-        #0f1419 50%,
-        #6b8faf 75%,
-        #0f1419 100%
-      ));
+      background: ${({ theme }) => theme.colors.backgroundGradient};
       background-size: 150%;
     }
   }
