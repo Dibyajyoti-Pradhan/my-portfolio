@@ -79,15 +79,9 @@ const HeaderContainer = styled.header`
     }
   }
 
+  /* Hide original theme toggle; we now use floating toggle */
   .theme-toggle {
-    margin-top: 40px;
-    overflow: visible;
-    z-index: 1001;
-
-    @media (max-width: 768px) {
-      margin-top: 0px;
-      display: none; /* Hide toggle in mobile view */
-    }
+    display: none;
   }
 `;
 

@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import CurtainLoader from "./components/CurtainLoader";
 import styled from "styled-components";
+import ThemeToggle from "./components/common/ThemeToggle";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const AppContainer = styled.div`
@@ -93,6 +94,13 @@ const Divider = styled.div`
   }
 `;
 
+const FloatingToggle = styled.div`
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1100;
+`;
+
 const ContentScale = styled.div`
   transform-origin: left top;
   /* At min width, font size is 0.95, at max width it's 1.0 */
@@ -147,6 +155,9 @@ function App() {
         <StyledThemeProvider theme={themeStyles}>
           <Router>
             <GlobalStyle />
+            <FloatingToggle>
+              <ThemeToggle />
+            </FloatingToggle>
             {showCurtain && (
               <CurtainLoader onFinish={() => setShowCurtain(false)} />
             )}
