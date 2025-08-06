@@ -60,11 +60,12 @@ const BlurBg = styled.div`
 const Curtain = styled.div`
   position: fixed;
   left: 0;
-  width: 100vw;
-  height: 50vh;
+  right: 0;
+  width: 100%;
+  height: 50%;
   z-index: 9999;
   background: linear-gradient(
-    135deg,
+    145deg,
     ${({ theme }) => theme.colors.primary} 0%,
     ${({ theme }) => theme.colors.headerBackground} 100%
   );
@@ -73,6 +74,11 @@ const Curtain = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none;
+
+  @media (max-width: 768px) {
+    min-width: 100vw;
+    min-height: 50vh;
+  }
 `;
 
 const TopCurtain = styled(Curtain)`

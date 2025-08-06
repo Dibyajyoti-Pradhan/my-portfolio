@@ -37,12 +37,15 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: 768px) {
       font-size: ${({ theme }) => theme.fontSizes.sm};
       margin-left: 0;
+      /* Smoother gradient for mobile, avoids sharp line */
       background: var(--dynamic-gradient, linear-gradient(
-        135deg,
+        145deg,
         #0f1419 0%,
-        #6b8faf 50%,
+        #6b8faf 33%,
+        #0f1419 66%,
         #0f1419 100%
       ));
+      background-size: 150%;
     }
   }
 
