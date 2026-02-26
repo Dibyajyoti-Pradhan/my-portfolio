@@ -90,9 +90,7 @@ const ExperienceList = styled.div`
 `;
 
 const ExperienceItem = styled.div`
-  background: ${({ theme }) => theme.shadows.card
-    ? theme.colors.cardBackground
-    : theme.colors.cardBackground};
+  background: ${({ theme }) => theme.colors.cardBackground};
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: ${({ theme }) => theme.borderRadiusLarge};

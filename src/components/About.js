@@ -36,9 +36,9 @@ const heartBurst = keyframes`
   100% { opacity: 0;   transform: scale(0.8) translateY(-130px); }
 `;
 
-const ringPulse = keyframes`
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
-  50%       { box-shadow: 0 0 0 8px rgba(255, 107, 53, 0.12); }
+const makeRingPulse = (color) => keyframes`
+  0%, 100% { box-shadow: 0 0 0 0 ${color}00; }
+  50%       { box-shadow: 0 0 0 8px ${color}1f; }
 `;
 
 const scrollBounce = keyframes`
@@ -81,6 +81,16 @@ const ProfilePicture = styled.div`
       ? css`${fadeInLeft} 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) 0.1s both`
       : "none"};
 
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -28px;
+    border-radius: 50%;
+    background: radial-gradient(circle, ${({ theme }) => theme.colors.primary}18 0%, transparent 72%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
   img {
     width: 260px;
     height: 260px;
@@ -93,7 +103,7 @@ const ProfilePicture = styled.div`
       0 0 0 9px ${({ theme }) => theme.colors.cardBorder},
       0 32px 80px rgba(0, 0, 0, 0.25);
     transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    animation: ${ringPulse} 3.5s ease-in-out infinite;
+    animation: ${({ theme }) => css`${makeRingPulse(theme.colors.primary)} 3.5s ease-in-out infinite`};
 
     &:hover {
       transform: scale(1.03) rotate(-1deg);
@@ -154,12 +164,12 @@ const TextContent = styled.div`
   }
 
   h1 {
-    font-size: clamp(44px, 5vw, 72px);
+    font-size: clamp(52px, 7vw, 96px);
     font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.02;
+    letter-spacing: -0.045em;
+    line-height: 1.0;
     color: ${({ theme }) => theme.colors.text};
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 
     .wave {
       display: inline-block;
@@ -189,7 +199,7 @@ const TextContent = styled.div`
       height: 6px;
       border-radius: 50%;
       background: ${({ theme }) => theme.colors.primary};
-      animation: ${ringPulse} 2s ease-in-out infinite;
+      animation: ${({ theme }) => css`${makeRingPulse(theme.colors.primary)} 2s ease-in-out infinite`};
       flex-shrink: 0;
     }
   }
@@ -364,11 +374,11 @@ const About = () => {
           </div>
           <div className="company-row">
             <span>Currently at</span>
-            <span className="company-pill">HubSpot</span>
+            <span className="company-pill" style={{ boxShadow: "inset 3px 0 0 #ff7a59" }}>HubSpot</span>
             <span>·</span>
             <span>Previously at</span>
-            <span className="company-pill">Meta</span>
-            <span className="company-pill">Amazon</span>
+            <span className="company-pill" style={{ boxShadow: "inset 3px 0 0 #1877f2" }}>Meta</span>
+            <span className="company-pill" style={{ boxShadow: "inset 3px 0 0 #ff9900" }}>Amazon</span>
           </div>
         </TextContent>
       </div>

@@ -15,11 +15,50 @@ const fadeIn = keyframes`
   to   { opacity: 1; }
 `;
 
+const ambientDrift = keyframes`
+  0%   { transform: translate(0px, 0px) scale(1); }
+  33%  { transform: translate(24px, -18px) scale(1.04); }
+  66%  { transform: translate(-16px, 12px) scale(0.97); }
+  100% { transform: translate(0px, 0px) scale(1); }
+`;
+
 const AppContainer = styled.div`
   display: flex;
   position: relative;
   min-height: 100vh;
   animation: ${fadeIn} 0.3s ease forwards;
+`;
+
+const AmbientGlow = styled.div`
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    right: -8%;
+    width: 55%;
+    height: 65%;
+    background: radial-gradient(ellipse, ${({ theme }) => theme.colors.primary}0b 0%, transparent 68%);
+    animation: ${ambientDrift} 20s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8%;
+    left: -12%;
+    width: 50%;
+    height: 55%;
+    background: radial-gradient(ellipse, ${({ theme }) => theme.colors.primary}07 0%, transparent 68%);
+    animation: ${ambientDrift} 28s ease-in-out infinite reverse;
+    will-change: transform;
+  }
 `;
 
 const LeftColumn = styled.div`
@@ -88,6 +127,8 @@ const RightColumn = styled.div`
   margin-left: ${(props) => props.width}%;
   flex: 1;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: 900px) {
     margin-left: 0;
@@ -179,6 +220,7 @@ function App() {
               <CurtainLoader onFinish={() => setShowCurtain(false)} />
             )}
             <AppContainer>
+              <AmbientGlow />
               {!isMobile && (
                 <LeftColumn width={panelWidth}>
                   <Header />

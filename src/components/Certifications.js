@@ -6,9 +6,9 @@ import { certifications } from "../data/data";
 import { FaMapMarkerAlt, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaGraduationCap, FaBookOpen, FaRocket, FaClock, FaAward } from "react-icons/fa";
 import Card from "./common/Card";
 
-const pulse = keyframes`
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.35); }
-  50% { box-shadow: 0 0 0 8px rgba(255, 107, 53, 0); }
+const makePulse = (color) => keyframes`
+  0%, 100% { box-shadow: 0 0 0 0 ${color}59; }
+  50% { box-shadow: 0 0 0 8px ${color}00; }
 `;
 
 const float = keyframes`
@@ -208,7 +208,7 @@ const StatusBadge = styled.span`
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  animation: ${pulse} 2s ease-in-out infinite;
+  animation: ${({ theme }) => css`${makePulse(theme.colors.primary)} 2s ease-in-out infinite`};
   white-space: nowrap;
 
   svg {

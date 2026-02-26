@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     min-height: 100vh;
     background: ${({ theme }) => theme.colors.background};
+    background-image: radial-gradient(ellipse 90% 40% at 50% -5%, ${({ theme }) => theme.colors.primary}08 0%, transparent 100%);
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.main};
     font-size: ${({ theme }) => theme.fontSizes.base};
@@ -28,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.6;
     letter-spacing: -0.014em;
     overflow-x: hidden;
+    font-variant-numeric: tabular-nums;
   }
 
   h1 {

@@ -83,21 +83,21 @@ const Curtain = styled.div`
 
 const TopCurtain = styled(Curtain)`
   top: 0;
-  animation: ${curtainOpenTop} 4s cubic-bezier(0.8, 0, 0.475, 1) forwards;
+  animation: ${curtainOpenTop} 2.5s cubic-bezier(0.8, 0, 0.475, 1) forwards;
 `;
 
 const BottomCurtain = styled(Curtain)`
   bottom: 0;
-  animation: ${curtainOpenBottom} 4s cubic-bezier(0.8, 0, 0.475, 1) forwards;
+  animation: ${curtainOpenBottom} 2.5s cubic-bezier(0.8, 0, 0.475, 1) forwards;
 `;
 
 const CurtainText = styled.div`
   font-size: 2.7rem;
-  color: ${({ theme }) => theme.colors.text};
-  font-family: "Canopee", serif;
-  letter-spacing: 0.12em;
-  font-weight: bold;
-  text-shadow: 0 2px 16px ${({ theme }) => theme.colors.headerBackground};
+  color: rgba(255, 255, 255, 0.96);
+  font-family: ${({ theme }) => theme.fonts.main};
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.2);
   opacity: 0.97;
   text-align: center;
   line-height: 1.2;
@@ -113,8 +113,8 @@ const CurtainLoader = ({ onFinish }) => {
       setTimeout(() => {
         setShow(false);
         if (onFinish) onFinish();
-      }, 1000);
-    }, 2000 + 2000 - 1000); // 2s hold, 2s anim, last 1s is unblur
+      }, 900);
+    }, 1600);
     return () => clearTimeout(hold);
   }, [onFinish]);
 
@@ -125,19 +125,15 @@ const CurtainLoader = ({ onFinish }) => {
       <BlurBg unblur={unblur} />
       <TopCurtain>
         <CurtainText>
-          <span style={{ fontSize: "2.2rem", letterSpacing: "0.18em" }}>
+          <span style={{ fontSize: "2.4rem", letterSpacing: "-0.04em", fontWeight: 800 }}>
             Dibyajyoti Pradhan
           </span>
         </CurtainText>
       </TopCurtain>
       <BottomCurtain>
         <CurtainText>
-          <span style={{ fontSize: "1.3rem", fontWeight: 400, opacity: 0.8 }}>
-            Senior Software Engineer
-          </span>
-          <br />
-          <span style={{ fontSize: "1.2rem", fontWeight: 400, opacity: 0.8 }}>
-            London
+          <span style={{ fontSize: "1.1rem", fontWeight: 500, opacity: 0.75, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            Senior Software Engineer · London
           </span>
         </CurtainText>
       </BottomCurtain>
