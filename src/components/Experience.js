@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { experiences } from "../data/data";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import Button from "./common/Button";
 
 const fadeInUp = keyframes`
   from {
@@ -27,50 +28,29 @@ const fadeInRight = keyframes`
   }
 `;
 
-const drawLine = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`;
-
 const ExperienceSection = styled.section`
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 0 20px;
+  max-width: 900px;
+  margin: 140px auto;
+  padding: 0 24px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
   h2 {
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 64px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
-    position: relative;
-    display: inline-block;
-    width: 100%;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.6s ease forwards`
+        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
         : "none"};
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
-      animation: ${({ $isVisible }) =>
-        $isVisible
-          ? css`${drawLine} 0.8s ease 0.4s forwards`
-          : "none"};
-      transform-origin: center;
+    @media (max-width: 768px) {
+      font-size: 36px;
+      margin-bottom: 48px;
     }
   }
 `;
@@ -84,73 +64,35 @@ const ExperienceList = styled.div`
 
 const ExperienceItem = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
-  border-radius: 15px;
-  padding: 30px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: ${({ theme }) => theme.borderRadiusLarge || "20px"};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder || "rgba(255, 255, 255, 0.1)"};
+  padding: 32px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, background 0.4s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: grid;
-  grid-template-columns: 20% 80%;
-  gap: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  grid-template-columns: 140px 1fr;
+  gap: 32px;
   outline: none;
   cursor: pointer;
   opacity: 0;
   animation: ${({ $isVisible, $delay }) =>
     $isVisible
-      ? css`${fadeInRight} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards`
+      ? css`${fadeInRight} 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
       : "none"};
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: -20%;
-    left: -20%;
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(
-      circle,
-      ${({ theme }) => theme.colors.cardGlowGradient},
-      transparent
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    transform: scale(0.9);
-    filter: blur(30px);
-    pointer-events: none;
-  }
-
-  /* Subtle left accent bar */
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 20%;
-    width: 3px;
-    height: 60%;
-    background: ${({ theme }) => theme.colors.primary};
-    border-radius: 0 3px 3px 0;
-    opacity: 0;
-    transform: scaleY(0);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    transform-origin: center;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   &:hover,
   &:focus {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px ${({ theme }) => theme.colors.cardGlow};
-    background: ${({ theme }) => theme.colors.cardHoverBackground};
-
-    &::before {
-      opacity: 1;
-      transform: scale(1.1);
-    }
-
-    &::after {
-      opacity: 1;
-      transform: scaleY(1);
-    }
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: ${({ theme }) => theme.colors.primary}30;
   }
 
   .left-column {
@@ -240,24 +182,6 @@ const ExperienceItem = styled.div`
         }
       }
     }
-  }
-`;
-
-const ShowMoreButton = styled.button`
-  margin: 20px auto;
-  padding: 10px 20px;
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.primary};
-  background-color: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  cursor: pointer;
-  transition: ${({ theme }) => theme.transition};
-  display: block;
-
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.colors.greenTint};
   }
 `;
 
@@ -352,9 +276,9 @@ const Experience = () => {
         )}
       </ExperienceList>
       {experiences.length > 3 && (
-        <ShowMoreButton onClick={handleShowMore}>
+        <Button onClick={handleShowMore}>
           {showAll ? "Show Less" : "Show More"}
-        </ShowMoreButton>
+        </Button>
       )}
     </ExperienceSection>
   );

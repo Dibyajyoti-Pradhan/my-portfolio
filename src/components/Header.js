@@ -18,32 +18,32 @@ const fadeIn = keyframes`
 
 const HeaderContainer = styled.header`
   width: 100%;
-  /* Removed background-color as it's now set in GlobalStyle.js */
-  background-color: inherit;
+  background-color: transparent;
 
   .logo {
-    margin-top: 50px;
-    font-size: ${({ theme }) => theme.fontSizes.xl};
-    color: ${({ theme }) => theme.colors.primary};
-    font-weight: bold;
+    margin-top: 48px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: ${({ theme }) => theme.colors.text};
     opacity: 0;
-    animation: ${fadeIn} 0.6s ease 0.1s forwards;
+    animation: ${fadeIn} 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
 
     a {
       color: inherit;
       text-decoration: none;
       position: relative;
       display: inline-block;
-      transition: transform 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        transform: scale(1.05);
+        color: ${({ theme }) => theme.colors.primary};
       }
     }
   }
 
   .nav-links {
-    margin-top: 50px;
+    margin-top: 48px;
     width: 100%;
 
     ul {
@@ -52,59 +52,37 @@ const HeaderContainer = styled.header`
       margin: 0;
 
       li {
-        margin: 20px 0;
+        margin: 16px 0;
         opacity: 0;
-        animation: ${fadeIn} 0.5s ease forwards;
+        animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 
         &:nth-child(1) { animation-delay: 0.2s; }
-        &:nth-child(2) { animation-delay: 0.3s; }
-        &:nth-child(3) { animation-delay: 0.4s; }
-        &:nth-child(4) { animation-delay: 0.5s; }
-        &:nth-child(5) { animation-delay: 0.6s; }
-        &:nth-child(6) { animation-delay: 0.7s; }
-        &:nth-child(7) { animation-delay: 0.8s; }
+        &:nth-child(2) { animation-delay: 0.25s; }
+        &:nth-child(3) { animation-delay: 0.3s; }
+        &:nth-child(4) { animation-delay: 0.35s; }
+        &:nth-child(5) { animation-delay: 0.4s; }
+        &:nth-child(6) { animation-delay: 0.45s; }
+        &:nth-child(7) { animation-delay: 0.5s; }
 
         a {
-          color: ${({ theme }) => theme.colors.text};
-          font-size: ${({ theme }) => theme.fontSizes.base};
+          color: ${({ theme }) => theme.colors.textSecondary || theme.colors.slate};
+          font-size: 15px;
+          font-weight: 400;
+          letter-spacing: -0.01em;
           text-decoration: none;
-          padding: 5px;
-          transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          padding: 6px 0;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           cursor: pointer;
           position: relative;
           display: inline-block;
 
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: ${({ theme }) => theme.colors.primary};
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-          }
-
           &.active {
-            color: ${({ theme }) => theme.colors.primary};
-            font-weight: bold;
-
-            &::after {
-              transform: scaleX(1);
-              transform-origin: left;
-            }
+            color: ${({ theme }) => theme.colors.text};
+            font-weight: 500;
           }
 
           &:hover {
-            color: ${({ theme }) => theme.colors.primary};
-            transform: translateX(5px);
-
-            &::after {
-              transform: scaleX(1);
-              transform-origin: left;
-            }
+            color: ${({ theme }) => theme.colors.text};
           }
         }
       }
@@ -113,52 +91,34 @@ const HeaderContainer = styled.header`
     .resume-button {
       display: block;
       width: 100%;
-      margin-top: 40px;
-      color: ${({ theme }) => theme.colors.primary};
-      border: 1px solid ${({ theme }) => theme.colors.primary};
-      border-radius: ${({ theme }) => theme.borderRadius};
-      padding: 0.75rem 1rem;
-      font-size: ${({ theme }) => theme.fontSizes.sm};
-      font-family: ${({ theme }) => theme.fonts.mono};
+      margin-top: 32px;
+      color: ${({ theme }) => theme.colors.white};
+      background: ${({ theme }) => theme.colors.primary};
+      border: none;
+      border-radius: ${({ theme }) => theme.borderRadiusPill || "100px"};
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      font-family: ${({ theme }) => theme.fonts.main};
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       max-width: 100%;
       box-sizing: border-box;
-      word-wrap: break-word;
       text-align: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       opacity: 0;
-      animation: ${fadeIn} 0.5s ease 0.9s forwards;
-      position: relative;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          ${({ theme }) => theme.colors.primary}15,
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
+      animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
 
       &:hover,
       &:focus {
-        background-color: ${({ theme }) => theme.colors.greenTint};
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px ${({ theme }) => theme.colors.cardGlow};
+        background: ${({ theme }) => theme.colors.primaryHover || theme.colors.linkHover};
+        transform: scale(1.02);
+        box-shadow: 0 4px 20px ${({ theme }) => theme.colors.primary}40;
+      }
 
-        &::before {
-          left: 100%;
-        }
+      &:active {
+        transform: scale(0.98);
       }
     }
   }

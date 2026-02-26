@@ -1,72 +1,162 @@
+// Apple-inspired elegant theme
+// Clean typography, generous spacing, subtle effects
+
 const shared = {
   fonts: {
-    main: `'Cormorant Garamond', 'Garamond', 'Times New Roman', serif`,
-    mono: `'Cormorant', 'Garamond', 'Times New Roman', serif`,
+    // Apple-style system font stack
+    main: `-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif`,
+    mono: `'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace`,
   },
   fontSizes: {
     xs: "12px",
     sm: "14px",
-    base: "16px",
-    lg: "18px",
-    xl: "24px",
-    xxl: "32px",
+    base: "17px",
+    lg: "21px",
+    xl: "32px",
+    xxl: "48px",
+    hero: "64px",
+    display: "80px",
   },
-  transition: "all 0.25s cubic-bezier(0.645,0.045,0.355,1)",
-  borderRadius: "4px",
+  fontWeights: {
+    light: 300,
+    regular: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
+  },
+  // Apple's signature spring animation
+  transition: "all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)",
+  transitionFast: "all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+  transitionSlow: "all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)",
+  // Apple's rounded corners
+  borderRadius: "12px",
+  borderRadiusSmall: "8px",
+  borderRadiusLarge: "24px",
+  borderRadiusPill: "980px",
+  // Generous Apple-style spacing
+  spacing: {
+    xs: "8px",
+    sm: "16px",
+    md: "24px",
+    lg: "48px",
+    xl: "80px",
+    xxl: "120px",
+  },
+  // Soft, diffused Apple shadows
+  shadows: {
+    small: "0 2px 12px rgba(0, 0, 0, 0.08)",
+    medium: "0 8px 30px rgba(0, 0, 0, 0.12)",
+    large: "0 20px 60px rgba(0, 0, 0, 0.15)",
+    glow: "0 0 80px rgba(0, 0, 0, 0.08)",
+  },
 };
 
 export const darkTheme = {
   ...shared,
   colors: {
-    background: "#0f1419",
-    backgroundGradient: "#0f1419",
-    text: "#e8f4f8",
+    // Deep, rich dark background
+    background: "#000000",
+    backgroundSecondary: "#1c1c1e",
+    backgroundTertiary: "#2c2c2e",
+    backgroundGradient: "linear-gradient(180deg, #000000 0%, #1c1c1e 100%)",
+
+    // Clean text hierarchy
+    text: "#f5f5f7",
+    textSecondary: "#a1a1a6",
+    textTertiary: "#6e6e73",
+
+    // Warm orange accent
     primary: "#ff8c42",
-    secondary: "#1a2332",
-    accent: "#2d3a4a",
-    white: "#f0f8ff",
+    primaryHover: "#ffa366",
+    secondary: "#1c1c1e",
+    accent: "#2c2c2e",
+
+    // Supporting colors
+    white: "#ffffff",
     greenTint: "rgba(255, 140, 66, 0.1)",
-    darkNavy: "#0a0f14",
-    navy: "#0f1419",
-    lightNavy: "#1a2332",
-    headerBackground: "#0a0f14",
+
+    // Legacy compatibility
+    darkNavy: "#000000",
+    navy: "#1c1c1e",
+    lightNavy: "#2c2c2e",
+    headerBackground: "rgba(0, 0, 0, 0.8)",
     linkHover: "#ffa366",
-    cardGlow: "rgba(255, 140, 66, 0.2)",
-    cardGlowGradient: "rgba(255, 140, 66, 0.15)",
-    profileGlow: "rgba(255, 140, 66, 0.7)",
-    cardHoverBackground: "rgba(26, 35, 50, 0.8)",
-    cardBackground: "rgba(26, 35, 50, 0.6)",
-    slate: "#a8c4d4",
-    lightSlate: "#ff8c42",
-    lightestSlate: "#ffa366",
-    green: "#ff8c42",
+
+    // Card styling - glassmorphism
+    cardGlow: "rgba(255, 140, 66, 0.15)",
+    cardGlowGradient: "rgba(255, 140, 66, 0.1)",
+    profileGlow: "rgba(255, 140, 66, 0.4)",
+    cardHoverBackground: "rgba(44, 44, 46, 0.9)",
+    cardBackground: "rgba(28, 28, 30, 0.8)",
+    cardBorder: "rgba(255, 255, 255, 0.1)",
+
+    // Text colors
+    slate: "#a1a1a6",
+    lightSlate: "#d1d1d6",
+    lightestSlate: "#e5e5ea",
+    green: "#30d158",
+
+    // Glassmorphism
+    glass: "rgba(28, 28, 30, 0.7)",
+    glassBorder: "rgba(255, 255, 255, 0.08)",
+  },
+  // Dark mode specific shadows
+  shadows: {
+    ...shared.shadows,
+    small: "0 2px 8px rgba(0, 0, 0, 0.3)",
+    medium: "0 4px 20px rgba(0, 0, 0, 0.4)",
+    large: "0 12px 40px rgba(0, 0, 0, 0.5)",
+    glow: "0 0 60px rgba(255, 140, 66, 0.2)",
   },
 };
 
 export const lightTheme = {
   ...shared,
   colors: {
+    // Clean white backgrounds
     background: "#ffffff",
-    backgroundGradient: "#ffffff",
-    text: "#333333",
-    primary: "#007acc",
-    secondary: "#f0f0f0",
-    accent: "#e0e0e0",
+    backgroundSecondary: "#f5f5f7",
+    backgroundTertiary: "#e8e8ed",
+    backgroundGradient: "linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%)",
+
+    // Rich text hierarchy
+    text: "#1d1d1f",
+    textSecondary: "#6e6e73",
+    textTertiary: "#a1a1a6",
+
+    // Warm accent for light theme
+    primary: "#e07020",
+    primaryHover: "#c96018",
+    secondary: "#f5f5f7",
+    accent: "#e8e8ed",
+
+    // Supporting colors
     white: "#ffffff",
-    greenTint: "rgba(0, 122, 204, 0.1)",
-    darkNavy: "#e0e0e0",
-    navy: "#f0f0f0",
-    lightNavy: "#f8f8f8",
-    headerBackground: "#ffffff",
-    linkHover: "#007acc",
-    cardGlow: "rgba(0, 122, 204, 0.2)",
-    cardGlowGradient: "rgba(0, 122, 204, 0.15)",
-    profileGlow: "rgba(0, 122, 204, 0.7)",
-    cardHoverBackground: "#e6f1ff",
-    cardBackground: "#f0f0f0",
-    slate: "#666666",
-    lightSlate: "#888888",
-    lightestSlate: "#aaaaaa",
-    green: "#007acc",
+    greenTint: "rgba(224, 112, 32, 0.08)",
+
+    // Legacy compatibility
+    darkNavy: "#e8e8ed",
+    navy: "#f5f5f7",
+    lightNavy: "#ffffff",
+    headerBackground: "rgba(255, 255, 255, 0.8)",
+    linkHover: "#c96018",
+
+    // Card styling
+    cardGlow: "rgba(224, 112, 32, 0.1)",
+    cardGlowGradient: "rgba(224, 112, 32, 0.08)",
+    profileGlow: "rgba(224, 112, 32, 0.3)",
+    cardHoverBackground: "#ffffff",
+    cardBackground: "#f5f5f7",
+    cardBorder: "rgba(0, 0, 0, 0.06)",
+
+    // Text colors
+    slate: "#6e6e73",
+    lightSlate: "#86868b",
+    lightestSlate: "#a1a1a6",
+    green: "#34c759",
+
+    // Glassmorphism
+    glass: "rgba(255, 255, 255, 0.7)",
+    glassBorder: "rgba(0, 0, 0, 0.06)",
   },
 };

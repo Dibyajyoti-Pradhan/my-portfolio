@@ -39,15 +39,6 @@ const fadeInRight = keyframes`
   }
 `;
 
-const softGlow = keyframes`
-  0%, 100% {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  }
-  50% {
-    box-shadow: 0 8px 50px rgba(255, 140, 66, 0.25);
-  }
-`;
-
 const heartBurst = keyframes`
   0% {
     opacity: 0.8;
@@ -107,25 +98,25 @@ const evilPulse = keyframes`
 `;
 
 const AboutSection = styled.section`
-  max-width: 1100px;
-  margin: 100px auto 0;
-  padding: 0 20px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 100px 24px 120px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease;
 
   .content-wrapper {
     display: flex;
-    gap: 60px;
+    gap: 100px;
     align-items: center;
 
     @media (max-width: 768px) {
       flex-direction: column;
       align-items: center;
-      gap: 40px;
+      gap: 60px;
     }
 
     .profile-picture {
-      flex: 1;
+      flex-shrink: 0;
       position: relative;
       overflow: visible;
       cursor: pointer;
@@ -133,32 +124,35 @@ const AboutSection = styled.section`
       display: flex;
       justify-content: center;
       align-items: center;
-      animation: ${({ $isVisible }) => $isVisible ? css`${fadeInLeft} 0.8s ease forwards` : 'none'};
+      animation: ${({ $isVisible }) => $isVisible ? css`${fadeInLeft} 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards` : 'none'};
 
       img {
-        width: 320px;
-        height: 320px;
+        width: 300px;
+        height: 300px;
         object-fit: cover;
         border-radius: 50%;
-        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                    box-shadow 0.5s ease;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
 
         &:hover {
-          transform: translateY(-8px) scale(1.02);
-          animation: ${softGlow} 2s ease-in-out infinite;
+          transform: scale(1.04);
+        }
+
+        @media (max-width: 768px) {
+          width: 240px;
+          height: 240px;
         }
       }
 
       .evil-icon {
-        width: 320px;
-        height: 320px;
+        width: 280px;
+        height: 280px;
         border-radius: 50%;
         background: linear-gradient(135deg, #1a0000, #330000, #1a0000);
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 150px;
+        font-size: 120px;
         color: #ff0000;
         border: 3px solid #ff0000;
         animation: ${evilPulse} 2s infinite;
@@ -166,20 +160,27 @@ const AboutSection = styled.section`
         filter: drop-shadow(0 0 20px #ff0000);
 
         &:hover {
-          transform: translateY(-5px) scale(1.05);
+          transform: scale(1.05);
         }
       }
     }
 
     .text-content {
-      flex: 2;
-      animation: ${({ $isVisible }) => $isVisible ? css`${fadeInRight} 0.8s ease 0.2s forwards` : 'none'};
+      flex: 1;
+      animation: ${({ $isVisible }) => $isVisible ? css`${fadeInRight} 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0.15s forwards` : 'none'};
       opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
 
       h1 {
-        font-size: 48px;
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: -0.009em;
+        line-height: 1.05;
         margin-bottom: 12px;
         color: ${({ theme }) => theme.colors.text};
+
+        @media (max-width: 768px) {
+          font-size: 44px;
+        }
 
         .wave {
           display: inline-block;
@@ -190,64 +191,39 @@ const AboutSection = styled.section`
 
       h2 {
         font-size: 28px;
-        margin-bottom: 24px;
+        font-weight: 400;
+        letter-spacing: -0.016em;
+        margin-bottom: 32px;
         color: ${({ theme }) => theme.colors.primary};
-        position: relative;
-        display: inline-block;
 
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -6px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background: ${({ theme }) => theme.colors.primary};
-          animation: ${drawUnderline} 1s ease 0.8s forwards;
-          transform: scaleX(0);
+        @media (max-width: 768px) {
+          font-size: 22px;
         }
       }
 
       p {
-        font-size: 17px;
-        color: ${({ theme }) => theme.colors.slate};
-        margin-bottom: 18px;
-        line-height: 1.8;
-        max-width: 550px;
+        font-size: 19px;
+        color: ${({ theme }) => theme.colors.textSecondary || theme.colors.slate};
+        margin-bottom: 24px;
+        line-height: 1.5;
+        max-width: 560px;
+        letter-spacing: -0.022em;
         opacity: 0;
-        animation: ${fadeInUp} 0.6s ease forwards;
+        animation: ${fadeInUp} 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 
-        &:nth-child(3) { animation-delay: 0.4s; }
-        &:nth-child(4) { animation-delay: 0.5s; }
-        &:nth-child(5) { animation-delay: 0.6s; }
+        &:nth-child(3) { animation-delay: 0.3s; }
+        &:nth-child(4) { animation-delay: 0.4s; }
+        &:nth-child(5) { animation-delay: 0.5s; }
 
         a {
           color: ${({ theme }) => theme.colors.primary};
-          text-decoration: none;
-          position: relative;
-          font-weight: 500;
-          transition: color 0.3s ease;
-
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: ${({ theme }) => theme.colors.primary};
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-          }
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          text-decoration-thickness: 1px;
+          transition: ${({ theme }) => theme.transition};
 
           &:hover {
             color: ${({ theme }) => theme.colors.linkHover};
-
-            &::after {
-              transform: scaleX(1);
-              transform-origin: left;
-            }
           }
         }
       }

@@ -33,64 +33,45 @@ const scaleIn = keyframes`
   }
 `;
 
-const drawLine = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`;
-
 const ContactSection = styled.section`
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 0 20px;
+  max-width: 700px;
+  margin: 140px auto;
+  padding: 0 24px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   h2 {
-    font-size: 32px;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
     margin-bottom: 20px;
     color: ${({ theme }) => theme.colors.text};
-    position: relative;
-    display: inline-block;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.6s ease forwards`
+        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
         : "none"};
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 50px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
-      animation: ${({ $isVisible }) =>
-        $isVisible
-          ? css`${drawLine} 0.8s ease 0.4s forwards`
-          : "none"};
-      transform-origin: center;
+    @media (max-width: 768px) {
+      font-size: 36px;
     }
   }
 
   p {
-    color: ${({ theme }) => theme.colors.text};
-    margin-bottom: 40px;
-    max-width: 500px;
+    color: ${({ theme }) => theme.colors.textSecondary || theme.colors.slate};
+    margin-bottom: 48px;
+    max-width: 480px;
     line-height: 1.6;
+    font-size: 18px;
+    letter-spacing: -0.01em;
     opacity: 0;
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.6s ease 0.2s forwards`
+        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards`
         : "none"};
   }
 

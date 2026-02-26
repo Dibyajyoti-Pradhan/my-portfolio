@@ -1,50 +1,31 @@
 // src/components/common/Button.js
+// Apple-style button - Purposeful and tactile
 
 import styled from "styled-components";
 
 const Button = styled.button`
-  margin: 20px auto;
-  padding: 12px 24px;
-  font-size: ${({ theme }) => theme.fontSizes.base};
-  color: ${({ theme }) => theme.colors.primary};
-  background-color: transparent;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: block;
-  position: relative;
-  overflow: hidden;
+  margin: 40px auto;
+  padding: 18px 36px;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  color: ${({ theme }) => theme.colors.primary};
+  background: transparent;
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  border-radius: ${({ theme }) => theme.borderRadiusPill || "980px"};
+  cursor: pointer;
+  transition: ${({ theme }) => theme.transition};
+  text-align: center;
+  min-width: 140px;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      ${({ theme }) => theme.colors.primary}15,
-      transparent
-    );
-    transition: left 0.5s ease;
-  }
-
-  &:hover,
-  &:focus {
-    background-color: ${({ theme }) => theme.colors.greenTint};
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px ${({ theme }) => theme.colors.cardGlow};
-
-    &::before {
-      left: 100%;
-    }
+  &:hover {
+    background: ${({ theme }) => theme.colors.primary};
+    color: #fff;
   }
 
   &:active {
-    transform: translateY(0);
+    transform: scale(0.97);
     transition: transform 0.1s ease;
   }
 `;

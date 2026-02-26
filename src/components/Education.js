@@ -29,50 +29,29 @@ const fadeInLeft = keyframes`
   }
 `;
 
-const drawLine = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`;
-
 const EducationSection = styled.section`
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 0 20px;
+  max-width: 900px;
+  margin: 140px auto;
+  padding: 0 24px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   h2 {
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 64px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
-    position: relative;
-    display: inline-block;
-    width: 100%;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.6s ease forwards`
+        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
         : "none"};
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
-      animation: ${({ $isVisible }) =>
-        $isVisible
-          ? css`${drawLine} 0.8s ease 0.4s forwards`
-          : "none"};
-      transform-origin: center;
+    @media (max-width: 768px) {
+      font-size: 36px;
+      margin-bottom: 48px;
     }
   }
 `;
@@ -91,7 +70,7 @@ const EducationItem = styled(Card)`
   opacity: 0;
   animation: ${({ $isVisible, $delay }) =>
     $isVisible
-      ? css`${fadeInLeft} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards`
+      ? css`${fadeInLeft} 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
       : "none"};
 
   /* Subtle gradient border on left */

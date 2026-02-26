@@ -38,50 +38,29 @@ const scaleIn = keyframes`
   }
 `;
 
-const drawLine = keyframes`
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-`;
-
 const CertificationsSection = styled.section`
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 0 20px;
+  max-width: 900px;
+  margin: 140px auto;
+  padding: 0 24px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   h2 {
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 64px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
-    position: relative;
-    display: inline-block;
-    width: 100%;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.6s ease forwards`
+        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
         : "none"};
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%) scaleX(0);
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
-      animation: ${({ $isVisible }) =>
-        $isVisible
-          ? css`${drawLine} 0.8s ease 0.4s forwards`
-          : "none"};
-      transform-origin: center;
+    @media (max-width: 768px) {
+      font-size: 36px;
+      margin-bottom: 48px;
     }
   }
 `;
@@ -98,7 +77,7 @@ const CertificationItem = styled(Card)`
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   animation: ${({ $isVisible, $delay }) =>
     $isVisible
-      ? css`${scaleIn} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards`
+      ? css`${scaleIn} 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
       : "none"};
 
   &::before {
@@ -277,7 +256,7 @@ const TechPill = styled.span`
   border-radius: 25px;
   font-size: 13px;
   font-family: ${({ theme }) => theme.fonts.mono};
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
   border: 1px solid transparent;
   position: relative;
@@ -425,7 +404,7 @@ const CurriculumItem = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.accent};
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
   opacity: 0;
   animation: ${slideInRight} 0.5s ease forwards;

@@ -7,15 +7,22 @@ import Card from "./common/Card";
 import Button from "./common/Button";
 
 const AchievementsSection = styled.section`
-  max-width: 1100px;
-  margin: 100px auto;
-  padding: 0 20px;
+  max-width: 900px;
+  margin: 140px auto;
+  padding: 0 24px;
 
   h2 {
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 64px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: 36px;
+      margin-bottom: 48px;
+    }
   }
 `;
 
