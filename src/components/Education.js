@@ -1,22 +1,79 @@
 // src/components/Education.js
 
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from "react";
+import styled, { keyframes, css } from "styled-components";
 import { education } from "../data/data";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Card from "./common/Card";
 import Button from "./common/Button";
 
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fadeInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const drawLine = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`;
+
 const EducationSection = styled.section`
   max-width: 1100px;
   margin: 100px auto;
   padding: 0 20px;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease;
 
   h2 {
     font-size: 32px;
     margin-bottom: 50px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${fadeInUp} 0.6s ease forwards`
+        : "none"};
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
+      animation: ${({ $isVisible }) =>
+        $isVisible
+          ? css`${drawLine} 0.8s ease 0.4s forwards`
+          : "none"};
+      transform-origin: center;
+    }
   }
 `;
 
@@ -31,12 +88,50 @@ const EducationItem = styled(Card)`
   display: grid;
   grid-template-columns: 20% 80%;
   gap: 20px;
+  opacity: 0;
+  animation: ${({ $isVisible, $delay }) =>
+    $isVisible
+      ? css`${fadeInLeft} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards`
+      : "none"};
+
+  /* Subtle gradient border on left */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 3px;
+    height: 80%;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      ${({ theme }) => theme.colors.primary},
+      transparent
+    );
+    border-radius: 0 3px 3px 0;
+    opacity: 0;
+    transform: scaleY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform-origin: center;
+  }
+
+  &:hover::after,
+  &:focus::after {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 
   .left-column {
     font-size: 16px;
     color: ${({ theme }) => theme.colors.text};
     text-transform: uppercase;
     font-weight: bold;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  &:hover .left-column {
+    color: ${({ theme }) => theme.colors.primary};
   }
 
   .right-column {
@@ -50,6 +145,7 @@ const EducationItem = styled(Card)`
         font-size: 22px;
         color: ${({ theme }) => theme.colors.text};
         font-weight: bold;
+        transition: color 0.3s ease;
       }
 
       .school {
@@ -57,6 +153,7 @@ const EducationItem = styled(Card)`
         color: ${({ theme }) => theme.colors.primary};
         display: flex;
         align-items: center;
+        transition: transform 0.3s ease;
 
         a {
           color: inherit;
@@ -70,6 +167,10 @@ const EducationItem = styled(Card)`
       }
     }
 
+    &:hover .title-school .school {
+      transform: translateX(5px);
+    }
+
     .location {
       display: flex;
       align-items: center;
@@ -80,7 +181,13 @@ const EducationItem = styled(Card)`
 
       svg {
         font-size: 18px;
+        color: ${({ theme }) => theme.colors.primary};
+        transition: transform 0.3s ease;
       }
+    }
+
+    &:hover .location svg {
+      transform: scale(1.2);
     }
 
     .details {
@@ -99,6 +206,25 @@ const EducationItem = styled(Card)`
 
 const Education = () => {
   const [showMore, setShowMore] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleShowMore = () => {
     setShowMore(!showMore);
@@ -107,14 +233,16 @@ const Education = () => {
   const educationToShow = showMore ? education : education.slice(0, 1);
 
   return (
-    <EducationSection id="education">
+    <EducationSection id="education" ref={sectionRef} $isVisible={isVisible}>
       <h2>Education</h2>
       <EducationList>
         {educationToShow.map(
-          ({ id, school, url, degree, duration, location, major, details }) => (
+          ({ id, school, url, degree, duration, location, major, details }, index) => (
             <EducationItem
               key={id}
               tabIndex="0"
+              $isVisible={isVisible}
+              $delay={0.2 + index * 0.15}
               onClick={() => {
                 window.open(url, "_blank", "noopener,noreferrer");
               }}

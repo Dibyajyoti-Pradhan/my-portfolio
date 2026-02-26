@@ -4,44 +4,78 @@ import styled from "styled-components";
 
 const Card = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
-  border-radius: 15px; /* Rounded corners */
-  padding: 30px;
+  border-radius: 16px;
+  padding: 32px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s ease,
+    background 0.4s ease;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
   outline: none;
   cursor: pointer;
 
+  /* Subtle top border accent */
   &::before {
     content: "";
     position: absolute;
-    top: -20%;
-    left: -20%;
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(
-      circle,
-      ${({ theme }) => theme.colors.cardGlowGradient},
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      ${({ theme }) => theme.colors.primary}60,
       transparent
     );
     opacity: 0;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    transform: scale(0.9);
-    filter: blur(30px);
+    transition: opacity 0.4s ease;
+  }
+
+  /* Ambient glow effect */
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      ${({ theme }) => theme.colors.primary}08 0%,
+      transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
     pointer-events: none;
   }
 
   &:hover,
   &:focus {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px ${({ theme }) => theme.colors.cardGlow};
+    transform: translateY(-8px);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.2),
+      0 0 0 1px ${({ theme }) => theme.colors.primary}20,
+      0 0 60px ${({ theme }) => theme.colors.cardGlow};
     background: ${({ theme }) => theme.colors.cardHoverBackground};
 
     &::before {
       opacity: 1;
-      transform: scale(1.1);
     }
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  /* Smooth press effect */
+  &:active {
+    transform: translateY(-4px);
+    transition: transform 0.1s ease;
   }
 `;
 

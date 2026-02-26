@@ -1,7 +1,7 @@
 // src/components/Certifications.js
 
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useState, useEffect, useRef } from "react";
+import styled, { keyframes, css } from "styled-components";
 import { certifications } from "../data/data";
 import { FaMapMarkerAlt, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaGraduationCap, FaBookOpen, FaRocket, FaClock, FaAward } from "react-icons/fa";
 import Card from "./common/Card";
@@ -16,16 +16,73 @@ const float = keyframes`
   50% { transform: translateY(-5px); }
 `;
 
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+const drawLine = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`;
+
 const CertificationsSection = styled.section`
   max-width: 1100px;
   margin: 100px auto;
   padding: 0 20px;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease;
 
   h2 {
     font-size: 32px;
     margin-bottom: 50px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${fadeInUp} 0.6s ease forwards`
+        : "none"};
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
+      animation: ${({ $isVisible }) =>
+        $isVisible
+          ? css`${drawLine} 0.8s ease 0.4s forwards`
+          : "none"};
+      transform-origin: center;
+    }
   }
 `;
 
@@ -38,6 +95,11 @@ const CertificationsList = styled.div`
 const CertificationItem = styled(Card)`
   position: relative;
   overflow: visible;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  animation: ${({ $isVisible, $delay }) =>
+    $isVisible
+      ? css`${scaleIn} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards`
+      : "none"};
 
   &::before {
     pointer-events: none;
@@ -215,15 +277,40 @@ const TechPill = styled.span`
   border-radius: 25px;
   font-size: 13px;
   font-family: ${({ theme }) => theme.fonts.mono};
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: default;
   border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: ${fadeInUp} 0.4s ease forwards;
+  animation-delay: ${({ $index }) => 0.3 + ($index || 0) * 0.05}s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      ${({ theme }) => theme.colors.primary}20,
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.greenTint};
     border-color: ${({ theme }) => theme.colors.primary};
     transform: translateY(-3px);
     box-shadow: 0 5px 15px ${({ theme }) => theme.colors.cardGlow};
+
+    &::before {
+      left: 100%;
+    }
   }
 `;
 
@@ -319,6 +406,17 @@ const CurriculumGrid = styled.div`
   gap: 12px;
 `;
 
+const slideInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 const CurriculumItem = styled.div`
   display: flex;
   align-items: flex-start;
@@ -327,13 +425,17 @@ const CurriculumItem = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.accent};
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: default;
+  opacity: 0;
+  animation: ${slideInRight} 0.5s ease forwards;
+  animation-delay: ${({ $index }) => 0.1 + $index * 0.05}s;
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     transform: translateX(8px);
     background: ${({ theme }) => theme.colors.greenTint};
+    box-shadow: 0 4px 15px ${({ theme }) => theme.colors.cardGlow};
   }
 
   .number {
@@ -348,6 +450,12 @@ const CurriculumItem = styled.div`
     font-size: 12px;
     font-weight: bold;
     flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  &:hover .number {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px ${({ theme }) => theme.colors.primary}60;
   }
 
   .text {
@@ -469,17 +577,36 @@ const ProjectCard = styled.a`
 
 const Certifications = () => {
   const [expandedId, setExpandedId] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
   return (
-    <CertificationsSection id="certifications">
+    <CertificationsSection id="certifications" ref={sectionRef} $isVisible={isVisible}>
       <h2>Certifications</h2>
       <CertificationsList>
-        {certifications.map((cert) => (
-          <CertificationItem key={cert.id} tabIndex="0">
+        {certifications.map((cert, index) => (
+          <CertificationItem key={cert.id} tabIndex="0" $isVisible={isVisible} $delay={0.2 + index * 0.15}>
             <CertHeader>
               <LogoContainer>
                 <FaGraduationCap />
@@ -520,7 +647,7 @@ const Certifications = () => {
 
             <TechStack>
               {cert.techStack.map((tech, index) => (
-                <TechPill key={index}>{tech}</TechPill>
+                <TechPill key={index} $index={index}>{tech}</TechPill>
               ))}
             </TechStack>
 
@@ -550,7 +677,7 @@ const Certifications = () => {
               </SectionDivider>
               <CurriculumGrid>
                 {cert.curriculum.map((item, index) => (
-                  <CurriculumItem key={index}>
+                  <CurriculumItem key={index} $index={index}>
                     <span className="number">{index + 1}</span>
                     <span className="text">{item}</span>
                   </CurriculumItem>

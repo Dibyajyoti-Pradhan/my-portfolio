@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { useTheme } from "styled-components";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { skills as defaultSkills } from "../data/data";
 import {
   DndContext,
@@ -18,16 +18,73 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { ThemeContext } from "../context/ThemeContext";
 
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fadeInLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const drawLine = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`;
+
 const SkillsSection = styled.section`
   max-width: 1100px;
   margin: 100px auto 0;
   padding: 0 20px;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease;
 
   h2 {
     font-size: 32px;
     margin-bottom: 50px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${fadeInUp} 0.6s ease forwards`
+        : "none"};
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
+      animation: ${({ $isVisible }) =>
+        $isVisible
+          ? css`${drawLine} 0.8s ease 0.4s forwards`
+          : "none"};
+      transform-origin: center;
+    }
   }
 
   .skills {
@@ -35,6 +92,11 @@ const SkillsSection = styled.section`
       margin-bottom: 20px;
       display: flex;
       flex-direction: row;
+      opacity: 0;
+      animation: ${({ $isVisible }) =>
+        $isVisible
+          ? css`${fadeInLeft} 0.6s ease forwards`
+          : "none"};
 
       h3 {
         font-size: 20px;
@@ -43,6 +105,25 @@ const SkillsSection = styled.section`
         flex: 0.2;
         display: flex;
         align-items: center;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 30px;
+          height: 2px;
+          background: ${({ theme }) => theme.colors.primary};
+          opacity: 0.5;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.3s ease;
+        }
+
+        &:hover::after {
+          transform: scaleX(1);
+        }
 
         @media (max-width: 768px) {
           flex: 0.3;
@@ -178,11 +259,29 @@ const Skills = () => {
 
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [hoveredSkill, setHoveredSkill] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
   const { theme } = useContext(ThemeContext);
   const themeStyles = useTheme();
   const chipBg = theme === "dark" ? "#112240" : themeStyles.colors.cardBackground || themeStyles.colors.secondary || "#e6f1ff";
   const chipText = theme === "dark" ? "#ffffff" : themeStyles.colors.text;
   const skillsSectionRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (skillsSectionRef.current) {
+      observer.observe(skillsSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   // Save to localStorage whenever skills change
   useEffect(() => {
@@ -228,11 +327,15 @@ const Skills = () => {
   const glowColor = theme === "dark" ? "#ffb86b" : "#007acc";
 
   return (
-    <SkillsSection id="skills" ref={skillsSectionRef}>
+    <SkillsSection id="skills" ref={skillsSectionRef} $isVisible={isVisible}>
       <h2>Skills</h2>
       <div className="skills">
         {skills.map((skillGroup, catIdx) => (
-          <div className="skill-category" key={skillGroup.category}>
+          <div
+            className="skill-category"
+            key={skillGroup.category}
+            style={{ animationDelay: `${0.2 + catIdx * 0.1}s` }}
+          >
             <h3>{skillGroup.category}</h3>
             <DndContext
               sensors={sensors}

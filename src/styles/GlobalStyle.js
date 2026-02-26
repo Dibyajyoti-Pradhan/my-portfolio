@@ -15,26 +15,24 @@ const GlobalStyle = createGlobalStyle`
   }
 
   strong {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.colors.primary};
+    font-weight: 600;
   }
 
   body {
     margin: 0;
     width: 100%;
     min-height: 100%;
-    background: ${({ theme }) => theme.colors.backgroundGradient};
+    background: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.main};
     font-size: ${({ theme }) => theme.fontSizes.base};
-    line-height: 1.5;
+    line-height: 1.6;
     overflow-x: hidden;
 
     @media (max-width: 768px) {
       font-size: ${({ theme }) => theme.fontSizes.sm};
       margin-left: 0;
-      /* Smoother gradient for mobile, avoids sharp line */
-      background: ${({ theme }) => theme.colors.backgroundGradient};
-      background-size: 150%;
     }
   }
 
@@ -46,7 +44,6 @@ const GlobalStyle = createGlobalStyle`
     &:hover,
     &:focus {
       color: ${({ theme }) => theme.colors.linkHover};
-      text-decoration: underline;
     }
   }
 
@@ -147,23 +144,20 @@ const GlobalStyle = createGlobalStyle`
 
   /* Enhanced scrollbar for game mode */
   ::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.colors.background || '#000'};
-    border-radius: 6px;
+    background: ${({ theme }) => theme.colors.background};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, #4facfe);
-    border-radius: 6px;
-    border: 2px solid ${({ theme }) => theme.colors.background || '#000'};
+    background: ${({ theme }) => theme.colors.primary};
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}cc, #4facfecc);
-    box-shadow: 0 0 10px ${({ theme }) => theme.colors.primary}66;
+    background: ${({ theme }) => theme.colors.linkHover};
   }
 
   /* Enhanced selection colors */

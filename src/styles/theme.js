@@ -19,7 +19,7 @@ export const darkTheme = {
   ...shared,
   colors: {
     background: "#0f1419",
-    backgroundGradient: "#0f1419", // Solid color instead of gradient
+    backgroundGradient: "#0f1419",
     text: "#e8f4f8",
     primary: "#ff8c42",
     secondary: "#1a2332",
@@ -47,7 +47,7 @@ export const lightTheme = {
   ...shared,
   colors: {
     background: "#ffffff",
-    backgroundGradient: "#ffffff", // Solid color instead of gradient
+    backgroundGradient: "#ffffff",
     text: "#333333",
     primary: "#007acc",
     secondary: "#f0f0f0",
@@ -61,7 +61,7 @@ export const lightTheme = {
     linkHover: "#007acc",
     cardGlow: "rgba(0, 122, 204, 0.2)",
     cardGlowGradient: "rgba(0, 122, 204, 0.15)",
-    profileGlow: "rgba(0, 122, 204, 0.7)", // Adjusted for light theme
+    profileGlow: "rgba(0, 122, 204, 0.7)",
     cardHoverBackground: "#e6f1ff",
     cardBackground: "#f0f0f0",
     slate: "#666666",

@@ -1,20 +1,77 @@
 // src/components/Experience.js
 
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from "react";
+import styled, { keyframes, css } from "styled-components";
 import { experiences } from "../data/data";
 import { FaMapMarkerAlt } from "react-icons/fa";
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const fadeInRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const drawLine = keyframes`
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+`;
 
 const ExperienceSection = styled.section`
   max-width: 1100px;
   margin: 100px auto;
   padding: 0 20px;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease;
 
   h2 {
     font-size: 32px;
     margin-bottom: 50px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${fadeInUp} 0.6s ease forwards`
+        : "none"};
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, ${({ theme }) => theme.colors.primary}, transparent);
+      animation: ${({ $isVisible }) =>
+        $isVisible
+          ? css`${drawLine} 0.8s ease 0.4s forwards`
+          : "none"};
+      transform-origin: center;
+    }
   }
 `;
 
@@ -31,14 +88,18 @@ const ExperienceItem = styled.div`
   padding: 30px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, background 0.4s ease;
   display: grid;
   grid-template-columns: 20% 80%;
   gap: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   outline: none;
   cursor: pointer;
-  tabindex: 0;
+  opacity: 0;
+  animation: ${({ $isVisible, $delay }) =>
+    $isVisible
+      ? css`${fadeInRight} 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards`
+      : "none"};
 
   &::before {
     content: "";
@@ -56,6 +117,23 @@ const ExperienceItem = styled.div`
     transition: opacity 0.4s ease, transform 0.4s ease;
     transform: scale(0.9);
     filter: blur(30px);
+    pointer-events: none;
+  }
+
+  /* Subtle left accent bar */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 20%;
+    width: 3px;
+    height: 60%;
+    background: ${({ theme }) => theme.colors.primary};
+    border-radius: 0 3px 3px 0;
+    opacity: 0;
+    transform: scaleY(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform-origin: center;
   }
 
   &:hover,
@@ -67,6 +145,11 @@ const ExperienceItem = styled.div`
     &::before {
       opacity: 1;
       transform: scale(1.1);
+    }
+
+    &::after {
+      opacity: 1;
+      transform: scaleY(1);
     }
   }
 
@@ -180,6 +263,25 @@ const ShowMoreButton = styled.button`
 
 const Experience = () => {
   const [showAll, setShowAll] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleShowMore = () => {
     setShowAll(!showAll);
@@ -188,7 +290,7 @@ const Experience = () => {
   const experiencesToShow = showAll ? experiences : experiences.slice(0, 3);
 
   return (
-    <ExperienceSection id="experience">
+    <ExperienceSection id="experience" ref={sectionRef} $isVisible={isVisible}>
       <h2>Work Experience</h2>
       <ExperienceList>
         {experiencesToShow.map(
@@ -201,8 +303,8 @@ const Experience = () => {
             location,
             responsibilities,
             techStack,
-          }) => (
-            <ExperienceItem key={id} tabIndex="0">
+          }, index) => (
+            <ExperienceItem key={id} tabIndex="0" $isVisible={isVisible} $delay={0.2 + index * 0.15}>
               <div className="left-column">{date}</div>
               <div className="right-column">
                 <div className="title-company">
