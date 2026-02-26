@@ -223,6 +223,28 @@ export const experiences = [
 
 export const projects = [
   {
+    id: 7,
+    title: "Hull Tactical – S&P 500 Market Prediction",
+    description:
+      "Predicting S&P 500 market trends using supervised classification models. Applied feature engineering, cross-validation, and ensemble methods on historical financial data to forecast directional movement.",
+    techStack: ["Python", "Pandas", "Scikit-learn", "Matplotlib", "Jupyter"],
+    url: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London/tree/main/Hull%20Tactical%20%E2%80%93%20Market%20Prediction",
+    external: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London/tree/main/Hull%20Tactical%20%E2%80%93%20Market%20Prediction",
+    stars: 0,
+    badge: "Imperial College London",
+  },
+  {
+    id: 8,
+    title: "Black-Box Optimisation Challenge",
+    description:
+      "Solved a black-box optimisation problem using Bayesian optimisation with Gaussian Process surrogates. Minimised expensive objective function evaluations while converging to the global optimum.",
+    techStack: ["Python", "NumPy", "Scikit-learn", "GPy", "Jupyter"],
+    url: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London/tree/main/Black-Box-Optimisation-Challenge",
+    external: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London/tree/main/Black-Box-Optimisation-Challenge",
+    stars: 0,
+    badge: "Imperial College London",
+  },
+  {
     id: 1,
     title: "Cloud Storage System",
     description:
@@ -250,26 +272,6 @@ export const projects = [
     stars: 0,
   },
   {
-    id: 3,
-    title: "CLI Application: Cron Parser",
-    description:
-      "Implemented a cron expression parser in Java to expand cron strings into detailed schedules. Parses five fields (minute, hour, day of month, month, day of week) and outputs the schedule in a formatted table.",
-    techStack: ["Java", "Maven", "CLI Development", "JUnit"],
-    url: "https://github.com/Dibyajyoti-Pradhan/CronParser",
-    external: "https://github.com/Dibyajyoti-Pradhan/CronParser",
-    stars: 0,
-  },
-  {
-    id: 4,
-    title: "CSV Parser: Cookie Log",
-    description:
-      "Developed a command-line application in Java to parse log files and determine the most active cookies for a given date. Processes CSV logs to provide insights into cookie activity.",
-    techStack: ["Java", "Maven", "JUnit", "Lombok", "Hashing"],
-    url: "https://github.com/Dibyajyoti-Pradhan/Cookie",
-    external: "https://github.com/Dibyajyoti-Pradhan/Cookie",
-    stars: 0,
-  },
-  {
     id: 5,
     title: "Pokemon - Advanced HTML & CSS Project",
     description:
@@ -287,6 +289,26 @@ export const projects = [
     techStack: ["React", "Firebase", "Styled Components"],
     url: "https://github.com/Dibyajyoti-Pradhan/Netflix",
     external: "https://github.com/Dibyajyoti-Pradhan/Netflix",
+    stars: 0,
+  },
+  {
+    id: 3,
+    title: "CLI Application: Cron Parser",
+    description:
+      "Implemented a cron expression parser in Java to expand cron strings into detailed schedules. Parses five fields (minute, hour, day of month, month, day of week) and outputs the schedule in a formatted table.",
+    techStack: ["Java", "Maven", "CLI Development", "JUnit"],
+    url: "https://github.com/Dibyajyoti-Pradhan/CronParser",
+    external: "https://github.com/Dibyajyoti-Pradhan/CronParser",
+    stars: 0,
+  },
+  {
+    id: 4,
+    title: "CSV Parser: Cookie Log",
+    description:
+      "Developed a command-line application in Java to parse log files and determine the most active cookies for a given date. Processes CSV logs to provide insights into cookie activity.",
+    techStack: ["Java", "Maven", "JUnit", "Lombok", "Hashing"],
+    url: "https://github.com/Dibyajyoti-Pradhan/Cookie",
+    external: "https://github.com/Dibyajyoti-Pradhan/Cookie",
     stars: 0,
   },
 ];

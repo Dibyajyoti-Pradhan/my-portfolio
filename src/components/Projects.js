@@ -98,7 +98,8 @@ const ProjectCard = styled.div`
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: ${({ theme }) => theme.borderRadiusLarge};
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border: 1px solid ${({ $featured, theme }) =>
+    $featured ? `${theme.colors.primary}35` : theme.colors.cardBorder};
   padding: 28px;
   position: relative;
   overflow: hidden;
@@ -106,7 +107,10 @@ const ProjectCard = styled.div`
   transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: ${({ theme }) => theme.shadows.card};
+  box-shadow: ${({ $featured, theme }) =>
+    $featured
+      ? `${theme.shadows.card}, 0 0 0 1px ${theme.colors.primary}18`
+      : theme.shadows.card};
   opacity: 0;
   animation: ${({ $isVisible, $delay }) =>
     $isVisible
@@ -125,7 +129,7 @@ const ProjectCard = styled.div`
       ${({ theme }) => theme.colors.primary},
       ${({ theme }) => theme.colors.primaryHover}
     );
-    transform: scaleX(0);
+    transform: ${({ $featured }) => ($featured ? "scaleX(1)" : "scaleX(0)")};
     transform-origin: left;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 0 0 2px 2px;
@@ -235,6 +239,30 @@ const ProjectCard = styled.div`
   }
 `;
 
+const ProjectBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.greenTint};
+  border: 1px solid ${({ theme }) => theme.colors.primary}35;
+  padding: 3px 9px;
+  border-radius: ${({ theme }) => theme.borderRadiusPill};
+  white-space: nowrap;
+  margin-bottom: 14px;
+  align-self: flex-start;
+
+  &::before {
+    content: '◆';
+    font-size: 7px;
+  }
+`;
+
 const FolderSVG = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" strokeLinecap="round" strokeLinejoin="round" />
@@ -279,12 +307,13 @@ const Projects = () => {
       <p className="section-intro">Things I've built and explored</p>
       <ProjectsGrid>
         {projectsToShow.map(
-          ({ id, title, description, techStack, url, external }, index) => (
+          ({ id, title, description, techStack, url, external, badge }, index) => (
             <ProjectCard
               key={id}
               tabIndex="0"
               $isVisible={isVisible}
               $delay={0.15 + index * 0.08}
+              $featured={!!badge}
               onClick={() =>
                 window.open(external || url, "_blank", "noopener,noreferrer")
               }
@@ -293,6 +322,7 @@ const Projects = () => {
                   window.open(external || url, "_blank", "noopener,noreferrer");
               }}
             >
+              {badge && <ProjectBadge>{badge}</ProjectBadge>}
               <div className="card-top">
                 <div className="folder-icon">
                   <FolderSVG />
