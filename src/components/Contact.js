@@ -1,195 +1,182 @@
-// src/components/Contact.js
-
 import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { personalInfo, socialLinks } from "../data/data";
 import {
   FaLinkedin,
+  FaGithub,
   FaInstagram,
   FaEnvelope,
-  FaFileDownload,
   FaCode,
 } from "react-icons/fa";
 
 const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 `;
 
 const scaleIn = keyframes`
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
 `;
 
 const ContactSection = styled.section`
-  max-width: 700px;
-  margin: 140px auto;
-  padding: 0 24px;
+  max-width: 680px;
+  margin: 160px auto 80px;
+  padding: 0 32px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s ease;
 
-  h2 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 20px;
-    color: ${({ theme }) => theme.colors.text};
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.primary};
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
-      $isVisible
-        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
-        : "none"};
+      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
 
-    @media (max-width: 768px) {
-      font-size: 36px;
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.primary}60;
     }
   }
 
-  p {
-    color: ${({ theme }) => theme.colors.textSecondary || theme.colors.slate};
-    margin-bottom: 48px;
+  h2 {
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+    color: ${({ theme }) => theme.colors.text};
+    line-height: 1.04;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
+        : "none"};
+
+    span {
+      color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+
+  .subtitle {
+    color: ${({ theme }) => theme.colors.textSecondary};
+    margin-bottom: 52px;
     max-width: 480px;
-    line-height: 1.6;
-    font-size: 18px;
+    line-height: 1.72;
+    font-size: 17px;
     letter-spacing: -0.01em;
     opacity: 0;
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards`
+        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards`
         : "none"};
   }
 
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 40px;
-
-    a {
-      color: ${({ theme }) => theme.colors.primary};
-      background-color: transparent;
-      border: 1px solid ${({ theme }) => theme.colors.primary};
-      border-radius: ${({ theme }) => theme.borderRadius};
-      padding: 1rem 1.75rem;
-      font-size: 16px;
-      font-family: ${({ theme }) => theme.fonts.mono};
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      animation: ${({ $isVisible }) =>
-        $isVisible
-          ? css`${scaleIn} 0.5s ease forwards`
-          : "none"};
-
-      &:nth-child(1) { animation-delay: 0.3s; }
-      &:nth-child(2) { animation-delay: 0.4s; }
-      &:nth-child(3) { animation-delay: 0.5s; }
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          ${({ theme }) => theme.colors.primary}15,
-          transparent
-        );
-        transition: left 0.5s ease;
-      }
-
-      &:hover {
-        background-color: ${({ theme }) => theme.colors.greenTint};
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px ${({ theme }) => theme.colors.cardGlow};
-
-        &::before {
-          left: 100%;
-        }
-      }
-
-      svg {
-        font-size: 20px;
-        transition: transform 0.3s ease;
-      }
-
-      &:hover svg {
-        transform: scale(1.2);
-      }
-    }
-  }
-
-  .email-link {
-    color: ${({ theme }) => theme.colors.primary};
-    background-color: transparent;
-    border: 1px solid ${({ theme }) => theme.colors.primary};
-    border-radius: ${({ theme }) => theme.borderRadius};
-    padding: 1rem 1.75rem;
+  .primary-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: ${({ theme }) => theme.colors.primary};
+    color: #fff;
+    border-radius: ${({ theme }) => theme.borderRadiusPill};
     font-size: 16px;
-    font-family: ${({ theme }) => theme.fonts.mono};
+    font-weight: 600;
+    letter-spacing: -0.015em;
     text-decoration: none;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.greenTint};
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px ${({ theme }) => theme.colors.cardGlow};
-    }
-  }
-
-  .social-link-row2 {
-    display: none;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.greenTint};
-      transform: translateY(-3px);
-    }
+    transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+    margin-bottom: 48px;
+    box-shadow: 0 4px 24px ${({ theme }) => theme.colors.primary}40;
+    opacity: 0;
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${scaleIn} 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.28s forwards`
+        : "none"};
 
     svg {
-      font-size: 20px;
+      font-size: 18px;
+      transition: transform 0.2s;
     }
 
-    @media (max-width: 768px) {
-      display: inline-flex;
-      color: ${({ theme }) => theme.colors.primary};
-      border: 1px solid ${({ theme }) => theme.colors.primary};
-      border-radius: ${({ theme }) => theme.borderRadius};
-      padding: 1rem 1.75rem;
-      font-size: 16px;
-      font-family: ${({ theme }) => theme.fonts.mono};
+    &:hover {
+      background: ${({ theme }) => theme.colors.primaryHover};
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 36px ${({ theme }) => theme.colors.primary}55;
       text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      margin-top: 20px;
-      align-items: center;
-      gap: 10px;
+      color: #fff;
+
+      svg {
+        transform: scale(1.15);
+      }
     }
+
+    &:active {
+      transform: translateY(0) scale(0.99);
+    }
+  }
+
+  .social-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    opacity: 0;
+    animation: ${({ $isVisible }) =>
+      $isVisible
+        ? css`${fadeInUp} 0.4s ease 0.38s forwards`
+        : "none"};
+  }
+
+  .divider-text {
+    font-size: 12px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    margin-bottom: 24px;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease 0.32s forwards` : "none"};
+  }
+`;
+
+const SocialButton = styled.a`
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.25, 0.1, 0.25, 1);
+  box-shadow: ${({ theme }) => theme.shadows.small};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.greenTint};
+    border-color: ${({ theme }) => theme.colors.primary}50;
+    color: ${({ theme }) => theme.colors.primary};
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px ${({ theme }) => theme.colors.cardGlow};
+    text-decoration: none;
   }
 `;
 
@@ -200,58 +187,56 @@ const Contact = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const linkedinUrl = socialLinks.find((link) => link.name === "LinkedIn").url;
-  const leetCodeUrl = socialLinks.find((link) => link.name === "LeetCode").url;
-  const instagramUrl = socialLinks.find(
-    (link) => link.name === "Instagram"
-  ).url;
+  const linkedinUrl = socialLinks.find((l) => l.name === "LinkedIn")?.url;
+  const githubUrl = socialLinks.find((l) => l.name === "GitHub")?.url;
+  const instagramUrl = socialLinks.find((l) => l.name === "Instagram")?.url;
+  const leetcodeUrl = socialLinks.find((l) => l.name === "LeetCode")?.url;
 
   return (
     <ContactSection id="contact" ref={sectionRef} $isVisible={isVisible}>
-      <h2>{personalInfo.contact.heading}</h2>
-      <p>{personalInfo.contact.message}</p>
-      <div className="contact-links">
-        <a href={leetCodeUrl} target="_blank" rel="noopener noreferrer">
-          <FaCode /> LeetCode
-        </a>
-        <a className="email-link" href={`mailto:${personalInfo.contact.email}`}>
-          <FaEnvelope /> Email
-        </a>
-        <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-          <FaInstagram /> Instagram
-        </a>
-      </div>
-      <div className="contact-links">
-        <a
-          className="social-link-row2"
-          href={linkedinUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaLinkedin /> LinkedIn
-        </a>
-        <a
-          className="social-link-row2"
-          href={`${process.env.PUBLIC_URL}/resume.pdf`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaFileDownload /> Download Résumé
-        </a>
+      <div className="section-label">08</div>
+      <h2>
+        Let's <span>Talk.</span>
+      </h2>
+      <p className="subtitle">{personalInfo.contact.message}</p>
+      <a
+        className="primary-cta"
+        href={`mailto:${personalInfo.contact.email}`}
+      >
+        <FaEnvelope />
+        Say Hello
+      </a>
+      <p className="divider-text">— or find me on —</p>
+      <div className="social-row">
+        {githubUrl && (
+          <SocialButton href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <FaGithub />
+          </SocialButton>
+        )}
+        {linkedinUrl && (
+          <SocialButton href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <FaLinkedin />
+          </SocialButton>
+        )}
+        {instagramUrl && (
+          <SocialButton href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <FaInstagram />
+          </SocialButton>
+        )}
+        {leetcodeUrl && (
+          <SocialButton href={leetcodeUrl} target="_blank" rel="noopener noreferrer" aria-label="LeetCode">
+            <FaCode />
+          </SocialButton>
+        )}
       </div>
     </ContactSection>
   );

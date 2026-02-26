@@ -1,92 +1,42 @@
 import React from "react";
 import styled from "styled-components";
-import { personalInfo, socialLinks } from "../data/data";
-import {
-  FaGithub,
-  FaLinkedin,
-  FaTwitter,
-  FaInstagram,
-  FaCode,
-} from "react-icons/fa";
+import { personalInfo } from "../data/data";
 
 const FooterContainer = styled.footer`
-  width: 100%;
-  padding: 40px 20px;
+  padding: 20px 12px 16px;
   text-align: center;
 
-  .social-icons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-
-  .social-icons a {
-    color: ${({ theme }) => theme.colors.text};
-    font-size: 28px;
-    transition: transform 0.3s ease, color 0.3s ease;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.primary};
-      transform: scale(1.2);
-    }
-  }
-
-  .footer-text,
   .credits {
-    width: 100%;
-    text-align: center;
-    color: ${({ theme }) => theme.colors.text};
-    margin: 5px 0;
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+
+    a {
+      color: ${({ theme }) => theme.colors.textTertiary};
+      text-decoration: none;
+      transition: color 0.2s;
+
+      &:hover {
+        color: ${({ theme }) => theme.colors.primary};
+      }
+    }
   }
 
-  .footer-text a {
-    color: ${({ theme }) => theme.colors.primary};
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  .year {
+    font-size: 10px;
+    color: ${({ theme }) => theme.colors.textTertiary}80;
+    margin-top: 4px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    letter-spacing: 0.04em;
   }
 `;
 
 const Footer = () => (
   <FooterContainer>
-    <div className="social-icons">
-      {socialLinks.map(({ id, name, url }) => {
-        let Icon;
-        switch (name) {
-          case "GitHub":
-            Icon = FaGithub;
-            break;
-          case "LinkedIn":
-            Icon = FaLinkedin;
-            break;
-          case "Twitter":
-            Icon = FaTwitter;
-            break;
-          case "Instagram":
-            Icon = FaInstagram;
-            break;
-          default:
-            Icon = FaCode;
-        }
-        return (
-          <a
-            key={id}
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={name}
-          >
-            <Icon />
-          </a>
-        );
-      })}
-    </div>
-    <div className="footer-text">
-      Designed & Built by{" "}
+    <div className="credits">
+      Designed &amp; built by{" "}
       <a
         href="https://www.linkedin.com/in/dibyajyoti-pradhan-83a649146/"
         target="_blank"
@@ -95,9 +45,7 @@ const Footer = () => (
         {personalInfo.name}
       </a>
     </div>
-    <div className="credits">
-      © {new Date().getFullYear()} {personalInfo.name}. All Rights Reserved.
-    </div>
+    <div className="year">© {new Date().getFullYear()}</div>
   </FooterContainer>
 );
 

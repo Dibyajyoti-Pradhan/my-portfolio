@@ -1,183 +1,253 @@
-// src/components/Education.js
-
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { education } from "../data/data";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import Card from "./common/Card";
+import { FaMapMarkerAlt, FaExternalLinkAlt } from "react-icons/fa";
 import Button from "./common/Button";
 
 const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
 `;
 
-const fadeInLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+const slideIn = keyframes`
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
 `;
 
 const EducationSection = styled.section`
   max-width: 900px;
-  margin: 140px auto;
-  padding: 0 24px;
+  margin: 160px auto;
+  padding: 0 32px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s ease;
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.primary};
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.primary}60;
+    }
+  }
 
   h2 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 64px;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
+        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
         : "none"};
 
-    @media (max-width: 768px) {
-      font-size: 36px;
-      margin-bottom: 48px;
+    &::after {
+      content: '';
+      display: block;
+      margin: 18px auto 0;
+      width: 40px;
+      height: 3px;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 2px;
     }
+  }
+
+  .section-intro {
+    text-align: center;
+    margin-bottom: 72px;
+    font-size: 14px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease 0.1s forwards` : "none"};
   }
 `;
 
 const EducationList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 0;
+  gap: 20px;
 `;
 
-const EducationItem = styled(Card)`
-  display: grid;
-  grid-template-columns: 20% 80%;
-  gap: 20px;
+const EducationItem = styled.div`
+  background: ${({ theme }) => theme.colors.cardBackground};
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: ${({ theme }) => theme.borderRadiusLarge};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  padding: 32px 36px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: ${({ theme }) => theme.shadows.card};
   opacity: 0;
   animation: ${({ $isVisible, $delay }) =>
     $isVisible
-      ? css`${fadeInLeft} 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
+      ? css`${slideIn} 0.45s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
       : "none"};
 
-  /* Subtle gradient border on left */
-  &::after {
-    content: "";
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 32px;
+
+  @media (max-width: 680px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px;
+  }
+
+  &::before {
+    content: '';
     position: absolute;
+    top: 0;
     left: 0;
-    top: 10%;
-    width: 3px;
-    height: 80%;
+    right: 0;
+    height: 2px;
     background: linear-gradient(
-      180deg,
-      transparent,
+      90deg,
       ${({ theme }) => theme.colors.primary},
-      transparent
+      ${({ theme }) => theme.colors.primaryHover}
     );
-    border-radius: 0 3px 3px 0;
-    opacity: 0;
-    transform: scaleY(0);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    transform-origin: center;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 0 2px 2px;
   }
 
-  &:hover::after,
-  &:focus::after {
-    opacity: 1;
-    transform: scaleY(1);
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.cardBorderHover};
+    box-shadow: ${({ theme }) => theme.shadows.cardHover};
+    transform: translateY(-3px);
+
+    &::before {
+      transform: scaleX(1);
+    }
   }
 
-  .left-column {
-    font-size: 16px;
-    color: ${({ theme }) => theme.colors.text};
-    text-transform: uppercase;
-    font-weight: bold;
-    position: relative;
-    transition: color 0.3s ease;
-  }
+  .duration-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 4px;
 
-  &:hover .left-column {
-    color: ${({ theme }) => theme.colors.primary};
-  }
+    .year {
+      font-size: 12px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.primary};
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
 
-  .right-column {
-    .title-school {
-      display: flex;
+    .duration-label {
+      font-size: 11px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.textTertiary};
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 680px) {
+      flex-direction: row;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 8px;
+    }
+  }
 
-      .degree {
-        font-size: 22px;
-        color: ${({ theme }) => theme.colors.text};
-        font-weight: bold;
-        transition: color 0.3s ease;
-      }
+  .content-col {
+    .school-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
 
-      .school {
-        font-size: 18px;
+      .school-name {
+        font-size: 19px;
+        font-weight: 700;
         color: ${({ theme }) => theme.colors.primary};
-        display: flex;
+        letter-spacing: -0.022em;
+        display: inline-flex;
         align-items: center;
-        transition: transform 0.3s ease;
+        gap: 6px;
 
-        a {
-          color: inherit;
-          text-decoration: none;
-
-          &:hover,
-          &:focus {
-            text-decoration: underline;
-          }
+        svg {
+          font-size: 11px;
+          opacity: 0.6;
         }
       }
-    }
 
-    &:hover .title-school .school {
-      transform: translateX(5px);
-    }
-
-    .location {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: ${({ theme }) => theme.colors.text};
-      font-size: 16px;
-      margin-bottom: 10px;
-
-      svg {
+      .separator {
+        color: ${({ theme }) => theme.colors.textTertiary};
+        font-weight: 300;
         font-size: 18px;
-        color: ${({ theme }) => theme.colors.primary};
-        transition: transform 0.3s ease;
+      }
+
+      .degree {
+        font-size: 17px;
+        font-weight: 600;
+        color: ${({ theme }) => theme.colors.text};
+        letter-spacing: -0.02em;
       }
     }
 
-    &:hover .location svg {
-      transform: scale(1.2);
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      color: ${({ theme }) => theme.colors.textTertiary};
+      font-size: 13px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+
+      svg {
+        font-size: 11px;
+        color: ${({ theme }) => theme.colors.primary}70;
+      }
+    }
+
+    .major {
+      font-size: 14px;
+      color: ${({ theme }) => theme.colors.textSecondary};
+      font-weight: 500;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
     }
 
     .details {
-      color: ${({ theme }) => theme.colors.text};
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
 
-      p {
-        margin-bottom: 10px;
-        max-width: 800px;
+      .detail-pill {
+        font-size: 12px;
+        font-family: ${({ theme }) => theme.fonts.mono};
+        color: ${({ theme }) => theme.colors.textSecondary};
+        background: ${({ theme }) => theme.colors.accent};
+        border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+        padding: 3px 10px;
+        border-radius: 6px;
+        letter-spacing: 0.01em;
       }
     }
   }
@@ -191,29 +261,22 @@ const Education = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  const handleShowMore = () => {
-    setShowMore(!showMore);
-  };
 
   const educationToShow = showMore ? education : education.slice(0, 1);
 
   return (
     <EducationSection id="education" ref={sectionRef} $isVisible={isVisible}>
+      <div className="section-label">07</div>
       <h2>Education</h2>
+      <p className="section-intro">Where it all began</p>
       <EducationList>
         {educationToShow.map(
           ({ id, school, url, degree, duration, location, major, details }, index) => (
@@ -221,30 +284,36 @@ const Education = () => {
               key={id}
               tabIndex="0"
               $isVisible={isVisible}
-              $delay={0.2 + index * 0.15}
-              onClick={() => {
-                window.open(url, "_blank", "noopener,noreferrer");
-              }}
+              $delay={0.15 + index * 0.1}
+              onClick={() => window.open(url, "_blank", "noopener,noreferrer")}
               onKeyPress={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter")
                   window.open(url, "_blank", "noopener,noreferrer");
-                }
               }}
             >
-              <div className="left-column">{duration}</div>
-              <div className="right-column">
-                <div className="title-school">
-                  <div className="school">{school}</div>
-                  <div className="degree">{degree}</div>
+              <div className="duration-col">
+                <span className="year">{duration.split(" - ")[0]}</span>
+                <span className="duration-label">{duration}</span>
+              </div>
+              <div className="content-col">
+                <div className="school-row">
+                  <span className="school-name">
+                    {school}
+                    <FaExternalLinkAlt />
+                  </span>
+                  <span className="separator">·</span>
+                  <span className="degree">{degree}</span>
                 </div>
-                <div className="location">
+                <div className="meta">
                   <FaMapMarkerAlt />
-                  <span>{location}</span>
+                  {location}
                 </div>
+                {major && <div className="major">{major}</div>}
                 <div className="details">
-                  <p>{major}</p>
                   {details.map((detail, idx) => (
-                    <p key={idx}>{detail}</p>
+                    <span key={idx} className="detail-pill">
+                      {detail}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -253,8 +322,8 @@ const Education = () => {
         )}
       </EducationList>
       {education.length > 1 && (
-        <Button onClick={handleShowMore}>
-          {showMore ? "Show Less" : "Show More"}
+        <Button onClick={() => setShowMore(!showMore)}>
+          {showMore ? "Show Less" : `Show ${education.length - 1} More`}
         </Button>
       )}
     </EducationSection>

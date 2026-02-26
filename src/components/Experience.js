@@ -1,185 +1,280 @@
-// src/components/Experience.js
-
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { experiences } from "../data/data";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaExternalLinkAlt } from "react-icons/fa";
 import Button from "./common/Button";
 
 const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
 `;
 
-const fadeInRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+const slideInLeft = keyframes`
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
 `;
 
 const ExperienceSection = styled.section`
   max-width: 900px;
-  margin: 140px auto;
-  padding: 0 24px;
+  margin: 160px auto;
+  padding: 0 32px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s ease;
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.primary};
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.primary}60;
+    }
+  }
 
   h2 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 64px;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
+        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
         : "none"};
 
-    @media (max-width: 768px) {
-      font-size: 36px;
-      margin-bottom: 48px;
+    &::after {
+      content: '';
+      display: block;
+      margin: 18px auto 0;
+      width: 40px;
+      height: 3px;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 2px;
     }
+  }
+
+  .section-intro {
+    text-align: center;
+    margin-bottom: 72px;
+    font-size: 14px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease 0.1s forwards` : "none"};
   }
 `;
 
 const ExperienceList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 0;
+  gap: 24px;
 `;
 
 const ExperienceItem = styled.div`
-  background: ${({ theme }) => theme.colors.cardBackground};
+  background: ${({ theme }) => theme.shadows.card
+    ? theme.colors.cardBackground
+    : theme.colors.cardBackground};
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: ${({ theme }) => theme.borderRadiusLarge || "20px"};
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder || "rgba(255, 255, 255, 0.1)"};
-  padding: 32px;
+  border-radius: ${({ theme }) => theme.borderRadiusLarge};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  padding: 32px 36px;
   position: relative;
   overflow: hidden;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 32px;
-  outline: none;
-  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
   opacity: 0;
+  box-shadow: ${({ theme }) => theme.shadows.card};
   animation: ${({ $isVisible, $delay }) =>
     $isVisible
-      ? css`${fadeInRight} 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
+      ? css`${slideInLeft} 0.45s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
       : "none"};
 
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: ${({ theme }) => theme.colors.primary};
+    border-radius: 0 2px 2px 0;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.cardBorderHover};
+    box-shadow: ${({ theme }) => theme.shadows.cardHover};
+    transform: translateX(4px);
+
+    &::before {
+      transform: scaleY(1);
+    }
+  }
+
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .exp-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 16px;
-  }
+    margin-bottom: 8px;
+    flex-wrap: wrap;
 
-  &:hover,
-  &:focus {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    border-color: ${({ theme }) => theme.colors.primary}30;
-  }
-
-  .left-column {
-    font-size: 16px;
-    color: ${({ theme }) => theme.colors.slate};
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  .right-column {
-    .title-company {
+    .company-role {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 10px;
-
-      .job-title {
-        font-size: 22px;
-        color: ${({ theme }) => theme.colors.slate};
-        font-weight: bold;
-      }
+      flex-wrap: wrap;
 
       .company {
-        font-size: 18px;
+        font-size: 20px;
+        font-weight: 700;
         color: ${({ theme }) => theme.colors.primary};
-        display: flex;
-        align-items: center;
+        letter-spacing: -0.02em;
 
         a {
           color: inherit;
           text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
 
-          &:hover,
-          &:focus {
-            text-decoration: underline;
+          svg {
+            font-size: 11px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+          }
+
+          &:hover svg {
+            opacity: 1;
           }
         }
       }
+
+      .separator {
+        color: ${({ theme }) => theme.colors.textTertiary};
+        font-weight: 300;
+      }
+
+      .role {
+        font-size: 17px;
+        font-weight: 600;
+        color: ${({ theme }) => theme.colors.text};
+        letter-spacing: -0.02em;
+      }
     }
+
+    .date-badge {
+      font-size: 11px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.textTertiary};
+      background: ${({ theme }) => theme.colors.accent};
+      border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+      padding: 4px 12px;
+      border-radius: ${({ theme }) => theme.borderRadiusPill};
+      white-space: nowrap;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 
     .location {
       display: flex;
       align-items: center;
       gap: 5px;
-      color: ${({ theme }) => theme.colors.slate};
-      font-size: 16px;
-      margin-bottom: 10px;
+      color: ${({ theme }) => theme.colors.textTertiary};
+      font-size: 13px;
+      font-family: ${({ theme }) => theme.fonts.mono};
 
       svg {
-        font-size: 18px;
+        font-size: 11px;
+        color: ${({ theme }) => theme.colors.primary}80;
       }
     }
+  }
 
-    .responsibilities {
-      color: ${({ theme }) => theme.colors.slate};
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 20px;
+  .responsibilities {
+    margin-bottom: 24px;
 
-      p {
-        margin-bottom: 10px;
-        max-width: 800px;
+    li {
+      position: relative;
+      padding-left: 18px;
+      color: ${({ theme }) => theme.colors.textSecondary};
+      font-size: 15px;
+      line-height: 1.72;
+      margin-bottom: 10px;
+      letter-spacing: -0.008em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: ${({ theme }) => theme.colors.primary};
+        font-size: 12px;
+        line-height: 1.72;
       }
     }
+  }
 
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px; /* Adjusted gap to match Projects.js */
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 
-      span {
-        background-color: ${({ theme }) =>
-          theme.colors.accent}; /* Updated background color */
-        color: ${({ theme }) => theme.colors.slate};
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 14px;
-        font-family: ${({ theme }) => theme.fonts.mono};
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        outline: none;
-        tabindex: 0;
+    span {
+      background: ${({ theme }) => theme.colors.accent};
+      color: ${({ theme }) => theme.colors.primary};
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      font-weight: 500;
+      border: 1px solid ${({ theme }) => theme.colors.primary}18;
+      transition: all 0.2s ease;
+      cursor: default;
+      letter-spacing: 0.01em;
 
-        &:hover,
-        &:focus {
-          background-color: ${({ theme }) => theme.colors.greenTint};
-          transform: translateY(-3px);
-        }
+      &:hover {
+        background: ${({ theme }) => theme.colors.greenTint};
+        border-color: ${({ theme }) => theme.colors.primary}45;
+        transform: translateY(-1px);
       }
     }
   }
@@ -193,91 +288,69 @@ const Experience = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.1 }
+      { threshold: 0.06 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  const handleShowMore = () => {
-    setShowAll(!showAll);
-  };
 
   const experiencesToShow = showAll ? experiences : experiences.slice(0, 3);
 
   return (
     <ExperienceSection id="experience" ref={sectionRef} $isVisible={isVisible}>
-      <h2>Work Experience</h2>
+      <div className="section-label">03</div>
+      <h2>Experience</h2>
+      <p className="section-intro">Where I've worked and what I've built</p>
       <ExperienceList>
         {experiencesToShow.map(
-          ({
-            id,
-            position,
-            company,
-            url,
-            date,
-            location,
-            responsibilities,
-            techStack,
-          }, index) => (
-            <ExperienceItem key={id} tabIndex="0" $isVisible={isVisible} $delay={0.2 + index * 0.15}>
-              <div className="left-column">{date}</div>
-              <div className="right-column">
-                <div className="title-company">
-                  <div
-                    className="company"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      tabIndex="0"
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          window.open(url, "_blank", "noopener,noreferrer");
-                        }
-                      }}
-                    >
+          ({ id, position, company, url, date, location, responsibilities, techStack }, index) => (
+            <ExperienceItem
+              key={id}
+              $isVisible={isVisible}
+              $delay={0.15 + index * 0.1}
+            >
+              <div className="exp-header">
+                <div className="company-role">
+                  <span className="company">
+                    <a href={url} target="_blank" rel="noopener noreferrer">
                       {company}
+                      <FaExternalLinkAlt />
                     </a>
-                  </div>
-                  <div className="job-title">{position}</div>
+                  </span>
+                  <span className="separator">·</span>
+                  <span className="role">{position}</span>
                 </div>
-                <div className="location">
+                <span className="date-badge">{date}</span>
+              </div>
+
+              <div className="meta-row">
+                <span className="location">
                   <FaMapMarkerAlt />
-                  <span>{location}</span>
-                </div>
-                <div className="responsibilities">
-                  {responsibilities.map((item, idx) => (
-                    <p key={idx}>{item}</p>
-                  ))}
-                </div>
-                <div className="tech-stack">
-                  {techStack.map((tech, idx) => (
-                    <span key={idx} tabIndex="0">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                  {location}
+                </span>
+              </div>
+
+              <ul className="responsibilities">
+                {responsibilities.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+
+              <div className="tech-stack">
+                {techStack.map((tech, idx) => (
+                  <span key={idx}>{tech}</span>
+                ))}
               </div>
             </ExperienceItem>
           )
         )}
       </ExperienceList>
       {experiences.length > 3 && (
-        <Button onClick={handleShowMore}>
-          {showAll ? "Show Less" : "Show More"}
+        <Button onClick={() => setShowAll(!showAll)}>
+          {showAll ? "Show Less" : `Show ${experiences.length - 3} More`}
         </Button>
       )}
     </ExperienceSection>

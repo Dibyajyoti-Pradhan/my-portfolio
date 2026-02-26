@@ -1,39 +1,30 @@
-// src/components/common/Card.js
-// Apple-inspired card - Simple. Elegant. Functional.
-
 import styled from "styled-components";
 
 const Card = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-radius: ${({ theme }) => theme.borderRadiusLarge || "24px"};
-  padding: 40px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: ${({ theme }) => theme.borderRadiusLarge};
+  padding: 32px 36px;
   position: relative;
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder || "rgba(255, 255, 255, 0.08)"};
-  transition: ${({ theme }) => theme.transition};
-  cursor: pointer;
-
-  /* Soft, elevated shadow */
-  box-shadow:
-    0 4px 6px rgba(0, 0, 0, 0.04),
-    0 10px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  box-shadow: ${({ theme }) => theme.shadows.card};
 
   &:hover {
-    transform: scale(1.02);
-    box-shadow:
-      0 8px 16px rgba(0, 0, 0, 0.08),
-      0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: ${({ theme }) => theme.colors.cardBorderHover};
+    box-shadow: ${({ theme }) => theme.shadows.cardHover};
+    transform: translateY(-3px);
   }
 
   &:active {
-    transform: scale(0.99);
+    transform: translateY(0) scale(0.99);
     transition: transform 0.1s ease;
   }
 
   @media (max-width: 768px) {
-    padding: 28px;
-    border-radius: 20px;
+    padding: 24px;
   }
 `;
 

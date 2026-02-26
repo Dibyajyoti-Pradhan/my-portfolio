@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useTheme } from "styled-components";
 import styled, { keyframes, css } from "styled-components";
 import { skills as defaultSkills } from "../data/data";
@@ -16,81 +16,115 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ThemeContext } from "../context/ThemeContext";
-
 const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0);  }
 `;
 
 const fadeInLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0);   }
 `;
 
 const SkillsSection = styled.section`
   max-width: 900px;
-  margin: 140px auto 0;
-  padding: 0 24px;
+  margin: 160px auto 0;
+  padding: 0 32px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.primary};
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.primary}60;
+    }
+  }
+
   h2 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 64px;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
+        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
         : "none"};
 
-    @media (max-width: 768px) {
-      font-size: 36px;
-      margin-bottom: 48px;
+    &::after {
+      content: '';
+      display: block;
+      margin: 18px auto 0;
+      width: 40px;
+      height: 3px;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 2px;
     }
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    margin-bottom: 72px;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease 0.1s forwards` : "none"};
   }
 
   .skills {
     .skill-category {
-      margin-bottom: 28px;
+      margin-bottom: 32px;
       display: flex;
       flex-direction: row;
       align-items: flex-start;
+      gap: 16px;
       opacity: 0;
       animation: ${({ $isVisible }) =>
         $isVisible
-          ? css`${fadeInLeft} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
+          ? css`${fadeInLeft} 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards`
           : "none"};
 
+      @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 12px;
+      }
+
       h3 {
-        font-size: 15px;
+        font-size: 11px;
+        font-family: ${({ theme }) => theme.fonts.mono};
         font-weight: 600;
-        letter-spacing: -0.01em;
-        color: ${({ theme }) => theme.colors.textSecondary || theme.colors.slate};
-        flex: 0 0 140px;
-        display: flex;
-        align-items: center;
-        padding-top: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: ${({ theme }) => theme.colors.textTertiary};
+        flex: 0 0 120px;
+        padding-top: 8px;
+        line-height: 1.4;
 
         @media (max-width: 768px) {
-          flex: 0 0 100px;
-          font-size: 13px;
+          flex: 0 0 90px;
         }
       }
 
@@ -99,17 +133,13 @@ const SkillsSection = styled.section`
         flex-direction: row;
         flex: 1;
         flex-wrap: wrap;
-        gap: 12px;
-
-        @media (max-width: 768px) {
-          gap: 8px;
-        }
+        gap: 8px;
+      }
     }
   }
 `;
 
 const DraggableSkill = ({
-  id,
   skill,
   listeners,
   attributes,
@@ -118,11 +148,11 @@ const DraggableSkill = ({
   refCallback,
   selected,
   onClick,
-  glowColor,
   hovered,
   onMouseEnter,
   onMouseLeave,
-  bgColor,
+  primaryColor,
+  accentBg,
   textColor,
 }) => (
   <span
@@ -130,23 +160,33 @@ const DraggableSkill = ({
     {...listeners}
     {...attributes}
     style={{
-      backgroundColor: bgColor,
-      color: textColor,
-      padding: "10px 15px",
-      borderRadius: "4px",
-      fontSize: "14px",
-      fontFamily: "monospace",
+      display: "inline-flex",
+      alignItems: "center",
+      padding: "6px 14px",
+      borderRadius: "8px",
+      fontSize: "13px",
+      fontFamily: "var(--font-mono, monospace)",
+      fontWeight: 500,
+      letterSpacing: "-0.005em",
       position: "relative",
-      transition: "all 0.2s",
-      overflow: "hidden",
       cursor: "grab",
-      outline: isDragging ? `2px solid ${glowColor}` : "none",
-      opacity: isDragging ? 0.7 : 1,
-      boxShadow:
-        selected || hovered || isDragging
-          ? `0 0 30px 8px ${glowColor}88`
-          : "none",
-      zIndex: selected ? 3 : 1,
+      userSelect: "none",
+      transition: "all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+      background: selected || hovered
+        ? `${primaryColor}12`
+        : accentBg,
+      color: selected || hovered ? primaryColor : textColor,
+      border: `1px solid ${selected || hovered ? `${primaryColor}45` : `${primaryColor}15`}`,
+      boxShadow: selected || hovered
+        ? `0 4px 20px ${primaryColor}25`
+        : "none",
+      opacity: isDragging ? 0.5 : 1,
+      transform: isDragging
+        ? "scale(1.05) rotate(1deg)"
+        : hovered
+        ? "translateY(-2px)"
+        : "none",
+      zIndex: isDragging ? 10 : "auto",
       ...style,
     }}
     tabIndex={0}
@@ -163,12 +203,12 @@ function SortableSkill({
   skill,
   selected,
   onClick,
-  glowColor,
-  bgColor,
-  textColor,
   hovered,
   onMouseEnter,
   onMouseLeave,
+  primaryColor,
+  accentBg,
+  textColor,
 }) {
   const {
     attributes,
@@ -182,7 +222,6 @@ function SortableSkill({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 2 : 1,
   };
 
   return (
@@ -196,12 +235,12 @@ function SortableSkill({
       refCallback={setNodeRef}
       selected={selected}
       onClick={onClick}
-      glowColor={glowColor}
       hovered={hovered}
-      bgColor={bgColor}
-      textColor={textColor}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      primaryColor={primaryColor}
+      accentBg={accentBg}
+      textColor={textColor}
     />
   );
 }
@@ -224,37 +263,31 @@ const Skills = () => {
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [hoveredSkill, setHoveredSkill] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
-  const { theme } = useContext(ThemeContext);
   const themeStyles = useTheme();
-  const chipBg = theme === "dark" ? "#112240" : themeStyles.colors.cardBackground || themeStyles.colors.secondary || "#e6f1ff";
-  const chipText = theme === "dark" ? "#ffffff" : themeStyles.colors.text;
   const skillsSectionRef = useRef();
+
+  const primaryColor = themeStyles.colors.primary;
+  const accentBg = themeStyles.colors.accent;
+  const textColor = themeStyles.colors.textSecondary;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
 
-    if (skillsSectionRef.current) {
-      observer.observe(skillsSectionRef.current);
-    }
-
+    if (skillsSectionRef.current) observer.observe(skillsSectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  // Save to localStorage whenever skills change
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(skills));
   }, [skills]);
 
   useEffect(() => {
     const handleClick = (e) => {
-      // Only deselect if the click is outside any .skill-items span
       if (
         skillsSectionRef.current &&
         !skillsSectionRef.current.contains(e.target)
@@ -269,10 +302,9 @@ const Skills = () => {
   }, []);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
   );
 
-  // Only allow reordering within a category
   const handleDragEnd = (event, catIdx) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
@@ -288,17 +320,17 @@ const Skills = () => {
     });
   };
 
-  const glowColor = theme === "dark" ? "#ffb86b" : "#007acc";
-
   return (
     <SkillsSection id="skills" ref={skillsSectionRef} $isVisible={isVisible}>
+      <div className="section-label">02</div>
       <h2>Skills</h2>
+      <p className="subtitle">drag to reorder · click to highlight</p>
       <div className="skills">
         {skills.map((skillGroup, catIdx) => (
           <div
             className="skill-category"
             key={skillGroup.category}
-            style={{ animationDelay: `${0.2 + catIdx * 0.1}s` }}
+            style={{ animationDelay: `${0.15 + catIdx * 0.07}s` }}
           >
             <h3>{skillGroup.category}</h3>
             <DndContext
@@ -317,13 +349,15 @@ const Skills = () => {
                       id={skill}
                       skill={skill}
                       selected={selectedSkill === skill}
-                      onClick={() => setSelectedSkill(skill)}
-                      glowColor={glowColor}
-                      bgColor={chipBg}
-                      textColor={chipText}
+                      onClick={() =>
+                        setSelectedSkill(selectedSkill === skill ? null : skill)
+                      }
                       hovered={hoveredSkill === skill}
                       onMouseEnter={() => setHoveredSkill(skill)}
                       onMouseLeave={() => setHoveredSkill(null)}
+                      primaryColor={primaryColor}
+                      accentBg={accentBg}
+                      textColor={textColor}
                     />
                   ))}
                 </div>

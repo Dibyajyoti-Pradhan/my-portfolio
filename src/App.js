@@ -6,91 +6,91 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
 import CurtainLoader from "./components/CurtainLoader";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ThemeToggle from "./components/common/ThemeToggle";
 import { ThemeProvider } from "./context/ThemeContext";
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to   { opacity: 1; }
+`;
 
 const AppContainer = styled.div`
   display: flex;
   position: relative;
   min-height: 100vh;
+  animation: ${fadeIn} 0.3s ease forwards;
 `;
 
 const LeftColumn = styled.div`
   width: ${(props) => props.width}%;
-  padding: 32px 24px 32px 24px;
+  padding: 0 20px 0 24px;
   position: fixed;
   height: 100vh;
   left: 0;
   background: ${({ theme }) => theme.colors.headerBackground};
-  box-shadow: 8px 0 40px 0 ${({ theme }) => theme.colors.primary}22;
-  ${
-    "" /* border-top-right-radius: 48px;
-  border-bottom-right-radius: 48px; */
-  }
-  overflow: visible;
-  transition: background 0.5s, box-shadow 0.5s;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 1px 0 0 0 ${({ theme }) => theme.colors.divider};
+  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  position: fixed;
   z-index: 10;
-  @media (max-width: 768px) {
-    display: none;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+
+  &::-webkit-scrollbar {
+    width: 0;
   }
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    ${
-      "" /* height: 100%;
-    border-top-right-radius: 48px;
-    border-bottom-right-radius: 48px; */
-    }
-    pointer-events: none;
-    box-shadow: 0 0 80px 0 ${({ theme }) => theme.colors.primary}33 inset;
-    opacity: 0.7;
-    z-index: 1;
-    ${"" /* border: 2.5px solid ${({ theme }) => theme.colors.primary}; */}
-    border-left: none;
-    border-right: 2.5px solid ${({ theme }) => theme.colors.primary};
+
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
-const Divider = styled.div`
+const DividerHandle = styled.div`
   position: fixed;
   top: 0;
   left: ${(props) => props.width}%;
-  width: 18px;
+  width: 16px;
   height: 100vh;
-  transform: translateX(2.5px); /* Position right after the panel border */
   cursor: ew-resize;
-  z-index: 1000;
-  background: none;
-  pointer-events: auto;
-  @media (max-width: 768px) {
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .handle-bar {
+    width: 3px;
+    height: 48px;
+    background: ${({ theme }) => theme.colors.primary}80;
+    border-radius: 2px;
+    transition: background 0.2s, height 0.2s;
+  }
+
+  &:hover .handle-bar {
+    background: ${({ theme }) => theme.colors.primary};
+    height: 64px;
+  }
+
+  @media (max-width: 900px) {
     display: none;
   }
-  .divider-handle {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 30%;
-    ${
-      "" /* min-height: 60px;
-    max-height: 100px; */
-    }
-    background: ${({ theme }) => theme.colors.primary}cc;
-    border-radius: 3px;
-    transition: background 0.2s;
-    pointer-events: none;
-  }
-  &:hover .divider-handle {
-    background: ${({ theme }) => theme.colors.primary};
+`;
+
+const RightColumn = styled.div`
+  margin-left: ${(props) => props.width}%;
+  flex: 1;
+  min-height: 100vh;
+
+  @media (max-width: 900px) {
+    margin-left: 0;
   }
 `;
 
@@ -101,50 +101,66 @@ const FloatingToggle = styled.div`
   z-index: 1100;
 `;
 
-const ContentScale = styled.div`
-  transform-origin: left top;
-  /* At min width, font size is 0.95, at max width it's 1.0 */
-  transform: ${(props) =>
-    `scale(${0.95 + 0.05 * ((props.width - 17.5) / (22.5 - 17.5))})`};
-  width: 100%;
-`;
-
-const RightColumn = styled.div`
-  margin-left: ${(props) => props.width}%;
-  flex: 1;
-  padding: 20px;
-  @media (max-width: 768px) {
-    margin-left: 0;
-    padding: 10px;
-  }
+const ScrollProgressBar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: ${(props) => props.progress}%;
+  height: 2px;
+  background: ${({ theme }) => theme.colors.primary};
+  z-index: 2000;
+  transition: width 0.1s linear;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px ${({ theme }) => theme.colors.primary}60;
 `;
 
 function App() {
   const [isMobile, setIsMobile] = useState(false);
-  const [panelWidth, setPanelWidth] = useState(20);
+  const [panelWidth, setPanelWidth] = useState(22);
   const [showCurtain, setShowCurtain] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const isDragging = React.useRef(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 900);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setScrollProgress(Math.min(progress, 100));
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleMouseMove = (e) => {
-    const newPct = Math.round((e.clientX / window.innerWidth) * 100);
-    const clamped = Math.max(17.5, Math.min(22.5, newPct));
-    setPanelWidth(clamped);
+    if (!isDragging.current) return;
+    const newPct = (e.clientX / window.innerWidth) * 100;
+    const clamped = Math.max(18, Math.min(28, newPct));
+    setPanelWidth(Math.round(clamped * 10) / 10);
   };
 
   const handleMouseUp = () => {
+    isDragging.current = false;
     window.removeEventListener("mousemove", handleMouseMove);
     window.removeEventListener("mouseup", handleMouseUp);
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
   };
 
   const handleMouseDown = () => {
+    isDragging.current = true;
+    document.body.style.cursor = "ew-resize";
+    document.body.style.userSelect = "none";
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
   };
@@ -155,6 +171,7 @@ function App() {
         <StyledThemeProvider theme={themeStyles}>
           <Router>
             <GlobalStyle />
+            <ScrollProgressBar progress={scrollProgress} />
             <FloatingToggle>
               <ThemeToggle />
             </FloatingToggle>
@@ -164,24 +181,14 @@ function App() {
             <AppContainer>
               {!isMobile && (
                 <LeftColumn width={panelWidth}>
-                  <div
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <ContentScale width={panelWidth}>
-                      <Header />
-                    </ContentScale>
-                  </div>
+                  <Header />
                   <Footer />
                 </LeftColumn>
               )}
               {!isMobile && (
-                <Divider width={panelWidth} onMouseDown={handleMouseDown}>
-                  <div className="divider-handle" />
-                </Divider>
+                <DividerHandle width={panelWidth} onMouseDown={handleMouseDown}>
+                  <div className="handle-bar" />
+                </DividerHandle>
               )}
               <RightColumn width={isMobile ? 0 : panelWidth}>
                 <Home />

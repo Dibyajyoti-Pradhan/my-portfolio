@@ -1,50 +1,62 @@
-// src/components/Header.js
-
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { navLinks, personalInfo } from "../data/data";
-import ThemeToggle from "./common/ThemeToggle";
+import { navLinks, personalInfo, socialLinks } from "../data/data";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaInstagram,
+  FaCode,
+} from "react-icons/fa";
 
 const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 `;
 
 const HeaderContainer = styled.header`
   width: 100%;
-  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-  .logo {
-    margin-top: 48px;
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.colors.text};
-    opacity: 0;
-    animation: ${fadeIn} 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+  .logo-block {
+    margin-top: 52px;
+    margin-bottom: 48px;
 
-    a {
-      color: inherit;
-      text-decoration: none;
-      position: relative;
-      display: inline-block;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .name {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: ${({ theme }) => theme.colors.text};
+      line-height: 1.2;
+      opacity: 0;
+      animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards;
 
-      &:hover {
-        color: ${({ theme }) => theme.colors.primary};
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: ${({ theme }) => theme.colors.primary};
+          text-decoration: none;
+        }
       }
+    }
+
+    .title {
+      font-size: 12px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.textTertiary};
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.12s forwards;
     }
   }
 
   .nav-links {
-    margin-top: 48px;
-    width: 100%;
+    flex: 1;
 
     ul {
       list-style: none;
@@ -52,141 +64,211 @@ const HeaderContainer = styled.header`
       margin: 0;
 
       li {
-        margin: 16px 0;
+        margin: 2px 0;
         opacity: 0;
-        animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        animation: ${fadeIn} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 
-        &:nth-child(1) { animation-delay: 0.2s; }
-        &:nth-child(2) { animation-delay: 0.25s; }
-        &:nth-child(3) { animation-delay: 0.3s; }
-        &:nth-child(4) { animation-delay: 0.35s; }
-        &:nth-child(5) { animation-delay: 0.4s; }
-        &:nth-child(6) { animation-delay: 0.45s; }
-        &:nth-child(7) { animation-delay: 0.5s; }
+        &:nth-child(1) { animation-delay: 0.18s; }
+        &:nth-child(2) { animation-delay: 0.22s; }
+        &:nth-child(3) { animation-delay: 0.26s; }
+        &:nth-child(4) { animation-delay: 0.30s; }
+        &:nth-child(5) { animation-delay: 0.34s; }
+        &:nth-child(6) { animation-delay: 0.38s; }
+        &:nth-child(7) { animation-delay: 0.42s; }
+        &:nth-child(8) { animation-delay: 0.46s; }
 
         a {
-          color: ${({ theme }) => theme.colors.textSecondary || theme.colors.slate};
-          font-size: 15px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 7px 10px;
+          border-radius: 8px;
+          color: ${({ theme }) => theme.colors.textTertiary};
+          font-size: 13px;
           font-weight: 400;
-          letter-spacing: -0.01em;
+          letter-spacing: -0.008em;
           text-decoration: none;
-          padding: 6px 0;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
+          transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
-          display: inline-block;
+          cursor: pointer;
+
+          .nav-indicator {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: ${({ theme }) => theme.colors.primary};
+            flex-shrink: 0;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
+
+          .nav-label {
+            transition: transform 0.18s ease;
+          }
 
           &.active {
             color: ${({ theme }) => theme.colors.text};
-            font-weight: 500;
+            font-weight: 600;
+            background: ${({ theme }) => theme.colors.greenTint};
+
+            .nav-indicator {
+              opacity: 1;
+              transform: scale(1);
+            }
           }
 
           &:hover {
             color: ${({ theme }) => theme.colors.text};
+            background: ${({ theme }) => theme.colors.accent};
+            text-decoration: none;
+
+            .nav-label {
+              transform: translateX(2px);
+            }
           }
         }
       }
     }
+  }
+
+  .bottom-block {
+    padding-bottom: 8px;
 
     .resume-button {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
-      margin-top: 32px;
-      color: ${({ theme }) => theme.colors.white};
-      background: ${({ theme }) => theme.colors.primary};
-      border: none;
-      border-radius: ${({ theme }) => theme.borderRadiusPill || "100px"};
-      padding: 12px 20px;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      color: ${({ theme }) => theme.colors.primary};
+      background: transparent;
+      border: 1.5px solid ${({ theme }) => theme.colors.primary}60;
+      border-radius: ${({ theme }) => theme.borderRadiusPill};
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
       font-family: ${({ theme }) => theme.fonts.main};
+      letter-spacing: -0.01em;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      max-width: 100%;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       box-sizing: border-box;
-      text-align: center;
       opacity: 0;
-      animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+      animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.55s forwards;
 
-      &:hover,
-      &:focus {
-        background: ${({ theme }) => theme.colors.primaryHover || theme.colors.linkHover};
-        transform: scale(1.02);
-        box-shadow: 0 4px 20px ${({ theme }) => theme.colors.primary}40;
+      &:hover {
+        background: ${({ theme }) => theme.colors.primary};
+        border-color: ${({ theme }) => theme.colors.primary};
+        color: #fff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px ${({ theme }) => theme.colors.primary}40;
+        text-decoration: none;
       }
+    }
 
-      &:active {
-        transform: scale(0.98);
+    .social-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      opacity: 0;
+      animation: ${fadeIn} 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.62s forwards;
+
+      a {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${({ theme }) => theme.colors.textTertiary};
+        font-size: 16px;
+        border-radius: 8px;
+        transition: all 0.18s ease;
+        text-decoration: none;
+
+        &:hover {
+          color: ${({ theme }) => theme.colors.primary};
+          background: ${({ theme }) => theme.colors.greenTint};
+          text-decoration: none;
+        }
       }
     }
   }
 
-  /* Hide original theme toggle; we now use floating toggle */
   .theme-toggle {
     display: none;
   }
 `;
 
+const socialIconMap = {
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedin,
+  Instagram: FaInstagram,
+  LeetCode: FaCode,
+};
+
 const Header = () => {
   const [activeSection, setActiveSection] = useState("");
-
   useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: "-100px 0px -100px 0px",
-      threshold: 0.4,
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "-80px 0px -60% 0px",
+        threshold: 0,
+      }
+    );
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    }, options);
-
-    const sections = document.querySelectorAll("section");
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
+    const sections = document.querySelectorAll("section[id]");
+    sections.forEach((section) => observer.observe(section));
+    return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
+
+  const scrollTo = (e, url) => {
+    e.preventDefault();
+    const id = url.replace("#", "");
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = element.getBoundingClientRect().top + window.scrollY - 60;
+      window.scrollTo({ top: offset, behavior: "smooth" });
+    }
+  };
 
   return (
     <HeaderContainer>
-      <div className="logo">
-        <a href="/">{personalInfo.name}</a>
+      <div className="logo-block">
+        <div className="name">
+          <a href="/">{personalInfo.name}</a>
+        </div>
+        <div className="title">{personalInfo.description}</div>
       </div>
-      <div className="nav-links">
+
+      <nav className="nav-links">
         <ul>
           {navLinks.map(({ id, name, url }) => (
             <li key={id}>
               <a
                 href={url}
-                className={activeSection === url.substring(1) ? "active" : ""}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const element = document.getElementById(url.substring(1));
-                  if (element) {
-                    const offsetPosition =
-                      element.getBoundingClientRect().top + window.scrollY - 50;
-                    window.scrollTo({
-                      top: offsetPosition,
-                      behavior: "smooth",
-                    });
-                  }
-                }}
+                className={activeSection === url.replace("#", "") ? "active" : ""}
+                onClick={(e) => scrollTo(e, url)}
               >
-                {name}
+                <span className="nav-indicator" />
+                <span className="nav-label">{name}</span>
               </a>
             </li>
           ))}
         </ul>
+      </nav>
+
+      <div className="bottom-block">
         <a
           className="resume-button"
           href={`${process.env.PUBLIC_URL}/resume.pdf`}
@@ -195,9 +277,24 @@ const Header = () => {
         >
           Download Résumé
         </a>
-      </div>
-      <div className="theme-toggle">
-        <ThemeToggle />
+        <div className="social-icons">
+          {socialLinks.map(({ id, name, url }) => {
+            const Icon = socialIconMap[name];
+            if (!Icon) return null;
+            return (
+              <a
+                key={id}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={name}
+                title={name}
+              >
+                <Icon />
+              </a>
+            );
+          })}
+        </div>
       </div>
     </HeaderContainer>
   );

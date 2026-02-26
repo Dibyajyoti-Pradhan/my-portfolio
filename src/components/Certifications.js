@@ -7,8 +7,8 @@ import { FaMapMarkerAlt, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaGradua
 import Card from "./common/Card";
 
 const pulse = keyframes`
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 140, 66, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(255, 140, 66, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.35); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 107, 53, 0); }
 `;
 
 const float = keyframes`
@@ -40,28 +40,74 @@ const scaleIn = keyframes`
 
 const CertificationsSection = styled.section`
   max-width: 900px;
-  margin: 140px auto;
-  padding: 0 24px;
+  margin: 160px auto;
+  padding: 0 32px;
   opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s ease;
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.primary};
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      max-width: 40px;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.primary}60;
+    }
+  }
 
   h2 {
-    font-size: 48px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 64px;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin-bottom: 16px;
     color: ${({ theme }) => theme.colors.text};
     text-align: center;
     opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
     animation: ${({ $isVisible }) =>
       $isVisible
-        ? css`${fadeInUp} 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards`
+        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
         : "none"};
+
+    &::after {
+      content: '';
+      display: block;
+      margin: 18px auto 0;
+      width: 40px;
+      height: 3px;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 2px;
+    }
 
     @media (max-width: 768px) {
       font-size: 36px;
-      margin-bottom: 48px;
     }
+  }
+
+  .section-intro {
+    text-align: center;
+    margin-bottom: 72px;
+    font-size: 14px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+    animation: ${({ $isVisible }) =>
+      $isVisible ? css`${fadeInUp} 0.4s ease 0.1s forwards` : "none"};
   }
 `;
 
@@ -582,7 +628,9 @@ const Certifications = () => {
 
   return (
     <CertificationsSection id="certifications" ref={sectionRef} $isVisible={isVisible}>
+      <div className="section-label">06</div>
       <h2>Certifications</h2>
+      <p className="section-intro">Continuous learning &amp; growth</p>
       <CertificationsList>
         {certifications.map((cert, index) => (
           <CertificationItem key={cert.id} tabIndex="0" $isVisible={isVisible} $delay={0.2 + index * 0.15}>

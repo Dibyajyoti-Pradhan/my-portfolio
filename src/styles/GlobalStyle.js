@@ -1,17 +1,13 @@
-// src/styles/GlobalStyle.js
-// Apple-inspired global styles - Think Different
-
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-  /* Pixel-perfect rendering */
   html {
     box-sizing: border-box;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "kern" 1, "liga" 1;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
 
   *, *::before, *::after {
@@ -29,17 +25,16 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }) => theme.fonts.main};
     font-size: ${({ theme }) => theme.fontSizes.base};
     font-weight: 400;
-    line-height: 1.47059;
-    letter-spacing: -0.022em;
+    line-height: 1.6;
+    letter-spacing: -0.014em;
     overflow-x: hidden;
   }
 
-  /* Apple's typography system */
   h1 {
     font-size: ${({ theme }) => theme.fontSizes.hero};
-    font-weight: 600;
-    letter-spacing: -0.009em;
-    line-height: 1.0625;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
     margin: 0;
 
     @media (max-width: 768px) {
@@ -48,49 +43,47 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    font-size: ${({ theme }) => theme.fontSizes.xxl};
-    font-weight: 600;
-    letter-spacing: -0.003em;
-    line-height: 1.08349;
+    font-size: ${({ theme }) => theme.fontSizes.xxxl};
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.06;
     margin: 0;
 
     @media (max-width: 768px) {
-      font-size: ${({ theme }) => theme.fontSizes.xl};
+      font-size: ${({ theme }) => theme.fontSizes.xxl};
     }
   }
 
   h3 {
     font-size: ${({ theme }) => theme.fontSizes.xl};
-    font-weight: 600;
-    letter-spacing: 0.011em;
-    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    line-height: 1.2;
     margin: 0;
   }
 
   h4, h5, h6 {
     font-weight: 600;
-    letter-spacing: 0.012em;
-    line-height: 1.14286;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
     margin: 0;
   }
 
   p {
     margin: 0;
-    line-height: 1.47059;
+    line-height: 1.7;
     font-weight: 400;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.01em;
   }
 
-  /* Clean links */
   a {
     color: ${({ theme }) => theme.colors.primary};
     text-decoration: none;
-    transition: ${({ theme }) => theme.transition};
+    transition: ${({ theme }) => theme.transitionFast};
     cursor: pointer;
 
     &:hover {
-      text-decoration: underline;
-      text-underline-offset: 2px;
+      color: ${({ theme }) => theme.colors.primaryHover};
     }
   }
 
@@ -112,8 +105,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     &:focus-visible {
-      outline: 4px solid ${({ theme }) => theme.colors.primary}40;
-      outline-offset: 1px;
+      outline: 2px solid ${({ theme }) => theme.colors.primary}55;
+      outline-offset: 2px;
     }
   }
 
@@ -123,9 +116,8 @@ const GlobalStyle = createGlobalStyle`
     display: block;
   }
 
-  /* Minimal scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 5px;
   }
 
   ::-webkit-scrollbar-track {
@@ -133,20 +125,19 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.textTertiary || theme.colors.slate}40;
-    border-radius: 4px;
+    background: ${({ theme }) => theme.colors.textTertiary}45;
+    border-radius: 3px;
 
     &:hover {
-      background: ${({ theme }) => theme.colors.textTertiary || theme.colors.slate}60;
+      background: ${({ theme }) => theme.colors.textTertiary}75;
     }
   }
 
-  /* Selection */
   ::selection {
-    background: ${({ theme }) => theme.colors.primary}25;
+    background: ${({ theme }) => theme.colors.primary}20;
+    color: ${({ theme }) => theme.colors.text};
   }
 
-  /* Respect user preferences */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
