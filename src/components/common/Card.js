@@ -29,6 +29,7 @@ const Card = styled.div`
     transition: opacity 0.4s ease, transform 0.4s ease;
     transform: scale(0.9);
     filter: blur(30px);
+    pointer-events: none;
   }
 
   &:hover,

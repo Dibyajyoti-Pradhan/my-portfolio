@@ -6,8 +6,9 @@ export const navLinks = [
   { id: 3, name: "Experience", url: "#experience" },
   { id: 4, name: "Projects", url: "#projects" },
   { id: 5, name: "Achievements", url: "#achievements" },
-  { id: 6, name: "Education", url: "#education" },
-  { id: 7, name: "Contact", url: "#contact" },
+  { id: 6, name: "Certifications", url: "#certifications" },
+  { id: 7, name: "Education", url: "#education" },
+  { id: 8, name: "Contact", url: "#contact" },
 ];
 
 export const socialLinks = [
@@ -360,3 +361,38 @@ export const contactInfo = {
   `,
   email: "dibyojyotipradhan@gmail.com",
 };
+
+export const certifications = [
+  {
+    id: 1,
+    title: "Professional Certificate in Machine Learning and Artificial Intelligence",
+    institution: "Imperial College London",
+    institutionUrl: "https://www.imperial.ac.uk/business-school/executive-education/technology-analytics-data-science/professional-certificate-machine-learning-and-artificial-intelligence-programme/online/",
+    department: "Business School & Department of Computing",
+    duration: "25 Weeks",
+    date: "2025 - 2026",
+    status: "In Progress",
+    curriculum: [
+      "Foundation: Intro to ML, Data Analysis with Pandas, Supervised Learning",
+      "Core ML: Classification, Regression, Clustering, Dimensionality Reduction",
+      "Advanced: Neural Networks, Deep Learning, CNNs, NLP",
+      "Applied: Recommender Systems, Reinforcement Learning, Deployment",
+      "Capstone: Industry Projects with Real-World Data"
+    ],
+    capstoneProjects: [
+      {
+        title: "Hull Tactical – S&P 500 Market Prediction",
+        description: "Predicting market trends using classification models",
+        url: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London/tree/main/Hull%20Tactical%20%E2%80%93%20Market%20Prediction"
+      },
+      {
+        title: "Black-Box Optimisation Challenge",
+        description: "Bayesian optimization with Gaussian Process surrogates",
+        url: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London/tree/main/Black-Box-Optimisation-Challenge"
+      }
+    ],
+    techStack: ["Python", "NumPy", "Pandas", "Scikit-learn", "PyTorch", "Matplotlib", "Jupyter"],
+    outcome: "Verified Digital Certificate from Imperial Executive Education",
+    repositoryUrl: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London",
+  },
+];
