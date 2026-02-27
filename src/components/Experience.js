@@ -281,7 +281,7 @@ const TimelineContent = styled.div`
       background: transparent;
       color: ${({ theme }) => theme.colors.primary};
       border-color: ${({ theme }) => theme.colors.primaryBorder};
-      cursor: default;
+      cursor: pointer;
 
       &:hover {
         background: ${({ theme }) => theme.colors.primarySubtle};
@@ -300,6 +300,7 @@ const COMPANY_CURRENT = { HubSpot: true };
 
 const Experience = () => {
   const [showAll, setShowAll] = useState(false);
+  const [expandedTech, setExpandedTech] = useState({});
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -374,11 +375,17 @@ const Experience = () => {
                   </ul>
 
                   <div className="tech-stack">
-                    {techStack.slice(0, 6).map((tech, idx) => (
+                    {(expandedTech[id] ? techStack : techStack.slice(0, 6)).map((tech, idx) => (
                       <span key={idx}>{tech}</span>
                     ))}
-                    {techStack.length > 6 && (
-                      <span className="more-tag">+{techStack.length - 6}</span>
+                    {techStack.length > 6 && !expandedTech[id] && (
+                      <span
+                        className="more-tag"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => setExpandedTech((prev) => ({ ...prev, [id]: true }))}
+                      >
+                        +{techStack.length - 6} more
+                      </span>
                     )}
                   </div>
                 </TimelineContent>
