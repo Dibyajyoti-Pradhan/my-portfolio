@@ -9,14 +9,19 @@ import {
   FaCode,
 } from "react-icons/fa";
 
-const slideDown = keyframes`
-  from { opacity: 0; transform: translateY(-12px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
 const fadeIn = keyframes`
   from { opacity: 0; }
   to   { opacity: 1; }
+`;
+
+const slideInRight = keyframes`
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+`;
+
+const itemReveal = keyframes`
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
 `;
 
 const TopBar = styled.header`
@@ -87,39 +92,35 @@ const HamburgerBtn = styled.button`
   ${({ $open }) =>
     $open &&
     css`
-      .bar:nth-child(1) {
-        transform: translateY(6.5px) rotate(45deg);
-      }
-      .bar:nth-child(2) {
-        opacity: 0;
-        width: 0;
-      }
-      .bar:nth-child(3) {
-        transform: translateY(-6.5px) rotate(-45deg);
-      }
+      .bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+      .bar:nth-child(2) { opacity: 0; width: 0; }
+      .bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
     `}
 `;
 
 const DrawerOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 998;
-  animation: ${fadeIn} 0.2s ease forwards;
+  animation: ${fadeIn} 0.25s ease forwards;
 `;
 
 const Drawer = styled.nav`
   position: fixed;
   top: 60px;
-  left: 0;
   right: 0;
   bottom: 0;
+  width: min(320px, 88vw);
   background: ${({ theme }) => theme.colors.background};
+  border-left: 1px solid ${({ theme }) => theme.colors.divider};
   z-index: 999;
   display: flex;
   flex-direction: column;
-  padding: 32px 28px 40px;
-  animation: ${slideDown} 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  padding: 40px 32px 48px;
+  animation: ${slideInRight} 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   overflow-y: auto;
 `;
 
@@ -127,111 +128,70 @@ const NavList = styled.ul`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  justify-content: center;
+  gap: 0;
 `;
 
 const NavItem = styled.li`
   opacity: 0;
-  animation: ${slideDown} 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: ${({ $i }) => 0.04 + $i * 0.04}s;
+  animation: ${itemReveal} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: ${({ $i }) => 0.06 + $i * 0.045}s;
 `;
 
 const NavLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 4px;
+  padding: 16px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
   text-decoration: none;
-  transition: padding-left 0.18s ease;
-
-  .link-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .num {
-    font-family: ${({ theme }) => theme.fonts.mono};
-    font-size: 10px;
-    color: ${({ theme }) => theme.colors.primary};
-    letter-spacing: 0.06em;
-    width: 20px;
-  }
+  transition: padding-left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
   .name {
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
     color: ${({ theme }) => theme.colors.text};
     transition: color 0.15s ease;
+    line-height: 1;
   }
 
   .arrow {
-    font-size: 11px;
+    font-size: 16px;
     color: ${({ theme }) => theme.colors.textTertiary};
-    transition: transform 0.18s ease, color 0.15s ease;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+    opacity: 0;
   }
 
   &:hover {
-    padding-left: 8px;
+    padding-left: 10px;
 
-    .name {
-      color: ${({ theme }) => theme.colors.primary};
-    }
-
-    .arrow {
-      transform: translateX(4px);
-      color: ${({ theme }) => theme.colors.primary};
-    }
+    .name { color: ${({ theme }) => theme.colors.primary}; }
+    .arrow { transform: translateX(4px); color: ${({ theme }) => theme.colors.primary}; opacity: 1; }
   }
 `;
 
 const DrawerFooter = styled.div`
-  padding-top: 28px;
+  padding-top: 32px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
-`;
-
-const SocialRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const SocialIcon = styled.a`
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.textTertiary};
-  font-size: 16px;
-  border-radius: 9px;
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  background: ${({ theme }) => theme.colors.accent};
-  text-decoration: none;
-  transition: all 0.15s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border-color: ${({ theme }) => theme.colors.primaryBorder};
-  }
+  gap: 20px;
+  opacity: 0;
+  animation: ${fadeIn} 0.4s ease 0.45s forwards;
 `;
 
 const ResumeBtn = styled.a`
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 11px 28px;
+  padding: 13px 0;
   background: ${({ theme }) => theme.colors.primary};
   color: #fff;
   border-radius: ${({ theme }) => theme.borderRadiusPill};
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
   text-decoration: none;
   transition: all 0.2s ease;
 
@@ -243,7 +203,32 @@ const ResumeBtn = styled.a`
   }
 `;
 
-const NAV_NUMS = ["01", "02", "03", "04", "05", "06", "07", "08"];
+const SocialRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const SocialIcon = styled.a`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.textTertiary};
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  background: ${({ theme }) => theme.colors.accent};
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    border-color: ${({ theme }) => theme.colors.primaryBorder};
+  }
+`;
 
 const socialIconMap = {
   GitHub: FaGithub,
@@ -256,25 +241,17 @@ const MobileNav = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
   const handleNavClick = (e, url) => {
     e.preventDefault();
     setOpen(false);
     setTimeout(() => {
-      const id = url.replace("#", "");
-      const element = document.getElementById(id);
-      if (element) {
-        const offset = element.getBoundingClientRect().top + window.scrollY - 72;
-        window.scrollTo({ top: offset, behavior: "smooth" });
+      const el = document.getElementById(url.replace("#", ""));
+      if (el) {
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
       }
     }, 280);
   };
@@ -308,10 +285,7 @@ const MobileNav = () => {
               {navLinks.map(({ id, name, url }, idx) => (
                 <NavItem key={id} $i={idx}>
                   <NavLink href={url} onClick={(e) => handleNavClick(e, url)}>
-                    <span className="link-left">
-                      <span className="num">{NAV_NUMS[idx]}</span>
-                      <span className="name">{name}</span>
-                    </span>
+                    <span className="name">{name}</span>
                     <span className="arrow">›</span>
                   </NavLink>
                 </NavItem>
