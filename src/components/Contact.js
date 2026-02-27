@@ -20,7 +20,7 @@ const scaleIn = keyframes`
 `;
 
 const ContactSection = styled.section`
-  max-width: 720px;
+  max-width: 900px;
   margin: 128px auto 100px;
   padding: 0 48px;
 

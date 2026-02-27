@@ -120,6 +120,7 @@ const Drawer = styled.nav`
   display: flex;
   flex-direction: column;
   padding: 40px 32px 48px;
+  font-family: ${({ theme }) => theme.fonts.main};
   animation: ${slideInRight} 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   overflow-y: auto;
 `;
@@ -142,23 +143,25 @@ const NavLink = styled.a`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
+  padding: 15px 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
   text-decoration: none;
   transition: padding-left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
   .name {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: -0.03em;
+    font-family: ${({ theme }) => theme.fonts.main};
+    letter-spacing: -0.025em;
     color: ${({ theme }) => theme.colors.text};
     transition: color 0.15s ease;
     line-height: 1;
   }
 
   .arrow {
-    font-size: 16px;
+    font-size: 14px;
     color: ${({ theme }) => theme.colors.textTertiary};
+    font-family: ${({ theme }) => theme.fonts.main};
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
     opacity: 0;
   }
