@@ -10,15 +10,10 @@ import Education from "../components/Education";
 import Contact from "../components/Contact";
 
 const MainContainer = styled.main`
-  max-width: 1200px;
-  padding: 0 40px 80px;
+  padding: 0;
 
   @media (max-width: 900px) {
-    padding: 80px 24px 60px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 60px 16px 40px;
+    padding-top: 60px;
   }
 `;
 

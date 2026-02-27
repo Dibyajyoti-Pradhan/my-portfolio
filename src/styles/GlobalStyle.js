@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1;
   }
 
   *, *::before, *::after {
@@ -21,22 +21,33 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     min-height: 100vh;
     background: ${({ theme }) => theme.colors.background};
-    background-image: radial-gradient(ellipse 90% 40% at 50% -5%, ${({ theme }) => theme.colors.primary}08 0%, transparent 100%);
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.main};
     font-size: ${({ theme }) => theme.fontSizes.base};
     font-weight: 400;
-    line-height: 1.6;
-    letter-spacing: -0.014em;
+    line-height: 1.65;
+    letter-spacing: -0.012em;
     overflow-x: hidden;
     font-variant-numeric: tabular-nums;
   }
 
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0.028;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
   h1 {
     font-size: ${({ theme }) => theme.fontSizes.hero};
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.02;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.96;
     margin: 0;
 
     @media (max-width: 768px) {
@@ -47,8 +58,8 @@ const GlobalStyle = createGlobalStyle`
   h2 {
     font-size: ${({ theme }) => theme.fontSizes.xxxl};
     font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 1.06;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
     margin: 0;
 
     @media (max-width: 768px) {
@@ -73,9 +84,9 @@ const GlobalStyle = createGlobalStyle`
 
   p {
     margin: 0;
-    line-height: 1.7;
+    line-height: 1.72;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.008em;
   }
 
   a {
@@ -107,8 +118,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     &:focus-visible {
-      outline: 2px solid ${({ theme }) => theme.colors.primary}55;
-      outline-offset: 2px;
+      outline: 2px solid ${({ theme }) => theme.colors.primary}60;
+      outline-offset: 3px;
     }
   }
 
@@ -119,7 +130,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    width: 5px;
+    width: 4px;
   }
 
   ::-webkit-scrollbar-track {
@@ -127,16 +138,16 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.textTertiary}45;
-    border-radius: 3px;
+    background: ${({ theme }) => theme.colors.textTertiary}55;
+    border-radius: 2px;
 
     &:hover {
-      background: ${({ theme }) => theme.colors.textTertiary}75;
+      background: ${({ theme }) => theme.colors.textTertiary}80;
     }
   }
 
   ::selection {
-    background: ${({ theme }) => theme.colors.primary}20;
+    background: ${({ theme }) => theme.colors.primary}22;
     color: ${({ theme }) => theme.colors.text};
   }
 

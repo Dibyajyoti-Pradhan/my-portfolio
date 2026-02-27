@@ -1,106 +1,105 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-const curtainOpenTop = keyframes`
+const reveal = keyframes`
   0% {
-    transform: translateY(0);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
   }
   20% {
-    transform: translateY(0);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  30% {
-    border-bottom-left-radius: 60px;
-    border-bottom-right-radius: 60px;
+    opacity: 1;
   }
   100% {
-    transform: translateY(-100%);
-    border-bottom-left-radius: 60px;
-    border-bottom-right-radius: 60px;
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
   }
 `;
 
-const curtainOpenBottom = keyframes`
-  0% {
-    transform: translateY(0);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-  20% {
-    transform: translateY(0);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-  30% {
-    border-top-left-radius: 60px;
-    border-top-right-radius: 60px;
-  }
-  100% {
-    transform: translateY(100%);
-    border-top-left-radius: 60px;
-    border-top-right-radius: 60px;
-  }
+const curtainUp = keyframes`
+  0%   { transform: translateY(0); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  15%  { border-bottom-left-radius: 48px; border-bottom-right-radius: 48px; }
+  100% { transform: translateY(-102%); border-bottom-left-radius: 48px; border-bottom-right-radius: 48px; }
+`;
+
+const curtainDown = keyframes`
+  0%   { transform: translateY(0); border-top-left-radius: 0; border-top-right-radius: 0; }
+  15%  { border-top-left-radius: 48px; border-top-right-radius: 48px; }
+  100% { transform: translateY(102%); border-top-left-radius: 48px; border-top-right-radius: 48px; }
 `;
 
 const BlurBg = styled.div`
   position: fixed;
   inset: 0;
   z-index: 9998;
-  width: 100vw;
-  height: 100vh;
+  backdrop-filter: blur(3px);
+  transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+  opacity: ${({ $unblur }) => ($unblur ? 0 : 1)};
   pointer-events: none;
-  backdrop-filter: blur(2px);
-  transition: opacity 1s cubic-bezier(0.77, 0, 0.175, 1);
-  opacity: ${({ unblur }) => (unblur ? 0 : 1)};
 `;
 
-const Curtain = styled.div`
+const CurtainHalf = styled.div`
   position: fixed;
   left: 0;
   right: 0;
   width: 100%;
   height: 50%;
   z-index: 9999;
-  background: linear-gradient(
-    145deg,
-    ${({ theme }) => theme.colors.primary} 0%,
-    ${({ theme }) => theme.colors.headerBackground} 100%
-  );
-  box-shadow: 0 8px 40px 0 ${({ theme }) => theme.colors.primary}33;
+  background: ${({ theme }) => theme.colors.background};
+  border-left: 1px solid ${({ theme }) => theme.colors.divider};
+  border-right: 1px solid ${({ theme }) => theme.colors.divider};
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  overflow: hidden;
+`;
 
-  @media (max-width: 768px) {
-    min-width: 100vw;
-    min-height: 50vh;
+const TopCurtain = styled(CurtainHalf)`
+  top: 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+  align-items: flex-end;
+  padding-bottom: 4px;
+  animation: ${curtainUp} 1.6s cubic-bezier(0.76, 0, 0.24, 1) 1s forwards;
+`;
+
+const BottomCurtain = styled(CurtainHalf)`
+  bottom: 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.divider};
+  align-items: flex-start;
+  padding-top: 4px;
+  animation: ${curtainDown} 1.6s cubic-bezier(0.76, 0, 0.24, 1) 1s forwards;
+`;
+
+const TopContent = styled.div`
+  text-align: center;
+  padding-bottom: 20px;
+
+  .monogram {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 900;
+    letter-spacing: -0.06em;
+    color: ${({ theme }) => theme.colors.text};
+    line-height: 1;
+    animation: ${reveal} 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+
+    span {
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;
 
-const TopCurtain = styled(Curtain)`
-  top: 0;
-  animation: ${curtainOpenTop} 2.5s cubic-bezier(0.8, 0, 0.475, 1) forwards;
-`;
-
-const BottomCurtain = styled(Curtain)`
-  bottom: 0;
-  animation: ${curtainOpenBottom} 2.5s cubic-bezier(0.8, 0, 0.475, 1) forwards;
-`;
-
-const CurtainText = styled.div`
-  font-size: 2.7rem;
-  color: rgba(255, 255, 255, 0.96);
-  font-family: ${({ theme }) => theme.fonts.main};
-  letter-spacing: -0.03em;
-  font-weight: 700;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.2);
-  opacity: 0.97;
+const BottomContent = styled.div`
   text-align: center;
-  line-height: 1.2;
+  padding-top: 20px;
+
+  .tagline {
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: ${reveal} 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+  }
 `;
 
 const CurtainLoader = ({ onFinish }) => {
@@ -108,34 +107,33 @@ const CurtainLoader = ({ onFinish }) => {
   const [unblur, setUnblur] = useState(false);
 
   useEffect(() => {
+    const onFinishRef = onFinish;
     const hold = setTimeout(() => {
       setUnblur(true);
       setTimeout(() => {
         setShow(false);
-        if (onFinish) onFinish();
-      }, 900);
-    }, 1600);
+        if (onFinishRef) onFinishRef();
+      }, 700);
+    }, 2400);
     return () => clearTimeout(hold);
-  }, [onFinish]);
+  }, []);
 
   if (!show) return null;
 
   return (
     <>
-      <BlurBg unblur={unblur} />
+      <BlurBg $unblur={unblur} />
       <TopCurtain>
-        <CurtainText>
-          <span style={{ fontSize: "2.4rem", letterSpacing: "-0.04em", fontWeight: 800 }}>
-            Dibyajyoti Pradhan
-          </span>
-        </CurtainText>
+        <TopContent>
+          <div className="monogram">
+            DIBYAJYOTI<span>.</span>
+          </div>
+        </TopContent>
       </TopCurtain>
       <BottomCurtain>
-        <CurtainText>
-          <span style={{ fontSize: "1.1rem", fontWeight: 500, opacity: 0.75, letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Senior Software Engineer · London
-          </span>
-        </CurtainText>
+        <BottomContent>
+          <div className="tagline">Senior Software Engineer · London</div>
+        </BottomContent>
       </BottomCurtain>
     </>
   );

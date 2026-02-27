@@ -1,602 +1,513 @@
-// src/components/Certifications.js
-
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { certifications } from "../data/data";
-import { FaMapMarkerAlt, FaChevronDown, FaChevronUp, FaExternalLinkAlt, FaGraduationCap, FaBookOpen, FaRocket, FaClock, FaAward } from "react-icons/fa";
-import Card from "./common/Card";
-
-const makePulse = (color) => keyframes`
-  0%, 100% { box-shadow: 0 0 0 0 ${color}59; }
-  50% { box-shadow: 0 0 0 8px ${color}00; }
-`;
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-`;
+import {
+  FaExternalLinkAlt,
+  FaGraduationCap,
+  FaBookOpen,
+  FaRocket,
+  FaClock,
+  FaAward,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
 
 const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 `;
 
 const scaleIn = keyframes`
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+`;
+
+const shimmer = keyframes`
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
 `;
 
 const CertificationsSection = styled.section`
   max-width: 900px;
-  margin: 160px auto;
-  padding: 0 32px;
-  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease;
+  margin: 128px auto;
+  padding: 0 48px;
 
-  .section-label {
+  @media (max-width: 900px) {
+    padding: 0 24px;
+    margin: 96px auto;
+  }
+`;
+
+const SectionHeader = styled.div`
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: ${({ $visible }) => $visible ? css`${fadeInUp} 0.5s ease forwards` : "none"};
+
+  .eyebrow {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 14px;
-    font-size: 11px;
-    font-family: ${({ theme }) => theme.fonts.mono};
-    color: ${({ theme }) => theme.colors.primary};
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 500;
-    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-    animation: ${({ $isVisible }) =>
-      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
+    gap: 10px;
+    margin-bottom: 12px;
 
-    &::before,
-    &::after {
-      content: '';
-      flex: 1;
-      max-width: 40px;
+    .num {
+      font-size: 11px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.primary};
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+
+    .line {
+      width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary}60;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 1px;
     }
   }
 
   h2 {
-    font-size: clamp(36px, 4vw, 52px);
-    font-weight: 800;
-    letter-spacing: -0.035em;
-    margin-bottom: 16px;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 900;
+    letter-spacing: -0.045em;
     color: ${({ theme }) => theme.colors.text};
-    text-align: center;
-    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-    animation: ${({ $isVisible }) =>
-      $isVisible
-        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
-        : "none"};
-
-    &::after {
-      content: '';
-      display: block;
-      margin: 18px auto 0;
-      width: 40px;
-      height: 3px;
-      background: ${({ theme }) => theme.colors.primary};
-      border-radius: 2px;
-    }
-
-    @media (max-width: 768px) {
-      font-size: 36px;
-    }
+    line-height: 1;
+    margin-bottom: 12px;
   }
 
-  .section-intro {
-    text-align: center;
-    margin-bottom: 72px;
-    font-size: 14px;
+  .subtitle {
+    font-size: 13px;
     font-family: ${({ theme }) => theme.fonts.mono};
     color: ${({ theme }) => theme.colors.textTertiary};
-    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-    animation: ${({ $isVisible }) =>
-      $isVisible ? css`${fadeInUp} 0.4s ease 0.1s forwards` : "none"};
+    letter-spacing: 0.02em;
   }
 `;
 
-const CertificationsList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
+const CertCard = styled.div`
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-radius: ${({ theme }) => theme.borderRadiusLarge};
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.shadows.card};
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: ${({ $visible, $delay }) =>
+    $visible ? css`${scaleIn} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards` : "none"};
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primaryBorder};
+    box-shadow: ${({ theme }) => theme.shadows.cardHover};
+  }
 `;
 
-const CertificationItem = styled(Card)`
+const CardTop = styled.div`
+  padding: 32px 36px 28px;
   position: relative;
-  overflow: visible;
-  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  animation: ${({ $isVisible, $delay }) =>
-    $isVisible
-      ? css`${scaleIn} 0.4s cubic-bezier(0.4, 0, 0.2, 1) ${$delay}s forwards`
-      : "none"};
 
   &::before {
-    pointer-events: none;
-  }
-`;
-
-const CertHeader = styled.div`
-  display: flex;
-  gap: 25px;
-  margin-bottom: 25px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-`;
-
-const LogoContainer = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}20, ${({ theme }) => theme.colors.primary}40);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  animation: ${float} 3s ease-in-out infinite;
-
-  &::before {
-    content: "";
+    content: '';
     position: absolute;
-    inset: -2px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, transparent, ${({ theme }) => theme.colors.primary});
-    z-index: -1;
-    opacity: 0.5;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      ${({ theme }) => theme.colors.primary},
+      ${({ theme }) => theme.colors.primaryHover},
+      ${({ theme }) => theme.colors.primary}
+    );
+    background-size: 200% auto;
+    animation: ${shimmer} 4s linear infinite;
   }
 
-  svg {
-    font-size: 45px;
-    color: ${({ theme }) => theme.colors.primary};
+  @media (max-width: 600px) {
+    padding: 24px 20px 20px;
   }
-`;
-
-const HeaderContent = styled.div`
-  flex: 1;
 `;
 
 const TitleRow = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 10px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
 `;
 
 const CertTitle = styled.h3`
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.text};
-  font-weight: bold;
+  letter-spacing: -0.025em;
   line-height: 1.3;
-  margin: 0;
+  flex: 1;
 `;
 
 const StatusBadge = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.linkHover});
-  color: ${({ theme }) => theme.colors.background};
-  border-radius: 25px;
-  font-size: 13px;
-  font-weight: bold;
+  gap: 5px;
+  padding: 4px 10px;
+  background: ${({ theme }) => theme.colors.primarySubtle};
+  border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+  color: ${({ theme }) => theme.colors.primary};
+  border-radius: ${({ theme }) => theme.borderRadiusPill};
+  font-size: 10px;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  animation: ${({ theme }) => css`${makePulse(theme.colors.primary)} 2s ease-in-out infinite`};
+  letter-spacing: 0.08em;
   white-space: nowrap;
+  flex-shrink: 0;
 
-  svg {
-    font-size: 12px;
+  .status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.primary};
+    flex-shrink: 0;
   }
 `;
 
-const Institution = styled.a`
-  font-size: 18px;
-  color: ${({ theme }) => theme.colors.primary};
-  text-decoration: none;
+const InstitutionLink = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 5px;
-  transition: ${({ theme }) => theme.transition};
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+  transition: all 0.15s ease;
+
+  svg { font-size: 10px; opacity: 0.6; }
 
   &:hover {
-    color: ${({ theme }) => theme.colors.linkHover};
-  }
-
-  svg {
-    font-size: 12px;
+    color: ${({ theme }) => theme.colors.primaryHover};
+    svg { opacity: 1; }
   }
 `;
 
 const Department = styled.p`
-  font-size: 14px;
-  color: ${({ theme }) => theme.colors.slate};
-  margin: 0;
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.textTertiary};
+  font-family: ${({ theme }) => theme.fonts.mono};
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
 `;
 
-const MetaRow = styled.div`
+const MetaStrip = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  margin: 20px 0;
-  padding: 15px 0;
-  border-top: 1px solid ${({ theme }) => theme.colors.accent};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.accent};
+  gap: 16px;
+  padding: 14px 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.divider};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+  margin-bottom: 20px;
 `;
 
-const MetaItem = styled.div`
+const MetaChip = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: ${({ theme }) => theme.colors.slate};
-  font-size: 14px;
+  gap: 6px;
+  font-size: 12px;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  color: ${({ theme }) => theme.colors.textTertiary};
+  letter-spacing: 0.02em;
 
   svg {
     color: ${({ theme }) => theme.colors.primary};
-    font-size: 16px;
+    font-size: 11px;
+    opacity: 0.7;
   }
 `;
 
-const Outcome = styled.div`
+const OutcomeBanner = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 15px 20px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.accent}80, ${({ theme }) => theme.colors.accent}40);
-  border-radius: 12px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: ${({ theme }) => theme.colors.primarySubtle};
+  border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+  border-radius: ${({ theme }) => theme.borderRadius};
   margin-bottom: 20px;
-  border-left: 4px solid ${({ theme }) => theme.colors.primary};
 
   svg {
     color: ${({ theme }) => theme.colors.primary};
-    font-size: 20px;
+    font-size: 14px;
     flex-shrink: 0;
-    margin-top: 2px;
   }
 
   span {
-    color: ${({ theme }) => theme.colors.text};
-    font-size: 15px;
+    font-size: 13px;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    letter-spacing: -0.005em;
     line-height: 1.5;
   }
 `;
 
-const TechStack = styled.div`
+const TechRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 25px;
+  gap: 6px;
+  margin-bottom: 20px;
 `;
 
-const TechPill = styled.span`
+const TechTag = styled.span`
   background: ${({ theme }) => theme.colors.accent};
-  color: ${({ theme }) => theme.colors.slate};
-  padding: 6px 16px;
-  border-radius: 25px;
-  font-size: 13px;
+  color: ${({ theme }) => theme.colors.textTertiary};
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 11.5px;
   font-family: ${({ theme }) => theme.fonts.mono};
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  transition: all 0.15s ease;
   cursor: default;
-  border: 1px solid transparent;
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-  animation: ${fadeInUp} 0.4s ease forwards;
-  animation-delay: ${({ $index }) => 0.3 + ($index || 0) * 0.05}s;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      ${({ theme }) => theme.colors.primary}20,
-      transparent
-    );
-    transition: left 0.5s ease;
-  }
 
   &:hover {
-    background: ${({ theme }) => theme.colors.greenTint};
-    border-color: ${({ theme }) => theme.colors.primary};
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px ${({ theme }) => theme.colors.cardGlow};
-
-    &::before {
-      left: 100%;
-    }
+    color: ${({ theme }) => theme.colors.text};
+    border-color: ${({ theme }) => theme.colors.primaryBorder};
+    background: ${({ theme }) => theme.colors.primarySubtle};
   }
 `;
 
 const ActionRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
   flex-wrap: wrap;
 `;
 
-const LearnMoreLink = styled.a`
+const LinkButton = styled.a`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: ${({ theme }) => theme.colors.primary};
-  text-decoration: none;
-  font-size: 14px;
-  padding: 10px 20px;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  background: transparent;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.greenTint};
-    transform: translateX(5px);
-  }
-`;
-
-const ExpandButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}20, ${({ theme }) => theme.colors.primary}10);
-  border: 1px solid ${({ theme }) => theme.colors.primary}50;
-  color: ${({ theme }) => theme.colors.primary};
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.greenTint};
-    border-color: ${({ theme }) => theme.colors.primary};
-    transform: translateY(-2px);
-  }
-
-  svg {
-    transition: transform 0.3s ease;
-  }
-`;
-
-const ExpandableContent = styled.div`
-  display: grid;
-  grid-template-rows: ${({ $isExpanded }) => ($isExpanded ? "1fr" : "0fr")};
-  transition: grid-template-rows 0.4s ease-out;
-
-  > div {
-    overflow: hidden;
-  }
-`;
-
-const SectionDivider = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin: 25px 0 20px;
-
-  svg {
-    color: ${({ theme }) => theme.colors.primary};
-    font-size: 20px;
-  }
-`;
-
-const SectionTitle = styled.h4`
-  font-size: 18px;
-  color: ${({ theme }) => theme.colors.text};
-  margin: 0;
+  gap: 6px;
+  font-size: 13px;
   font-weight: 600;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  text-decoration: none;
+  padding: 8px 14px;
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  background: ${({ theme }) => theme.colors.accent};
+  transition: all 0.18s ease;
+  letter-spacing: -0.008em;
+
+  svg { font-size: 10px; }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primarySubtle};
+    border-color: ${({ theme }) => theme.colors.primaryBorder};
+    color: ${({ theme }) => theme.colors.primary};
+    text-decoration: none;
+  }
 `;
 
-const SectionLine = styled.div`
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}50, transparent);
+const ExpandToggle = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.primary};
+  background: transparent;
+  border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  padding: 8px 14px;
+  cursor: pointer;
+  font-family: ${({ theme }) => theme.fonts.main};
+  transition: all 0.18s ease;
+  letter-spacing: -0.008em;
+
+  svg {
+    font-size: 11px;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.primarySubtle};
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
-const CurriculumGrid = styled.div`
+const ExpandablePanel = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 12px;
+  grid-template-rows: ${({ $open }) => ($open ? "1fr" : "0fr")};
+  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+
+  > .inner { overflow: hidden; }
 `;
 
-const slideInRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
+const PanelBody = styled.div`
+  padding: 0 36px 28px;
+  border-top: 1px solid ${({ theme }) => theme.colors.divider};
+
+  @media (max-width: 600px) {
+    padding: 0 20px 20px;
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+`;
+
+const PanelSection = styled.div`
+  padding-top: 24px;
+  margin-bottom: 24px;
+
+  &:last-child { margin-bottom: 0; }
+
+  .panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    svg {
+      color: ${({ theme }) => theme.colors.primary};
+      font-size: 13px;
+    }
+
+    span {
+      font-size: 13px;
+      font-weight: 700;
+      color: ${({ theme }) => theme.colors.text};
+      letter-spacing: -0.01em;
+    }
+
+    .rule {
+      flex: 1;
+      height: 1px;
+      background: ${({ theme }) => theme.colors.divider};
+    }
   }
+`;
+
+const CurriculumList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 8px;
 `;
 
 const CurriculumItem = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 14px 18px;
-  background: ${({ theme }) => theme.colors.cardBackground};
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.accent};
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: default;
-  opacity: 0;
-  animation: ${slideInRight} 0.5s ease forwards;
-  animation-delay: ${({ $index }) => 0.1 + $index * 0.05}s;
+  gap: 10px;
+  padding: 10px 14px;
+  background: ${({ theme }) => theme.colors.accent};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  transition: all 0.18s ease;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    transform: translateX(8px);
-    background: ${({ theme }) => theme.colors.greenTint};
-    box-shadow: 0 4px 15px ${({ theme }) => theme.colors.cardGlow};
+    border-color: ${({ theme }) => theme.colors.primaryBorder};
+    background: ${({ theme }) => theme.colors.primarySubtle};
   }
 
-  .number {
-    width: 24px;
-    height: 24px;
-    background: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.background};
+  .step-num {
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
+    background: ${({ theme }) => theme.colors.primary};
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    font-family: ${({ theme }) => theme.fonts.mono};
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
     flex-shrink: 0;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 1px;
   }
 
-  &:hover .number {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px ${({ theme }) => theme.colors.primary}60;
-  }
-
-  .text {
-    color: ${({ theme }) => theme.colors.slate};
-    font-size: 14px;
-    line-height: 1.4;
+  .step-text {
+    font-size: 12.5px;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    line-height: 1.5;
+    letter-spacing: -0.004em;
   }
 `;
 
 const ProjectsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
 `;
 
-const ProjectCard = styled.a`
-  position: relative;
-  background: ${({ theme }) => theme.colors.cardBackground};
-  border-radius: 15px;
-  padding: 25px;
-  text-decoration: none;
+const CapstoneCard = styled.a`
   display: block;
-  transition: all 0.4s ease;
-  border: 1px solid ${({ theme }) => theme.colors.accent};
+  padding: 18px 20px;
+  background: ${({ theme }) => theme.colors.cardBackground};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
   overflow: hidden;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.linkHover});
+    height: 2px;
+    background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.primaryHover});
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.4s ease;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, ${({ theme }) => theme.colors.primary}05, ${({ theme }) => theme.colors.primary}10);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
+    transition: transform 0.25s ease;
   }
 
   &:hover {
-    transform: translateY(-8px);
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 20px 40px ${({ theme }) => theme.colors.cardGlow};
+    border-color: ${({ theme }) => theme.colors.primaryBorder};
+    box-shadow: ${({ theme }) => theme.shadows.cardHover};
+    transform: translateY(-2px);
+    text-decoration: none;
 
-    &::before {
-      transform: scaleX(1);
-    }
-
-    &::after {
-      opacity: 1;
-    }
-
-    .project-icon {
-      transform: rotate(360deg);
-    }
+    &::before { transform: scaleX(1); }
+    .proj-title { color: ${({ theme }) => theme.colors.primary}; }
   }
 
-  .project-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 12px;
-  }
-
-  .project-icon {
-    width: 45px;
-    height: 45px;
-    background: ${({ theme }) => theme.colors.accent};
-    border-radius: 12px;
+  .proj-icon {
+    width: 32px;
+    height: 32px;
+    background: ${({ theme }) => theme.colors.primarySubtle};
+    border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.6s ease;
+    margin-bottom: 12px;
 
     svg {
       color: ${({ theme }) => theme.colors.primary};
-      font-size: 20px;
+      font-size: 14px;
     }
   }
 
-  .project-title {
-    flex: 1;
-    font-size: 17px;
+  .proj-title {
+    font-size: 14px;
+    font-weight: 700;
     color: ${({ theme }) => theme.colors.text};
-    font-weight: 600;
+    letter-spacing: -0.018em;
     line-height: 1.3;
+    margin-bottom: 6px;
+    transition: color 0.15s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 
-    .link-icon {
-      color: ${({ theme }) => theme.colors.primary};
-      font-size: 12px;
-      opacity: 0.7;
+    svg {
+      font-size: 10px;
+      color: ${({ theme }) => theme.colors.textTertiary};
+      flex-shrink: 0;
     }
   }
 
-  .project-description {
-    font-size: 14px;
-    color: ${({ theme }) => theme.colors.slate};
+  .proj-desc {
+    font-size: 12.5px;
+    color: ${({ theme }) => theme.colors.textTertiary};
     line-height: 1.6;
-    position: relative;
-    z-index: 1;
+    letter-spacing: -0.004em;
   }
 `;
 
@@ -608,135 +519,119 @@ const Certifications = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
-    <CertificationsSection id="certifications" ref={sectionRef} $isVisible={isVisible}>
-      <div className="section-label">06</div>
-      <h2>Certifications</h2>
-      <p className="section-intro">Continuous learning &amp; growth</p>
-      <CertificationsList>
-        {certifications.map((cert, index) => (
-          <CertificationItem key={cert.id} tabIndex="0" $isVisible={isVisible} $delay={0.2 + index * 0.15}>
-            <CertHeader>
-              <LogoContainer>
-                <FaGraduationCap />
-              </LogoContainer>
-              <HeaderContent>
-                <TitleRow>
-                  <CertTitle>{cert.title}</CertTitle>
-                  <StatusBadge>
-                    <FaClock /> {cert.status}
-                  </StatusBadge>
-                </TitleRow>
-                <Institution href={cert.institutionUrl} target="_blank" rel="noopener noreferrer">
-                  {cert.institution} <FaExternalLinkAlt />
-                </Institution>
-                <Department>{cert.department}</Department>
-              </HeaderContent>
-            </CertHeader>
+    <CertificationsSection id="certifications" ref={sectionRef}>
+      <SectionHeader $visible={isVisible}>
+        <div className="eyebrow">
+          <span className="num">06</span>
+          <div className="line" />
+        </div>
+        <h2>Certifications</h2>
+        <p className="subtitle">Continuous learning &amp; growth</p>
+      </SectionHeader>
 
-            <MetaRow>
-              <MetaItem>
-                <FaMapMarkerAlt />
-                <span>London</span>
-              </MetaItem>
-              <MetaItem>
-                <FaClock />
-                <span>{cert.duration}</span>
-              </MetaItem>
-              <MetaItem>
-                <FaBookOpen />
-                <span>{cert.date}</span>
-              </MetaItem>
-            </MetaRow>
+      {certifications.map((cert, index) => (
+        <CertCard key={cert.id} $visible={isVisible} $delay={0.15 + index * 0.12}>
+          <CardTop>
+            <TitleRow>
+              <CertTitle>{cert.title}</CertTitle>
+              <StatusBadge>
+                <span className="status-dot" />
+                {cert.status}
+              </StatusBadge>
+            </TitleRow>
 
-            <Outcome>
+            <InstitutionLink href={cert.institutionUrl} target="_blank" rel="noopener noreferrer">
+              <FaGraduationCap />
+              {cert.institution}
+              <FaExternalLinkAlt />
+            </InstitutionLink>
+            <Department>{cert.department}</Department>
+
+            <MetaStrip>
+              <MetaChip><FaClock /> {cert.duration}</MetaChip>
+              <MetaChip><FaBookOpen /> {cert.date}</MetaChip>
+              <MetaChip><FaGraduationCap /> London</MetaChip>
+            </MetaStrip>
+
+            <OutcomeBanner>
               <FaAward />
               <span>{cert.outcome}</span>
-            </Outcome>
+            </OutcomeBanner>
 
-            <TechStack>
-              {cert.techStack.map((tech, index) => (
-                <TechPill key={index} $index={index}>{tech}</TechPill>
+            <TechRow>
+              {cert.techStack.map((tech, idx) => (
+                <TechTag key={idx}>{tech}</TechTag>
               ))}
-            </TechStack>
+            </TechRow>
 
             <ActionRow>
-              <LearnMoreLink href={cert.institutionUrl} target="_blank" rel="noopener noreferrer">
-                <FaExternalLinkAlt /> Learn More
-              </LearnMoreLink>
-              <ExpandButton onClick={() => toggleExpand(cert.id)}>
+              <LinkButton href={cert.institutionUrl} target="_blank" rel="noopener noreferrer">
+                <FaExternalLinkAlt />
+                Learn More
+              </LinkButton>
+              <ExpandToggle onClick={() => setExpandedId(expandedId === cert.id ? null : cert.id)}>
                 {expandedId === cert.id ? (
-                  <>
-                    Hide Details <FaChevronUp />
-                  </>
+                  <><FaChevronUp /> Hide Details</>
                 ) : (
-                  <>
-                    View Curriculum & Projects <FaChevronDown />
-                  </>
+                  <><FaChevronDown /> Curriculum &amp; Projects</>
                 )}
-              </ExpandButton>
+              </ExpandToggle>
             </ActionRow>
+          </CardTop>
 
-            <ExpandableContent $isExpanded={expandedId === cert.id}>
-              <div>
-              <SectionDivider>
-                <FaBookOpen />
-                <SectionTitle>Curriculum Overview</SectionTitle>
-                <SectionLine />
-              </SectionDivider>
-              <CurriculumGrid>
-                {cert.curriculum.map((item, index) => (
-                  <CurriculumItem key={index} $index={index}>
-                    <span className="number">{index + 1}</span>
-                    <span className="text">{item}</span>
-                  </CurriculumItem>
-                ))}
-              </CurriculumGrid>
+          <ExpandablePanel $open={expandedId === cert.id}>
+            <div className="inner">
+              <PanelBody>
+                <PanelSection>
+                  <div className="panel-heading">
+                    <FaBookOpen />
+                    <span>Curriculum Overview</span>
+                    <div className="rule" />
+                  </div>
+                  <CurriculumList>
+                    {cert.curriculum.map((item, idx) => (
+                      <CurriculumItem key={idx}>
+                        <span className="step-num">{idx + 1}</span>
+                        <span className="step-text">{item}</span>
+                      </CurriculumItem>
+                    ))}
+                  </CurriculumList>
+                </PanelSection>
 
-              <SectionDivider>
-                <FaRocket />
-                <SectionTitle>Capstone Projects</SectionTitle>
-                <SectionLine />
-              </SectionDivider>
-              <ProjectsGrid>
-                {cert.capstoneProjects.map((project, index) => (
-                  <ProjectCard key={index} href={project.url} target="_blank" rel="noopener noreferrer">
-                    <div className="project-header">
-                      <div className="project-icon">
-                        <FaRocket />
-                      </div>
-                      <div className="project-title">
-                        {project.title}
-                        <FaExternalLinkAlt className="link-icon" />
-                      </div>
-                    </div>
-                    <div className="project-description">{project.description}</div>
-                  </ProjectCard>
-                ))}
-              </ProjectsGrid>
-              </div>
-            </ExpandableContent>
-          </CertificationItem>
-        ))}
-      </CertificationsList>
+                <PanelSection>
+                  <div className="panel-heading">
+                    <FaRocket />
+                    <span>Capstone Projects</span>
+                    <div className="rule" />
+                  </div>
+                  <ProjectsGrid>
+                    {cert.capstoneProjects.map((project, idx) => (
+                      <CapstoneCard key={idx} href={project.url} target="_blank" rel="noopener noreferrer">
+                        <div className="proj-icon"><FaRocket /></div>
+                        <div className="proj-title">
+                          {project.title}
+                          <FaExternalLinkAlt />
+                        </div>
+                        <div className="proj-desc">{project.description}</div>
+                      </CapstoneCard>
+                    ))}
+                  </ProjectsGrid>
+                </PanelSection>
+              </PanelBody>
+            </div>
+          </ExpandablePanel>
+        </CertCard>
+      ))}
     </CertificationsSection>
   );
 };

@@ -1,13 +1,14 @@
 // src/SimpleGameApp.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import GlobalStyle from "./styles/GlobalStyle";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import MobileNav from "./components/MobileNav";
+import CurtainLoader from "./components/CurtainLoader";
 import styled from "styled-components";
-import ThemeToggle from "./components/common/ThemeToggle";
 import { ThemeProvider } from "./context/ThemeContext";
 import { motion } from "framer-motion";
 import FloatingElements from "./components/FloatingElements";
@@ -30,143 +31,93 @@ const AppContainer = styled.div`
 
 const LeftColumn = styled.div`
   width: ${(props) => props.width}%;
-  padding: 32px 24px 32px 24px;
+  padding: 0 20px 0 24px;
   position: fixed;
   height: 100vh;
   left: 0;
-  background: ${({ theme }) => theme.colors.headerBackground}; /* Solid background, no opacity */
-  box-shadow: 8px 0 40px 0 ${({ theme }) => theme.colors.primary}22;
-  overflow: visible;
-  transition: background 0.5s, box-shadow 0.5s;
+  background: ${({ theme }) => theme.colors.headerBackground};
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border-right: 1px solid ${({ theme }) => theme.colors.divider};
+  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  position: fixed;
   z-index: 10;
+  transition: background 0.4s ease;
 
-  @media (max-width: 768px) {
-    display: none;
+  &::-webkit-scrollbar {
+    width: 0;
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    box-shadow: 0 0 80px 0 ${({ theme }) => theme.colors.primary}33 inset;
-    opacity: 0.7;
-    z-index: 1;
-    border-right: 2.5px solid ${({ theme }) => theme.colors.primary};
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
-const Divider = styled.div`
+const DividerHandle = styled.div`
   position: fixed;
   top: 0;
   left: ${(props) => props.width}%;
-  width: 18px;
+  width: 12px;
   height: 100vh;
-  transform: translateX(-9px);
   cursor: ew-resize;
-  z-index: 500;
-  background: none;
-  pointer-events: auto;
-  @media (max-width: 768px) {
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .handle-bar {
+    width: 2px;
+    height: 36px;
+    background: ${({ theme }) => theme.colors.primary}70;
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+
+  &:hover .handle-bar {
+    background: ${({ theme }) => theme.colors.primary};
+    height: 52px;
+  }
+
+  @media (max-width: 900px) {
     display: none;
   }
-  .divider-handle {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 6px;
-    height: 30%;
-    background: ${({ theme }) => theme.colors.primary}cc;
-    border-radius: 3px;
-    transition: background 0.2s;
-    pointer-events: none;
-  }
-  &:hover .divider-handle {
-    background: ${({ theme }) => theme.colors.primary};
-  }
-`;
-
-const ContentScale = styled.div`
-  transform-origin: left top;
-  /* At min width, font size is 0.95, at max width it's 1.0 */
-  transform: ${(props) =>
-    `scale(${0.95 + 0.05 * ((props.width - 17.5) / (22.5 - 17.5))})`};
-  width: 100%;
 `;
 
 const RightColumn = styled.div`
   margin-left: ${(props) => props.width}%;
   flex: 1;
-  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
+  max-width: ${(props) => 100 - props.width}vw;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     margin-left: 0;
-    padding: 10px;
+    max-width: 100vw;
   }
 `;
 
-const FloatingToggle = styled.div`
+const ScrollProgressBar = styled.div`
   position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 300;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  top: 0;
+  left: 0;
+  width: ${(props) => props.progress}%;
+  height: 1.5px;
+  background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.primaryHover});
+  z-index: 2000;
+  transition: width 0.08s linear;
+  border-radius: 0 1px 1px 0;
 `;
 
-const GameModeButton = styled(motion.button)`
-  background: ${({ gameMode }) =>
-    gameMode
-      ? 'linear-gradient(135deg, #1a0000, #330000)'
-      : 'linear-gradient(135deg, #333, #555)'
-  };
-  color: ${({ gameMode }) => gameMode ? '#ff0000' : '#fff'};
-  border: 2px solid ${({ gameMode }) => gameMode ? '#ff0000' : '#4facfe'};
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 0.875rem;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: 'Courier New', monospace;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: ${({ gameMode }) =>
-    gameMode
-      ? '0 0 15px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.1)'
-      : '0 4px 15px rgba(79, 172, 254, 0.3)'
-  };
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-
-  &:hover {
-    box-shadow: ${({ gameMode }) =>
-      gameMode
-        ? '0 0 25px rgba(255, 0, 0, 0.8), inset 0 0 25px rgba(255, 0, 0, 0.2)'
-        : '0 6px 20px rgba(79, 172, 254, 0.4)'
-    };
-    transform: translateY(-2px) ${({ gameMode }) => gameMode ? 'scale(1.02)' : 'scale(1.05)'};
-    text-shadow: ${({ gameMode }) =>
-      gameMode
-        ? '0 0 10px #ff0000'
-        : 'none'
-    };
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-`;
 
 const GameOverlay = styled(motion.div)`
   position: fixed;
@@ -294,10 +245,12 @@ const CloseButton = styled.button`
 
 function SimpleGameApp() {
   const [isMobile, setIsMobile] = useState(false);
-  const [panelWidth, setPanelWidth] = useState(20);
+  const [panelWidth, setPanelWidth] = useState(22);
   const [gameMode, setGameMode] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
   const [showExit, setShowExit] = useState(false);
+  const [showCurtain, setShowCurtain] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [terminalText, setTerminalText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
@@ -373,12 +326,30 @@ function SimpleGameApp() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      setIsMobile(window.innerWidth <= 900);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      setScrollProgress(Math.min(progress, 100));
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Listen for game mode toggle from Footer's Easter egg trigger
+  useEffect(() => {
+    const handler = () => handleGameModeToggle();
+    document.addEventListener("toggleGameMode", handler);
+    return () => document.removeEventListener("toggleGameMode", handler);
+  }, [gameMode]);
 
   // Cursor blinking effect
   useEffect(() => {
@@ -424,20 +395,27 @@ function SimpleGameApp() {
     }, 50);
   };
 
-  const handleMouseDown = (e) => {
-    e.preventDefault();
+  const isDragging = React.useRef(false);
 
-    const handleMouseMove = (e) => {
-      const newPct = Math.round((e.clientX / window.innerWidth) * 100);
-      const clamped = Math.max(17.5, Math.min(22.5, newPct));
-      setPanelWidth(clamped);
-    };
+  const handleMouseMove = useCallback((e) => {
+    if (!isDragging.current) return;
+    const newPct = (e.clientX / window.innerWidth) * 100;
+    const clamped = Math.max(18, Math.min(28, newPct));
+    setPanelWidth(Math.round(clamped * 10) / 10);
+  }, []);
 
-    const handleMouseUp = () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
+  const handleMouseUp = useCallback(() => {
+    isDragging.current = false;
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+  }, [handleMouseMove]);
 
+  const handleMouseDown = () => {
+    isDragging.current = true;
+    document.body.style.cursor = "ew-resize";
+    document.body.style.userSelect = "none";
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
   };
@@ -493,6 +471,7 @@ function SimpleGameApp() {
         <StyledThemeProvider theme={themeStyles}>
           <Router>
             <GlobalStyle />
+            <ScrollProgressBar progress={scrollProgress} />
 
             {gameMode && (
               <GameOverlay
@@ -549,18 +528,10 @@ function SimpleGameApp() {
               </>
             )}
 
-            <FloatingToggle>
-              <ThemeToggle />
-              <GameModeButton
-                gameMode={gameMode}
-                onClick={handleGameModeToggle}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{ position: 'static', bottom: 'auto', left: 'auto', marginLeft: '10px' }}
-              >
-                {gameMode ? '💀 DEV MODE' : '💻 PRESENTATION'}
-              </GameModeButton>
-            </FloatingToggle>
+            {showCurtain && (
+              <CurtainLoader onFinish={() => setShowCurtain(false)} />
+            )}
+            {isMobile && <MobileNav />}
 
 
 
@@ -1074,40 +1045,30 @@ function SimpleGameApp() {
                   }}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
                 >
-                  <div
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <ContentScale width={panelWidth}>
-                      <Header />
-                    </ContentScale>
-                  </div>
+                  <Header />
                   <Footer />
                 </LeftColumn>
               )}
               {!isMobile && (
-                <Divider
+                <DividerHandle
                   width={panelWidth}
                   onMouseDown={handleMouseDown}
                   as={motion.div}
-                  initial={{ x: 0 }}
+                  initial={{ opacity: 0 }}
                   animate={{
                     x: gameMode ? `-${panelWidth + 5}%` : 0,
                     opacity: gameMode ? 0 : 1
                   }}
                   transition={{ duration: 0.6, ease: "easeInOut" }}
                 >
-                  <div className="divider-handle" />
-                </Divider>
+                  <div className="handle-bar" />
+                </DividerHandle>
               )}
 
               <RightColumn
                 width={isMobile ? 0 : (gameMode ? 0 : panelWidth)}
                 style={{
-                  marginLeft: gameMode ? 0 : `${panelWidth}%`
+                  marginLeft: gameMode ? 0 : `${isMobile ? 0 : panelWidth}%`
                 }}
               >
                 <Home />

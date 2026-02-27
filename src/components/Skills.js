@@ -16,126 +16,115 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0);  }
 `;
 
-const fadeInLeft = keyframes`
-  from { opacity: 0; transform: translateX(-18px); }
+const slideIn = keyframes`
+  from { opacity: 0; transform: translateX(-14px); }
   to   { opacity: 1; transform: translateX(0);   }
 `;
 
 const SkillsSection = styled.section`
   max-width: 900px;
-  margin: 160px auto 0;
-  padding: 0 32px;
-  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 128px auto 0;
+  padding: 0 48px;
 
-  .section-label {
+  @media (max-width: 900px) {
+    padding: 0 24px;
+    margin: 96px auto 0;
+  }
+`;
+
+const SectionHeader = styled.div`
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: ${({ $visible }) => $visible ? css`${fadeInUp} 0.5s ease forwards` : "none"};
+
+  .eyebrow {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 14px;
-    font-size: 11px;
-    font-family: ${({ theme }) => theme.fonts.mono};
-    color: ${({ theme }) => theme.colors.primary};
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-weight: 500;
-    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-    animation: ${({ $isVisible }) =>
-      $isVisible ? css`${fadeInUp} 0.4s ease forwards` : "none"};
+    gap: 10px;
+    margin-bottom: 12px;
 
-    &::before,
-    &::after {
-      content: '';
-      flex: 1;
-      max-width: 40px;
+    .num {
+      font-size: 11px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.primary};
+      font-weight: 600;
+      letter-spacing: 0.1em;
+    }
+
+    .line {
+      width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary}60;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 1px;
     }
   }
 
   h2 {
-    font-size: clamp(36px, 4vw, 52px);
-    font-weight: 800;
-    letter-spacing: -0.035em;
-    margin-bottom: 16px;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 900;
+    letter-spacing: -0.045em;
     color: ${({ theme }) => theme.colors.text};
-    text-align: center;
-    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-    animation: ${({ $isVisible }) =>
-      $isVisible
-        ? css`${fadeInUp} 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.05s forwards`
-        : "none"};
-
-    &::after {
-      content: '';
-      display: block;
-      margin: 18px auto 0;
-      width: 40px;
-      height: 3px;
-      background: ${({ theme }) => theme.colors.primary};
-      border-radius: 2px;
-    }
+    line-height: 1;
+    margin-bottom: 12px;
   }
 
   .subtitle {
-    text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     font-family: ${({ theme }) => theme.fonts.mono};
     color: ${({ theme }) => theme.colors.textTertiary};
-    margin-bottom: 72px;
-    opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
-    animation: ${({ $isVisible }) =>
-      $isVisible ? css`${fadeInUp} 0.4s ease 0.1s forwards` : "none"};
+    letter-spacing: 0.02em;
+  }
+`;
+
+const SkillsGrid = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+`;
+
+const CategoryRow = styled.div`
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding: 18px 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+  opacity: 0;
+  animation: ${({ $visible }) =>
+    $visible
+      ? css`${slideIn} 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards`
+      : "none"};
+
+  &:first-child {
+    border-top: 1px solid ${({ theme }) => theme.colors.divider};
   }
 
-  .skills {
-    .skill-category {
-      margin-bottom: 32px;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 16px;
-      opacity: 0;
-      animation: ${({ $isVisible }) =>
-        $isVisible
-          ? css`${fadeInLeft} 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards`
-          : "none"};
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
 
-      @media (max-width: 600px) {
-        flex-direction: column;
-        gap: 12px;
-      }
+  .category-label {
+    font-size: 10px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.colors.textTertiary};
+    padding-top: 6px;
+    line-height: 1.4;
+  }
 
-      h3 {
-        font-size: 11px;
-        font-family: ${({ theme }) => theme.fonts.mono};
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: ${({ theme }) => theme.colors.textTertiary};
-        flex: 0 0 120px;
-        padding-top: 8px;
-        line-height: 1.4;
-
-        @media (max-width: 768px) {
-          flex: 0 0 90px;
-        }
-      }
-
-      .skill-items {
-        display: flex;
-        flex-direction: row;
-        flex: 1;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-    }
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 `;
 
@@ -154,6 +143,7 @@ const DraggableSkill = ({
   primaryColor,
   accentBg,
   textColor,
+  dividerColor,
 }) => (
   <span
     ref={refCallback}
@@ -162,29 +152,29 @@ const DraggableSkill = ({
     style={{
       display: "inline-flex",
       alignItems: "center",
-      padding: "6px 14px",
-      borderRadius: "8px",
-      fontSize: "13px",
+      padding: "5px 12px",
+      borderRadius: "6px",
+      fontSize: "12.5px",
       fontFamily: "var(--font-mono, monospace)",
       fontWeight: 500,
       letterSpacing: "-0.005em",
       position: "relative",
       cursor: "grab",
       userSelect: "none",
-      transition: "all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1)",
+      transition: "all 0.15s cubic-bezier(0.25, 0.1, 0.25, 1)",
       background: selected || hovered
-        ? `${primaryColor}12`
+        ? `${primaryColor}10`
         : accentBg,
       color: selected || hovered ? primaryColor : textColor,
-      border: `1px solid ${selected || hovered ? `${primaryColor}45` : `${primaryColor}15`}`,
+      border: `1px solid ${selected || hovered ? `${primaryColor}35` : dividerColor}`,
       boxShadow: selected || hovered
-        ? `0 4px 20px ${primaryColor}25`
+        ? `0 2px 12px ${primaryColor}18`
         : "none",
-      opacity: isDragging ? 0.5 : 1,
+      opacity: isDragging ? 0.4 : 1,
       transform: isDragging
-        ? "scale(1.05) rotate(1deg)"
+        ? "scale(1.06) rotate(1.5deg)"
         : hovered
-        ? "translateY(-2px)"
+        ? "translateY(-1px)"
         : "none",
       zIndex: isDragging ? 10 : "auto",
       ...style,
@@ -209,6 +199,7 @@ function SortableSkill({
   primaryColor,
   accentBg,
   textColor,
+  dividerColor,
 }) {
   const {
     attributes,
@@ -241,6 +232,7 @@ function SortableSkill({
       primaryColor={primaryColor}
       accentBg={accentBg}
       textColor={textColor}
+      dividerColor={dividerColor}
     />
   );
 }
@@ -269,6 +261,7 @@ const Skills = () => {
   const primaryColor = themeStyles.colors.primary;
   const accentBg = themeStyles.colors.accent;
   const textColor = themeStyles.colors.textSecondary;
+  const dividerColor = themeStyles.colors.cardBorder;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -321,18 +314,24 @@ const Skills = () => {
   };
 
   return (
-    <SkillsSection id="skills" ref={skillsSectionRef} $isVisible={isVisible}>
-      <div className="section-label">02</div>
-      <h2>Skills</h2>
-      <p className="subtitle">drag to reorder · click to highlight</p>
-      <div className="skills">
+    <SkillsSection id="skills" ref={skillsSectionRef}>
+      <SectionHeader $visible={isVisible}>
+        <div className="eyebrow">
+          <span className="num">02</span>
+          <div className="line" />
+        </div>
+        <h2>Skills</h2>
+        <p className="subtitle">drag to reorder · click to highlight</p>
+      </SectionHeader>
+
+      <SkillsGrid>
         {skills.map((skillGroup, catIdx) => (
-          <div
-            className="skill-category"
+          <CategoryRow
             key={skillGroup.category}
-            style={{ animationDelay: `${0.15 + catIdx * 0.07}s` }}
+            $visible={isVisible}
+            style={{ animationDelay: `${0.12 + catIdx * 0.06}s` }}
           >
-            <h3>{skillGroup.category}</h3>
+            <div className="category-label">{skillGroup.category}</div>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -342,7 +341,7 @@ const Skills = () => {
                 items={skillGroup.items}
                 strategy={horizontalListSortingStrategy}
               >
-                <div className="skill-items">
+                <div className="items">
                   {skillGroup.items.map((skill) => (
                     <SortableSkill
                       key={skill}
@@ -358,14 +357,15 @@ const Skills = () => {
                       primaryColor={primaryColor}
                       accentBg={accentBg}
                       textColor={textColor}
+                      dividerColor={dividerColor}
                     />
                   ))}
                 </div>
               </SortableContext>
             </DndContext>
-          </div>
+          </CategoryRow>
         ))}
-      </div>
+      </SkillsGrid>
     </SkillsSection>
   );
 };
