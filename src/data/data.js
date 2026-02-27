@@ -103,6 +103,7 @@ export const experiences = [
       "Architected GPT-4 powered audit log summarization — RPC infrastructure with JinJava templating and memcached caching, processing 100k+ audit events with sub-second response. Reduced enterprise security analysis from hours to minutes.",
       "Built AI-powered admin agents using GPT-4o to automate cleanup of stale CRM assets, reducing 70% of recurring customer costs.",
       "Designed and built Account Insights, a real-time recommendation engine — 10% user retention increase and 40% platform adoption (highest across the platform).",
+      "Owned end-to-end product execution across design, engineering, and delivery. Mentored junior developers on the team.",
     ],
     techStack: [
       "Java",
