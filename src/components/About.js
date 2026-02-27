@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { personalInfo } from "../data/data";
-import { ThemeContext } from "../context/ThemeContext";
 
 const charReveal = keyframes`
-  from { opacity: 0; transform: translateY(60px); }
+  from { opacity: 0; transform: translateY(36px); }
   to   { opacity: 1; transform: translateY(0); }
 `;
 
@@ -21,18 +20,6 @@ const slideRight = keyframes`
 const expandWidth = keyframes`
   from { width: 0; }
   to   { width: 100%; }
-`;
-
-const gentleFloat = keyframes`
-  0%, 100% { transform: translateY(0px) rotate(-1deg); }
-  50%       { transform: translateY(-10px) rotate(0deg); }
-`;
-
-const heartBurst = keyframes`
-  0%   { opacity: 0.9; transform: translate(-50%, -50%) scale(0.6) translateY(0); }
-  30%  { opacity: 1;   transform: translate(-50%, -50%) scale(1.15) translateY(-14px); }
-  65%  { opacity: 1;   transform: translate(-50%, -50%) scale(1) translateY(-70px); }
-  100% { opacity: 0;   transform: translate(-50%, -50%) scale(0.8) translateY(-130px); }
 `;
 
 const pulseDot = keyframes`
@@ -106,7 +93,7 @@ const HeroName = styled.div`
   }
 
   .line-2 {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.text};
   }
 
   .char {
@@ -114,7 +101,6 @@ const HeroName = styled.div`
     opacity: 0;
     will-change: transform, opacity;
   }
-
 
   ${({ $visible }) =>
     $visible &&
@@ -132,7 +118,7 @@ const HeroDivider = styled.div`
   margin-bottom: 24px;
   overflow: hidden;
   opacity: 0;
-  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.01s 0.98s forwards` : "none"};
+  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.01s 0.68s forwards` : "none"};
 
   &::after {
     content: '';
@@ -142,7 +128,7 @@ const HeroDivider = styled.div`
     height: 100%;
     background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.primaryHover});
     width: 0;
-    animation: ${({ $visible }) => $visible ? css`${expandWidth} 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards` : "none"};
+    animation: ${({ $visible }) => $visible ? css`${expandWidth} 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.70s forwards` : "none"};
   }
 `;
 
@@ -153,7 +139,7 @@ const RoleLine = styled.div`
   margin-bottom: 20px;
   flex-wrap: wrap;
   opacity: 0;
-  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.5s ease 1.2s forwards` : "none"};
+  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.5s ease 0.88s forwards` : "none"};
 
   .role-text {
     font-size: 15px;
@@ -192,7 +178,7 @@ const CompanyRow = styled.div`
   margin-bottom: 36px;
   flex-wrap: wrap;
   opacity: 0;
-  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.5s ease 1.3s forwards` : "none"};
+  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.5s ease 0.96s forwards` : "none"};
 
   .label {
     font-size: 11px;
@@ -243,11 +229,11 @@ const CompanyRow = styled.div`
 const BioParagraphs = styled.div`
   max-width: 560px;
   opacity: 0;
-  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.6s ease 1.4s forwards` : "none"};
+  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.6s ease 1.06s forwards` : "none"};
 
   p {
     font-size: 15.5px;
-    color: ${({ theme }) => theme.colors.textSecondary};
+    color: ${({ theme }) => theme.colors.text};
     line-height: 1.78;
     margin-bottom: 16px;
     letter-spacing: -0.008em;
@@ -275,159 +261,8 @@ const BioParagraphs = styled.div`
   }
 `;
 
-const PhotoColumn = styled.div`
-  display: none;
-`;
-
-const PhotoFrame = styled.div`
-  position: relative;
-  cursor: pointer;
-  outline: none;
-`;
-
-const FloatingPhoto = styled.div`
-  position: relative;
-  animation: ${gentleFloat} 7s ease-in-out infinite;
-  will-change: transform;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    background: linear-gradient(
-      145deg,
-      ${({ theme }) => theme.colors.primary}55,
-      transparent 55%,
-      ${({ theme }) => theme.colors.primary}18
-    );
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  img {
-    width: 220px;
-    height: 280px;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 20px;
-    display: block;
-    position: relative;
-    z-index: 0;
-    filter: grayscale(8%) contrast(1.02);
-    transition: filter 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    box-shadow:
-      0 2px 0 1px ${({ theme }) => theme.colors.divider},
-      0 20px 60px rgba(0, 0, 0, 0.4);
-  }
-
-  &:hover {
-    animation-play-state: paused;
-  }
-
-  &:hover img {
-    filter: grayscale(0%) contrast(1.04);
-    box-shadow:
-      0 2px 0 1px ${({ theme }) => theme.colors.primaryBorder},
-      0 24px 72px rgba(0, 0, 0, 0.5),
-      0 0 0 1px ${({ theme }) => theme.colors.primary}30;
-  }
-
-  @media (max-width: 900px) {
-    img {
-      width: 64px;
-      height: 80px;
-      border-radius: 10px;
-    }
-
-    &::before {
-      border-radius: 10px;
-    }
-  }
-`;
-
-const Heart = styled.svg`
-  position: absolute;
-  pointer-events: none;
-  left: ${({ $x }) => $x}px;
-  top: ${({ $y }) => $y}px;
-  z-index: 10;
-  width: 48px;
-  height: 48px;
-  animation: ${heartBurst} 1.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  will-change: transform, opacity;
-`;
-
-const LocationTag = styled.div`
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  color: ${({ theme }) => theme.colors.textTertiary};
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-
-  .loc-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.green};
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 900px) {
-    display: none;
-  }
-`;
-
-const ScrollHint = styled.div`
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  opacity: 0;
-  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.4s ease 1.9s forwards` : "none"};
-
-  span {
-    font-size: 9px;
-    font-family: ${({ theme }) => theme.fonts.mono};
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: ${({ theme }) => theme.colors.textTertiary};
-  }
-
-  .scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(
-      180deg,
-      ${({ theme }) => theme.colors.primary} 0%,
-      transparent 100%
-    );
-    border-radius: 1px;
-    animation: scaleDown 2s ease-in-out infinite;
-  }
-
-  @keyframes scaleDown {
-    0%, 100% { transform: scaleY(0.5); transform-origin: top; opacity: 0.6; }
-    50%       { transform: scaleY(1);   transform-origin: top; opacity: 1; }
-  }
-
-  @media (max-width: 900px) {
-    display: none;
-  }
-`;
-
 const About = () => {
-  const [hearts, setHearts] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  const { theme } = useContext(ThemeContext);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -441,17 +276,6 @@ const About = () => {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  const handleDoubleClick = (e) => {
-    const id = Math.random().toString(36).substr(2, 9);
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.nativeEvent.clientX - rect.left;
-    const y = e.nativeEvent.clientY - rect.top;
-    setHearts((prev) => [...prev, { id, x, y }]);
-    setTimeout(() => {
-      setHearts((prev) => prev.filter((h) => h.id !== id));
-    }, 1200);
-  };
 
   return (
     <AboutSection id="about" ref={sectionRef}>
@@ -468,7 +292,7 @@ const About = () => {
                 <span
                   key={i}
                   className="char"
-                  style={{ animationDelay: `${(0.15 + i * 0.035).toFixed(3)}s` }}
+                  style={{ animationDelay: `${(0.12 + i * 0.022).toFixed(3)}s` }}
                 >
                   {char}
                 </span>
@@ -479,7 +303,7 @@ const About = () => {
                 <span
                   key={i}
                   className="char"
-                  style={{ animationDelay: `${(0.54 + i * 0.035).toFixed(3)}s` }}
+                  style={{ animationDelay: `${(0.38 + i * 0.022).toFixed(3)}s` }}
                 >
                   {char}
                 </span>
@@ -521,47 +345,7 @@ const About = () => {
             ))}
           </BioParagraphs>
         </TextBlock>
-
-        <PhotoColumn $visible={isVisible}>
-          <PhotoFrame
-            tabIndex={0}
-            onDoubleClick={handleDoubleClick}
-            aria-label="Profile picture — double click for a surprise"
-          >
-            <FloatingPhoto>
-              <img
-                src={`${process.env.PUBLIC_URL}/profile.png`}
-                alt={personalInfo.name}
-              />
-            </FloatingPhoto>
-            {hearts.map((h) => (
-              <Heart
-                key={h.id}
-                $x={h.x}
-                $y={h.y}
-                viewBox="0 0 60 60"
-                fill="none"
-              >
-                <path
-                  d="M30 53s-17-10.7-17-23.2C13 19.2 21.2 13 30 21.5 38.8 13 47 19.2 47 29.8 47 42.3 30 53 30 53z"
-                  fill={theme === "dark" ? "#f97316" : "#e8650a"}
-                  stroke={theme === "dark" ? "#f97316" : "#e8650a"}
-                  strokeWidth="1.5"
-                />
-              </Heart>
-            ))}
-          </PhotoFrame>
-          <LocationTag>
-            <span className="loc-dot" />
-            <span>London, UK</span>
-          </LocationTag>
-        </PhotoColumn>
       </HeroGrid>
-
-      <ScrollHint $visible={isVisible}>
-        <span>Scroll</span>
-        <div className="scroll-line" />
-      </ScrollHint>
     </AboutSection>
   );
 };

@@ -35,9 +35,9 @@ export const personalInfo = {
   shortName: "Dibyajyoti",
   description: "Senior Software Engineer",
   about: [
-    `I'm a Senior Software Engineer, based in London, with a background in developing innovative and scalable software solutions. I've worked with leading companies like <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>, building robust systems that improve user experiences and drive business growth. Currently, I’m focusing on products at HubSpot, leading engineering teams and optimizing system performance. My expertise includes full-stack development, system architecture, and mentoring.`,
-    `I have experience in various domains, including <strong>Payments</strong>, <strong>Advertisement</strong>, and <strong>Platform</strong> domains.`,
-    `Outside of work, I love to travel, play chess, run in marathons, and work out to stay fit and active.`,
+    `Senior Software Engineer based in London. Over the past 6 years I’ve shipped products at <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a> — across payments, advertising infrastructure, and AI-powered CRM. At Meta I worked on the Ads Manager, shipping features that moved top-line revenue. At HubSpot I lead a team building <strong>Account Insights</strong>, a real-time recommendation engine that improved user retention by 10%.`,
+    `Electronics and Telecom background from Jadavpur University. Currently completing a Professional Certificate in ML and AI at Imperial College London — and applying that work directly to what I build.`,
+    `Outside of work, I love to travel, play chess, run marathons, and work out to stay fit and active.`,
   ],
   currentCompany: {
     name: "HubSpot",
@@ -45,9 +45,7 @@ export const personalInfo = {
   },
   contact: {
     heading: "Get In Touch",
-    message: `
-      Whether you have a question or just want to say hi, feel free to drop a message!
-    `,
+    message: `I'm open to new roles, collaborations, and interesting problems. My inbox is always open.`,
     email: "dibyojyotipradhan@gmail.com",
   },
 };
@@ -98,8 +96,8 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/HubSpot",
     date: "07/2024 - Present",
     responsibilities: [
-      "Spearheaded the design and implementation of Account Insights, enabling real-time recommendations, optimizing return on investment, and increasing user retention by 10%.",
-      "Led a team of 4 engineers and provided mentorship to junior developers, driving team development and ensuring successful project delivery.",
+      "Designed and built Account Insights — a real-time recommendation engine that increased user retention by 10%.",
+      "Leading a team of 4 engineers across full-stack delivery, mentoring junior developers and owning end-to-end product execution.",
     ],
     techStack: [
       "Java",
@@ -129,10 +127,9 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/Meta_Platforms",
     date: "04/2022 - 05/2024",
     responsibilities: [
-      "Led development of mid-flight recommendation flows, like Placements and Campaign Budget, within the Ads Manager App (AMA), resulting in a notable 0.04% increase in Meta’s top-line revenue weighted adoptions and over 12,000 weekly resolutions.",
-      "Achieved a 20% improvement in screen load times for 8 highly trafficked interfaces in AMA through efficient pre-fetching of relay queries, enhancing user experience.",
-      "Revamped the duplication flow in AMA to align with ODAX objectives, resulting in a significant 14% increase in revenue and an 18% growth in ad duplications.",
-      "Collaborated on implementing measurable enhancements, leading to improved performance metrics and increased user engagement within AMA.",
+      "Built mid-flight recommendation flows (Placements, Campaign Budget) in Ads Manager — drove a 0.04% lift in Meta’s top-line revenue weighted adoptions and 12,000+ weekly resolutions.",
+      "Cut screen load times by 20% across 8 high-traffic interfaces via Relay query pre-fetching.",
+      "Revamped the ad duplication flow for ODAX objectives — 14% revenue increase and 18% growth in ad duplications.",
     ],
     techStack: [
       "JavaScript",
@@ -156,9 +153,9 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/Amazon_(company)",
     date: "10/2021 - 02/2022",
     responsibilities: [
-      "Expanded user base of Amazon Pay for Business app by 5 million downloads and achieved a 4.3-star rating from launch. Improved app performance metrics by optimizing latency, enhancing user experience, and resolving operational inefficiencies.",
-      "Engineered an innovative ‘Offline Architecture’ for the app, eliminating perceived latency and improving user experience.",
-      "Streamlined crawler latency in Daily MIS Settlement Report, reducing processing time from 3 hours to 10 minutes, resolving delays for 70+ online and organized merchants.",
+      "Scaled Amazon Pay for Business to 5M downloads at a 4.3-star rating from launch.",
+      "Built an offline-first architecture that eliminated perceived latency — the app felt instant even on degraded connections.",
+      "Reduced MIS Settlement Report crawler time from 3 hours to 10 minutes, unblocking 70+ merchants daily.",
     ],
     techStack: [
       "Java",
@@ -181,9 +178,8 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/Amazon_(company)",
     date: "07/2019 - 09/2021",
     responsibilities: [
-      "Orchestrated the development of 18 major pages for the Amazon Pay for Business app.",
-      "Played a pivotal role in a team of three, facilitating 5 million merchant engagements at launch.",
-      "Provided mentorship to an SDE for promotion and an intern for a pre-placement offer, recognized with a promotion to Software Development Engineer-2.",
+      "Built 18 product pages for the Amazon Pay for Business app, shipping with a team of 3 to 5M merchant engagements at launch.",
+      "Mentored an SDE (promoted) and an intern (pre-placement offer). Promoted to SDE II within 2 years.",
     ],
     techStack: [
       "Java",
@@ -205,9 +201,8 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/Amazon_(company)",
     date: "05/2018 - 07/2018",
     responsibilities: [
-      "Developed automation for sequence generation in a tier-1 service, benefiting over 100 developer teams in Amazon.",
-      "Created a comprehensive full-stack admin tool to monitor and manage sequence configurations in real-time.",
-      "Successfully transitioned from internship to a full-time position, demonstrating strong performance and commitment to excellence.",
+      "Built automation for sequence generation in a tier-1 service — used by 100+ developer teams across Amazon.",
+      "Delivered a full-stack admin tool to monitor and manage sequence configurations in real-time.",
     ],
     techStack: [
       "Java",
@@ -378,9 +373,7 @@ export const education = [
 
 export const contactInfo = {
   heading: "Get In Touch",
-  message: `
-    Whether you have a question or just want to say hi, feel free to drop a message!
-  `,
+  message: `I'm open to new roles, collaborations, and interesting problems. My inbox is always open.`,
   email: "dibyojyotipradhan@gmail.com",
 };
 
