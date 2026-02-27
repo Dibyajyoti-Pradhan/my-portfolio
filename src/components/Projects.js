@@ -39,7 +39,7 @@ const SectionHeader = styled.div`
     .num {
       font-size: 11px;
       font-family: ${({ theme }) => theme.fonts.mono};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.textTertiary};
       font-weight: 600;
       letter-spacing: 0.1em;
     }
@@ -47,7 +47,7 @@ const SectionHeader = styled.div`
     .line {
       width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.divider};
       border-radius: 1px;
     }
   }
@@ -93,7 +93,7 @@ const RegularGrid = styled.div`
 
 const FeaturedCard = styled.div`
   background: ${({ theme }) => theme.colors.cardBackground};
-  border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   border-radius: ${({ theme }) => theme.borderRadiusLarge};
   padding: 32px 28px;
   position: relative;
@@ -108,36 +108,10 @@ const FeaturedCard = styled.div`
   animation: ${({ $visible, $delay }) =>
     $visible ? css`${scaleIn} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${$delay}s forwards` : "none"};
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.primaryHover});
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 0%, ${({ theme }) => theme.colors.primarySubtle} 0%, transparent 100%);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
-
   &:hover {
-    border-color: ${({ theme }) => theme.colors.primary}50;
+    border-color: ${({ theme }) => theme.colors.cardBorderHover};
     box-shadow: ${({ theme }) => theme.shadows.cardHover};
-    transform: translateY(-4px);
 
-    &::before { transform: scaleX(1); }
-    &::after { opacity: 1; }
     .title { color: ${({ theme }) => theme.colors.primary}; }
     .arrow { transform: translate(2px, -2px); }
   }
@@ -247,7 +221,6 @@ const RegularCard = styled.div`
   &:hover {
     border-color: ${({ theme }) => theme.colors.cardBorderHover};
     box-shadow: ${({ theme }) => theme.shadows.cardHover};
-    transform: translateY(-3px);
 
     .title { color: ${({ theme }) => theme.colors.primary}; }
     .github-icon { opacity: 1; color: ${({ theme }) => theme.colors.primary}; }
@@ -387,11 +360,11 @@ const Projects = () => {
                 if (e.key === "Enter") window.open(external || url, "_blank", "noopener,noreferrer");
               }}
             >
-              <div className="badge">{badge}</div>
               <div className="icon-row">
                 <div className="folder"><FolderSVG /></div>
                 <FaArrowRight className="arrow" />
               </div>
+              <div className="badge">{badge}</div>
               <div className="title">{title}</div>
               <div className="description">{description}</div>
               <div className="tech">

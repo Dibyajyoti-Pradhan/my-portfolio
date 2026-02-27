@@ -51,7 +51,7 @@ const AboutSection = styled.section`
 `;
 
 const HeroGrid = styled.div`
-  padding: 100px 48px 60px;
+  padding: 100px 48px 108px;
   max-width: 900px;
   margin: 0 auto;
   width: 100%;
@@ -77,14 +77,14 @@ const Eyebrow = styled.div`
   .line {
     width: 24px;
     height: 1px;
-    background: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.divider};
     border-radius: 1px;
   }
 
   span {
     font-size: 11px;
     font-family: ${({ theme }) => theme.fonts.mono};
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.textTertiary};
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-weight: 500;
@@ -384,7 +384,7 @@ const LocationTag = styled.div`
 
 const ScrollHint = styled.div`
   position: absolute;
-  bottom: 36px;
+  bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;

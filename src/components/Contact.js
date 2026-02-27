@@ -44,7 +44,7 @@ const SectionHeader = styled.div`
     .num {
       font-size: 11px;
       font-family: ${({ theme }) => theme.fonts.mono};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.textTertiary};
       font-weight: 600;
       letter-spacing: 0.1em;
     }
@@ -52,7 +52,7 @@ const SectionHeader = styled.div`
     .line {
       width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.divider};
       border-radius: 1px;
     }
   }
@@ -93,12 +93,7 @@ const ContactCard = styled.div`
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      ${({ theme }) => theme.colors.primary}60,
-      transparent
-    );
+    background: ${({ theme }) => theme.colors.divider};
   }
 
   @media (max-width: 600px) {
@@ -152,14 +147,9 @@ const EmailButton = styled.a`
 
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
-    transform: translateY(-2px);
     box-shadow: 0 8px 32px ${({ theme }) => theme.colors.primary}50;
     text-decoration: none;
     color: #fff;
-  }
-
-  &:active {
-    transform: translateY(0);
   }
 `;
 
@@ -197,7 +187,6 @@ const SocialButton = styled.a`
     background: ${({ theme }) => theme.colors.accentHover};
     border-color: ${({ theme }) => theme.colors.primaryBorder};
     color: ${({ theme }) => theme.colors.text};
-    transform: translateY(-2px);
     text-decoration: none;
   }
 `;
