@@ -162,7 +162,7 @@ const NavLink = styled.a`
     font-family: ${({ theme }) => theme.fonts.mono};
     font-size: 9px;
     color: ${({ theme }) => theme.colors.textTertiary};
-    opacity: 0;
+    opacity: 0.5;
     letter-spacing: 0.04em;
     transition: opacity 0.15s ease;
   }
