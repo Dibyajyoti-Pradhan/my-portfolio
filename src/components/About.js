@@ -516,7 +516,7 @@ const About = () => {
           </CompanyRow>
 
           <BioParagraphs $visible={isVisible}>
-            {personalInfo.about.map((paragraph, idx) => (
+            {personalInfo.about.slice(0, 2).map((paragraph, idx) => (
               <p key={idx} dangerouslySetInnerHTML={{ __html: paragraph }} />
             ))}
           </BioParagraphs>

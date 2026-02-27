@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { achievements } from "../data/data";
-import Button from "./common/Button";
 
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(24px); }
@@ -148,7 +147,6 @@ const AchievementItem = styled.div`
 `;
 
 const Achievements = () => {
-  const [showMore, setShowMore] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -164,8 +162,6 @@ const Achievements = () => {
     return () => observer.disconnect();
   }, []);
 
-  const achievementsToShow = showMore ? achievements : achievements.slice(0, 2);
-
   return (
     <AchievementsSection id="achievements" ref={sectionRef}>
       <SectionHeader $visible={isVisible}>
@@ -178,7 +174,7 @@ const Achievements = () => {
       </SectionHeader>
 
       <AchievementsList>
-        {achievementsToShow.map(({ id, title, description }, index) => (
+        {achievements.map(({ id, title, description }, index) => (
           <AchievementItem
             key={id}
             tabIndex="0"
@@ -195,12 +191,6 @@ const Achievements = () => {
           </AchievementItem>
         ))}
       </AchievementsList>
-
-      {achievements.length > 2 && (
-        <Button onClick={() => setShowMore(!showMore)}>
-          {showMore ? "Show Less" : `Show ${achievements.length - 2} More`}
-        </Button>
-      )}
     </AchievementsSection>
   );
 };

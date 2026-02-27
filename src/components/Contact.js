@@ -56,6 +56,22 @@ const SectionHeader = styled.div`
       border-radius: 1px;
     }
   }
+
+  h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    color: ${({ theme }) => theme.colors.text};
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    letter-spacing: 0.02em;
+  }
 `;
 
 const ContactCard = styled.div`
@@ -214,6 +230,8 @@ const Contact = () => {
           <span className="num">08</span>
           <div className="line" />
         </div>
+        <h2>Get In Touch</h2>
+        <p className="subtitle">Let's make something great together</p>
       </SectionHeader>
 
       <ContactCard $visible={isVisible}>

@@ -367,7 +367,7 @@ const Projects = () => {
     <ProjectsSection id="projects" ref={sectionRef}>
       <SectionHeader $visible={isVisible}>
         <div className="eyebrow">
-          <span className="num">04</span>
+          <span className="num">03</span>
           <div className="line" />
         </div>
         <h2>Projects</h2>

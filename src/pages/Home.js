@@ -20,9 +20,9 @@ const MainContainer = styled.main`
 const Home = () => (
   <MainContainer>
     <About />
-    <Skills />
     <Experience />
     <Projects />
+    <Skills />
     <Achievements />
     <Certifications />
     <Education />

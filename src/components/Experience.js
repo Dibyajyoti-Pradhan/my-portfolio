@@ -276,6 +276,19 @@ const TimelineContent = styled.div`
         background: ${({ theme }) => theme.colors.primarySubtle};
       }
     }
+
+    .more-tag {
+      background: transparent;
+      color: ${({ theme }) => theme.colors.primary};
+      border-color: ${({ theme }) => theme.colors.primaryBorder};
+      cursor: default;
+
+      &:hover {
+        background: ${({ theme }) => theme.colors.primarySubtle};
+        border-color: ${({ theme }) => theme.colors.primary};
+        color: ${({ theme }) => theme.colors.primary};
+      }
+    }
   }
 
   @media (max-width: 900px) {
@@ -308,7 +321,7 @@ const Experience = () => {
     <ExperienceSection id="experience" ref={sectionRef}>
       <SectionHeader $visible={isVisible}>
         <div className="eyebrow">
-          <span className="num">03</span>
+          <span className="num">02</span>
           <div className="line" />
         </div>
         <h2>Experience</h2>
@@ -361,9 +374,12 @@ const Experience = () => {
                   </ul>
 
                   <div className="tech-stack">
-                    {techStack.map((tech, idx) => (
+                    {techStack.slice(0, 6).map((tech, idx) => (
                       <span key={idx}>{tech}</span>
                     ))}
+                    {techStack.length > 6 && (
+                      <span className="more-tag">+{techStack.length - 6}</span>
+                    )}
                   </div>
                 </TimelineContent>
               </TimelineItem>

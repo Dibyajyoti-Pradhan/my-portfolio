@@ -2,9 +2,9 @@
 
 export const navLinks = [
   { id: 1, name: "About", url: "#about" },
-  { id: 2, name: "Skills", url: "#skills" },
-  { id: 3, name: "Experience", url: "#experience" },
-  { id: 4, name: "Projects", url: "#projects" },
+  { id: 2, name: "Experience", url: "#experience" },
+  { id: 3, name: "Projects", url: "#projects" },
+  { id: 4, name: "Skills", url: "#skills" },
   { id: 5, name: "Achievements", url: "#achievements" },
   { id: 6, name: "Certifications", url: "#certifications" },
   { id: 7, name: "Education", url: "#education" },
