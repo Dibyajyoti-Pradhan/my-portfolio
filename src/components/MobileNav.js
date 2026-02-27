@@ -129,7 +129,6 @@ const NavList = styled.ul`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 0;
 `;
 
@@ -142,35 +141,51 @@ const NavItem = styled.li`
 const NavLink = styled.a`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 15px 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: ${({ theme }) => theme.colors.textTertiary};
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: ${({ theme }) => theme.fonts.main};
+  letter-spacing: -0.01em;
   text-decoration: none;
-  transition: padding-left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 2px solid transparent;
+  transition: all 0.15s ease;
 
-  .name {
-    font-size: 20px;
-    font-weight: 700;
-    font-family: ${({ theme }) => theme.fonts.main};
-    letter-spacing: -0.025em;
-    color: ${({ theme }) => theme.colors.text};
-    transition: color 0.15s ease;
-    line-height: 1;
+  .nav-label {
+    flex: 1;
+    transition: transform 0.15s ease;
   }
 
-  .arrow {
-    font-size: 14px;
+  .nav-num {
+    font-family: ${({ theme }) => theme.fonts.mono};
+    font-size: 9px;
     color: ${({ theme }) => theme.colors.textTertiary};
-    font-family: ${({ theme }) => theme.fonts.main};
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
     opacity: 0;
+    letter-spacing: 0.04em;
+    transition: opacity 0.15s ease;
+  }
+
+  &.active {
+    color: ${({ theme }) => theme.colors.text};
+    font-weight: 600;
+    background: ${({ theme }) => theme.colors.accent};
+    border-left-color: ${({ theme }) => theme.colors.primary};
+
+    .nav-num {
+      opacity: 0.5;
+      color: ${({ theme }) => theme.colors.primary};
+    }
   }
 
   &:hover {
-    padding-left: 10px;
+    color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.accent};
+    text-decoration: none;
 
-    .name { color: ${({ theme }) => theme.colors.primary}; }
-    .arrow { transform: translateX(4px); color: ${({ theme }) => theme.colors.primary}; opacity: 1; }
+    .nav-label { transform: translateX(2px); }
+    .nav-num { opacity: 0.4; }
   }
 `;
 
@@ -233,6 +248,55 @@ const SocialIcon = styled.a`
   }
 `;
 
+const DrawerIdentity = styled.div`
+  padding-bottom: 24px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.divider};
+
+  .id-name {
+    font-size: 17px;
+    font-weight: 800;
+    font-family: ${({ theme }) => theme.fonts.main};
+    letter-spacing: -0.04em;
+    color: ${({ theme }) => theme.colors.text};
+    margin-bottom: 5px;
+    line-height: 1.2;
+  }
+
+  .id-title {
+    font-size: 11px;
+    font-family: ${({ theme }) => theme.fonts.mono};
+    color: ${({ theme }) => theme.colors.textTertiary};
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .id-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: ${({ theme }) => theme.colors.green};
+      flex-shrink: 0;
+    }
+
+    span {
+      font-size: 10px;
+      font-family: ${({ theme }) => theme.fonts.mono};
+      color: ${({ theme }) => theme.colors.textTertiary};
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  }
+`;
+
+const NAV_NUMS = ["01", "02", "03", "04", "05", "06", "07", "08"];
+
 const socialIconMap = {
   GitHub: FaGithub,
   LinkedIn: FaLinkedin,
@@ -284,12 +348,20 @@ const MobileNav = () => {
         <>
           <DrawerOverlay onClick={() => setOpen(false)} />
           <Drawer>
+            <DrawerIdentity>
+              <div className="id-name">{personalInfo.name}</div>
+              <div className="id-title">{personalInfo.description}</div>
+              <div className="id-location">
+                <span className="dot" />
+                <span>London, UK</span>
+              </div>
+            </DrawerIdentity>
             <NavList>
               {navLinks.map(({ id, name, url }, idx) => (
                 <NavItem key={id} $i={idx}>
                   <NavLink href={url} onClick={(e) => handleNavClick(e, url)}>
-                    <span className="name">{name}</span>
-                    <span className="arrow">›</span>
+                    <span className="nav-label">{name}</span>
+                    <span className="nav-num">{NAV_NUMS[idx]}</span>
                   </NavLink>
                 </NavItem>
               ))}
