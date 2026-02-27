@@ -93,7 +93,7 @@ const HeroName = styled.div`
   }
 
   .line-2 {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${({ theme }) => theme.colors.primary};
   }
 
   .char {
