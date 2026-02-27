@@ -51,19 +51,13 @@ const AboutSection = styled.section`
 `;
 
 const HeroGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 64px;
   padding: 100px 48px 60px;
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
 
   @media (max-width: 900px) {
-    grid-template-columns: 1fr;
     padding: 48px 24px 60px;
-    gap: 0;
   }
 `;
 
@@ -282,15 +276,7 @@ const BioParagraphs = styled.div`
 `;
 
 const PhotoColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  opacity: 0;
-  animation: ${({ $visible }) => $visible ? css`${fadeIn} 0.8s ease 0.5s forwards` : "none"};
-
-  @media (max-width: 900px) {
-    display: none;
-  }
+  display: none;
 `;
 
 const PhotoFrame = styled.div`
