@@ -36,7 +36,7 @@ export const personalInfo = {
   description: "Senior Software Engineer",
   about: [
     `Senior Software Engineer based in London. Over the past 6 years I’ve shipped products at <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a> — across payments, advertising infrastructure, and AI-powered CRM. At Meta I worked on the Ads Manager, shipping features that moved top-line revenue. At HubSpot I lead a team building <strong>Account Insights</strong>, a real-time recommendation engine that improved user retention by 10%.`,
-    `Electronics and Telecom background from Jadavpur University. Currently completing a Professional Certificate in ML and AI at Imperial College London — and applying that work directly to what I build.`,
+    `Currently completing a Professional Certificate in ML and AI at Imperial College London — and applying it directly to the AI-powered systems I'm building at HubSpot.`,
     `Outside of work, I love to travel, play chess, run marathons, and work out to stay fit and active.`,
   ],
   currentCompany: {
@@ -53,11 +53,15 @@ export const personalInfo = {
 export const skills = [
   {
     category: "Languages",
-    items: ["C++", "Python", "Java", "JavaScript", "TypeScript", "SQL"],
+    items: ["C++", "Python", "Java", "JavaScript", "TypeScript", "Hack", "SQL"],
   },
   {
     category: "Frameworks",
-    items: ["React", "React Native", "Spring MVC", "Google Guice"],
+    items: ["React", "React Native", "Spring MVC", "Google Guice", "Dagger 2.0"],
+  },
+  {
+    category: "AI",
+    items: ["GPT-4o", "Claude AI", "LLM Integration", "Prompt Engineering", "GenAI"],
   },
   {
     category: "Web Technologies",
@@ -65,20 +69,20 @@ export const skills = [
   },
   {
     category: "Tools",
-    items: ["Git", "Docker", "Kubernetes", "Kafka", "AWS"],
+    items: ["Git", "Docker", "Kubernetes", "Kafka", "AWS", "CI/CD"],
   },
   {
     category: "Databases",
-    items: ["MySQL", "MongoDB", "DynamoDB", "Vitess DB"],
+    items: ["MySQL", "PostgreSQL", "MongoDB", "DynamoDB", "Vitess DB"],
   },
   {
     category: "Other",
     items: [
-      "RESTful APIs",
-      "Backend Development",
-      "Microservices",
-      "Agile",
       "System Design",
+      "Scalable Architecture",
+      "RESTful APIs",
+      "Microservices",
+      "Backend Development",
       "Data Structures",
       "Algorithms",
       "OOP",
@@ -96,7 +100,9 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/HubSpot",
     date: "07/2024 - Present",
     responsibilities: [
-      "Designed and built Account Insights — a real-time recommendation engine that increased user retention by 10%.",
+      "Architected GPT-4 powered audit log summarization — RPC infrastructure with JinJava templating and memcached caching, processing 100k+ audit events with sub-second response. Reduced enterprise security analysis from hours to minutes.",
+      "Built AI-powered admin agents using GPT-4o to automate cleanup of stale CRM assets, reducing 70% of recurring customer costs.",
+      "Designed and built Account Insights, a real-time recommendation engine — 10% user retention increase and 40% platform adoption (highest across the platform).",
       "Leading a team of 4 engineers across full-stack delivery, mentoring junior developers and owning end-to-end product execution.",
     ],
     techStack: [
