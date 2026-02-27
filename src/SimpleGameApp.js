@@ -11,15 +11,11 @@ import CurtainLoader from "./components/CurtainLoader";
 import styled from "styled-components";
 import { ThemeProvider } from "./context/ThemeContext";
 import { motion } from "framer-motion";
-import FloatingElements from "./components/FloatingElements";
 import InteractiveParticles from "./components/InteractiveParticles";
-import SoundEffects from "./components/SoundEffects";
 import CursorEffects from "./components/CursorEffects";
 import ControlledGeekTerminal from "./components/ControlledGeekTerminal";
 import ControlledProgressBar from "./components/ControlledProgressBar";
 import ControlledGeekStats from "./components/ControlledGeekStats";
-import KonamiCode from "./components/KonamiCode";
-import SubtleEffects from "./components/SubtleEffects";
 import Dock from "./components/Dock";
 import HackerNotepad from "./components/HackerNotepad";
 
@@ -480,14 +476,6 @@ function SimpleGameApp() {
                 transition={{ duration: 1 }}
               />
             )}
-
-            {/* Effects available in both modes */}
-            <FloatingElements gameMode={gameMode} />
-            <SoundEffects gameMode={gameMode} />
-            <KonamiCode gameMode={gameMode} />
-
-            {/* Beautiful chemical bond effects for both modes */}
-            <SubtleEffects gameMode={gameMode} />
 
             {/* Game mode exclusive effects */}
             {gameMode && (

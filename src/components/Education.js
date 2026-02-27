@@ -39,7 +39,7 @@ const SectionHeader = styled.div`
     .num {
       font-size: 11px;
       font-family: ${({ theme }) => theme.fonts.mono};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.textTertiary};
       font-weight: 600;
       letter-spacing: 0.1em;
     }
@@ -47,7 +47,7 @@ const SectionHeader = styled.div`
     .line {
       width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.divider};
       border-radius: 1px;
     }
   }

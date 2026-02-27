@@ -43,7 +43,7 @@ const SectionHeader = styled.div`
     .num {
       font-size: 11px;
       font-family: ${({ theme }) => theme.fonts.mono};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.textTertiary};
       font-weight: 600;
       letter-spacing: 0.1em;
     }
@@ -51,7 +51,7 @@ const SectionHeader = styled.div`
     .line {
       width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.divider};
       border-radius: 1px;
     }
   }
@@ -85,7 +85,7 @@ const Timeline = styled.div`
     left: 7px;
     top: 12px;
     width: 1px;
-    background: ${({ theme }) => theme.colors.timelineLine};
+    background: ${({ theme }) => theme.colors.divider};
     height: 0;
     animation: ${({ $visible }) => $visible ? css`${growLine} 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards` : "none"};
   }
@@ -126,7 +126,7 @@ const TimelineDot = styled.div`
     transition: all 0.2s ease;
 
     ${({ $current, theme }) => $current && css`
-      box-shadow: 0 0 0 4px ${theme.colors.primarySubtle};
+      box-shadow: 0 0 0 3px ${theme.colors.backgroundSecondary};
     `}
   }
 `;
@@ -143,7 +143,6 @@ const TimelineContent = styled.div`
   &:hover {
     border-color: ${({ theme }) => theme.colors.cardBorderHover};
     box-shadow: ${({ theme }) => theme.shadows.cardHover};
-    transform: translateX(4px);
   }
 
   .header-row {

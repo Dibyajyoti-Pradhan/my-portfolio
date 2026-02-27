@@ -22,10 +22,6 @@ const scaleIn = keyframes`
   to   { opacity: 1; transform: scale(1); }
 `;
 
-const shimmer = keyframes`
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-`;
 
 const CertificationsSection = styled.section`
   max-width: 900px;
@@ -52,7 +48,7 @@ const SectionHeader = styled.div`
     .num {
       font-size: 11px;
       font-family: ${({ theme }) => theme.fonts.mono};
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.textTertiary};
       font-weight: 600;
       letter-spacing: 0.1em;
     }
@@ -60,7 +56,7 @@ const SectionHeader = styled.div`
     .line {
       width: 32px;
       height: 1px;
-      background: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.divider};
       border-radius: 1px;
     }
   }
@@ -110,15 +106,8 @@ const CardTop = styled.div`
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      ${({ theme }) => theme.colors.primary},
-      ${({ theme }) => theme.colors.primaryHover},
-      ${({ theme }) => theme.colors.primary}
-    );
-    background-size: 200% auto;
-    animation: ${shimmer} 4s linear infinite;
+    height: 1px;
+    background: ${({ theme }) => theme.colors.divider};
   }
 
   @media (max-width: 600px) {
@@ -444,26 +433,11 @@ const CapstoneCard = styled.a`
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, ${({ theme }) => theme.colors.primary}, ${({ theme }) => theme.colors.primaryHover});
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s ease;
-  }
-
   &:hover {
     border-color: ${({ theme }) => theme.colors.primaryBorder};
     box-shadow: ${({ theme }) => theme.shadows.cardHover};
-    transform: translateY(-2px);
     text-decoration: none;
 
-    &::before { transform: scaleX(1); }
     .proj-title { color: ${({ theme }) => theme.colors.primary}; }
   }
 
@@ -550,18 +524,18 @@ const Certifications = () => {
               </StatusBadge>
             </TitleRow>
 
+            <MetaStrip>
+              <MetaChip><FaClock /> {cert.duration}</MetaChip>
+              <MetaChip><FaBookOpen /> {cert.date}</MetaChip>
+              <MetaChip><FaGraduationCap /> London</MetaChip>
+            </MetaStrip>
+
             <InstitutionLink href={cert.institutionUrl} target="_blank" rel="noopener noreferrer">
               <FaGraduationCap />
               {cert.institution}
               <FaExternalLinkAlt />
             </InstitutionLink>
             <Department>{cert.department}</Department>
-
-            <MetaStrip>
-              <MetaChip><FaClock /> {cert.duration}</MetaChip>
-              <MetaChip><FaBookOpen /> {cert.date}</MetaChip>
-              <MetaChip><FaGraduationCap /> London</MetaChip>
-            </MetaStrip>
 
             <OutcomeBanner>
               <FaAward />
