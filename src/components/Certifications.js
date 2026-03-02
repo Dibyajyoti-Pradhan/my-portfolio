@@ -535,7 +535,7 @@ const Certifications = () => {
               {cert.institution}
               <FaExternalLinkAlt />
             </InstitutionLink>
-            <Department>{cert.department}</Department>
+            {cert.department && <Department>{cert.department}</Department>}
 
             <OutcomeBanner>
               <FaAward />

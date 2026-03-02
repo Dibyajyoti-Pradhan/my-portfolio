@@ -390,7 +390,7 @@ export const certifications = [
     title: "Professional Certificate in Machine Learning and Artificial Intelligence",
     institution: "Imperial College London",
     institutionUrl: "https://www.imperial.ac.uk/business-school/executive-education/technology-analytics-data-science/professional-certificate-machine-learning-and-artificial-intelligence-programme/online/",
-    department: "Business School & Department of Computing",
+    department: "",
     duration: "25 Weeks",
     date: "2025 - 2026",
     status: "In Progress",
