@@ -35,7 +35,7 @@ export const personalInfo = {
   shortName: "Dibyajyoti",
   description: "Senior Software Engineer",
   about: [
-    `Senior Software Engineer based in London. Over the past 6 years I’ve shipped products at <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a> — across payments, advertising infrastructure, and AI-powered CRM. At Meta I worked on the Ads Manager, shipping features that moved top-line revenue. At HubSpot I lead a team building <strong>Account Insights</strong>, a real-time recommendation engine that improved user retention by 10%.`,
+    `Senior Software Engineer based in London. Over the past 6 years I’ve shipped products at <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a> — across payments, advertising infrastructure, and AI-powered CRM. At Meta I worked on the Ads Manager, shipping features that moved top-line revenue. At HubSpot I’ve worked on Account Insights — a real-time recommendation engine that improved user retention by 10% and drove 40% platform adoption across the CRM.`,
     `Currently completing a Professional Certificate in ML and AI at Imperial College London — and applying it directly to the AI-powered systems I'm building at HubSpot.`,
     `Outside of work, I love to travel, play chess, run marathons, and work out to stay fit and active.`,
   ],
@@ -100,10 +100,11 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/HubSpot",
     date: "07/2024 - Present",
     responsibilities: [
+      "Designed and built Account Insights, a real-time recommendation engine — 10% user retention increase and 40% platform adoption (highest across the platform).",
       "Architected GPT-4 powered audit log summarization — RPC infrastructure with JinJava templating and memcached caching, processing 100k+ audit events with sub-second response. Reduced enterprise security analysis from hours to minutes.",
       "Built AI-powered admin agents using GPT-4o to automate cleanup of stale CRM assets, reducing 70% of recurring customer costs.",
-      "Designed and built Account Insights, a real-time recommendation engine — 10% user retention increase and 40% platform adoption (highest across the platform).",
-      "Owned end-to-end product execution across design, engineering, and delivery. Mentored junior developers on the team.",
+      "Currently contributing to the Product Approvals platform — building high-throughput, low-latency services for gated access, approval workflows, and audit trail integration across HubSpot products.",
+      "Mentored junior developers and collaborated across engineering, product, and design.",
     ],
     techStack: [
       "Java",
