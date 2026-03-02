@@ -1,0 +1,181 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{calc}
+\usepackage[normalem]{ulem} % for underline
+
+\geometry{
+    a4paper,
+    left=5mm,
+    right=5mm,
+    top=5mm,
+    bottom=5mm,
+}
+
+% Color palette
+\definecolor{primarycolor}{RGB}{0,119,181}
+\definecolor{secondarycolor}{RGB}{102,102,102}
+
+% Make all links black by default
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+}
+
+% Section headings: black
+\titleformat{\section}
+  {\color{black}\large\bfseries}
+  {}{0em}{}[\titlerule]
+
+\titlespacing{\section}{0pt}{8pt}{4pt}
+
+% Company macro
+\newcommand{\company}[1]{{\normalsize\textbf{\color{primarycolor}#1}}}
+\newcommand{\role}[1]{{\small\textbf{#1}}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\newlength{\leftcolwidth}
+\newlength{\rightcolwidth}
+\newlength{\gapwidth}
+\setlength{\leftcolwidth}{0.34\textwidth}
+\setlength{\gapwidth}{0.03\textwidth}
+\setlength{\rightcolwidth}{0.63\textwidth}
+
+\begin{document}
+
+\begin{center}
+    {\fontsize{36}{20}\selectfont\textbf{Dibyajyoti Pradhan}}\\[0.4em]
+    {\small \textbf{Senior Software Engineer} | Driving Development at
+    \textbf{\textcolor{primarycolor}{\href{https://en.wikipedia.org/wiki/Meta_Platforms}{Meta}}},
+    \textbf{\textcolor{primarycolor}{\href{https://en.wikipedia.org/wiki/HubSpot}{HubSpot}}} \&
+    \textbf{\textcolor{primarycolor}{\href{https://en.wikipedia.org/wiki/Amazon_(company)}{Amazon}}}} |
+    London, United Kingdom\\[0.4em]
+    \href{tel:+447424781958}{\uline{+44-7424781958}} \quad
+    \href{mailto:dibyajyotipradhan.official@gmail.com}{\uline{dibyajyotipradhan.official@gmail.com}} \quad
+    \href{https://www.linkedin.com/in/dibyajyoti-pradhan-83a649146/}{\uline{LinkedIn}} \quad
+    \href{https://github.com/Dibyajyoti-Pradhan}{\uline{GitHub}} \quad
+    \href{https://dibyajyoti-pradhan.github.io/my-portfolio/}{\uline{Portfolio}}
+\end{center}
+
+\section*{Summary}
+Senior Software Engineer with 6+ years of experience at Meta, Amazon, and HubSpot. Skilled in backend, frontend, and distributed systems, with expertise in system design, scalability, and performance optimization. Proven record of delivering high-impact solutions, mentoring engineers, and collaborating across product, design, and engineering.
+
+\vspace
+
+\noindent\begin{minipage}[t]{\leftcolwidth}
+
+\section*{Skills}
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item \textbf{Languages:} C, C++, Python, Java, JavaScript, TypeScript, Hack, SQL
+    \item \textbf{Frameworks:} React, React Native, Spring, Spring MVC, Google Guice, Dagger 2.0, CHIRP RPC
+    \item \textbf{Web Technologies:} HTML, CSS, GraphQL
+    \item \textbf{Tools:} Git, Docker, Kubernetes, Kafka, AWS
+    \item \textbf{Databases:} MongoDB, DynamoDB, Vitess DB, PostgreSQL, MySQL
+    \item \textbf{AI:} LLM Integration (GPT-4o, Claude AI, Cursor, Copilot), Prompt Engineering, GenAI Applications
+    \item \textbf{Other:} System Design, Scalable Architecture, RESTful APIs, Backend Development, Data Structures, Algorithms, Microservices, Agile, OOP, Design Patterns, Maven, CI/CD
+\end{itemize}
+
+\section*{Achievements}
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item \textbf{GenAI Implementation:} Introduced GenAI (Llama 2) for Ad Creatives in AMA, enhancing ad creative capabilities.
+    \item \textbf{Innovation Award:} Received the ``Most Innovative Award'' at the Amazon Pay EDH Hackathon for pioneering a near-zero latency model for the Amazon Pay For Business App.
+    \item \textbf{Scholarship Recognition:} Recognized with the Jagadis Bose National Talent Search Scholarship, selected as one of 56 scholars from over 3000 applicants from top-tier colleges.
+\end{itemize}
+
+\section*{Education}
+\textbf{Professional Certificate in Machine Learning \& AI}\\
+\textit{Imperial College London} \\
+2025 -- 2026 \quad \textit{In Progress · 25 Weeks}\\[0.3em]
+\small Curriculum: Supervised/Unsupervised Learning, Neural Networks, Deep Learning, NLP, Reinforcement Learning, Recommender Systems, Deployment\\[0.2em]
+Capstone Projects: \textit{Hull Tactical — S\&P 500 Market Prediction} (classification models on financial data); \textit{Black-Box Optimisation} (Bayesian optimisation with Gaussian Process surrogates)\\
+\normalsize
+
+\vspace{0.5em}
+\textbf{Bachelor of Engineering in Electronics \& Telecommunication Engineering}\\
+\textit{Jadavpur University} \\
+2015 -- 2019 \quad \textit{Kolkata, India}
+
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{\rightcolwidth}
+\section*{Experience}
+
+\company{HubSpot}
+
+\role{Senior Software Engineer} \hfill 07/2024 -- Present\\
+\small\textit{London, United Kingdom}
+
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item Designed and built Account Insights, a real-time recommendation engine — driving 10\% user retention increase and 40\% platform adoption (highest across the platform).
+    \item Architected GPT-4 powered audit log summarization — RPC infrastructure with JinJava templating and memcached caching, reducing enterprise security analysis from hours to minutes while processing 100k+ audit events with sub-second response.
+    \item Built AI-powered admin agents using GPT-4o Copilot actions to automate cleanup of stale CRM assets (marketing emails, websites, etc.), reducing 70\% of recurring customer costs.
+    \item Contributing to the Product Approvals platform --- building high-throughput, low-latency services for gated access, approval workflows, and audit trail integration across HubSpot products.
+\end{itemize}
+
+\vspace{0.5em}
+\company{Meta}
+
+\role{Software Engineer II} \hfill 04/2022 -- 05/2024\\
+\small\textit{London, United Kingdom}
+
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item Lead development of mid-flight recommendation flows, like Placements and Campaign Budget, within the Ads Manager App (AMA), resulting in a notable 0.04\% increase in Meta's top-line revenue weighted adoptions and over 12{,}000 weekly resolutions.
+    \item Achieve a remarkable 20\% improvement in screen load times for 8 highly trafficked interfaces in AMA through efficient pre-fetching of relay queries, enhancing user experience.
+    \item Revamp the duplication flow in AMA to align with ODAX objectives, resulting in a significant 14\% increase in revenue and an 18\% growth in ad duplications.
+\end{itemize}
+
+\vspace{0.5em}
+\company{Amazon}
+
+\role{Software Development Engineer -- 2} \hfill 10/2021 -- 02/2022\\
+\small\textit{Hyderabad, India}
+
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item Expanded user base of Amazon Pay for Business app by 5 million downloads and achieved a 4.3-star rating from launch. Optimized latency and resolved operational inefficiencies.
+    \item Engineered an innovative `Offline Architecture' for the app, eliminating perceived latency.
+    \item Streamlined crawler latency in Daily MIS Settlement Report, reducing processing time from 3 hours to 10 minutes, resolving delays for 70+ online and organized merchants.
+    \item Provided mentorship to 3 developers.
+\end{itemize}
+
+\vspace{0.5em}
+\company{Amazon}
+
+\role{Software Development Engineer -- 1} \hfill 07/2019 -- 09/2021\\
+\small\textit{Hyderabad, India}
+
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item Orchestrated the development of 18 major pages for the Amazon Pay for Business app.
+    \item Played the founding engineer role in a team of three, facilitating 5 million merchant engagements at launch.
+\end{itemize}
+
+\vspace{0.5em}
+\company{Amazon}
+
+\role{Software Development Engineer -- Intern} \hfill 05/2018 -- 07/2018\\
+\small\textit{Hyderabad, India}
+
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+    \small
+    \item Developed automation for sequence generation in a tier-1 service, benefiting over 100 developer teams in Amazon.
+    \item Created a comprehensive full-stack admin tool to monitor and manage sequence configurations in real-time.
+\end{itemize}
+
+\end{minipage}
+
+\end{document}
