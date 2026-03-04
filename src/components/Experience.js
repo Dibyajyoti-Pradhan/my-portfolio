@@ -215,9 +215,9 @@ const TimelineContent = styled.div`
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: ${({ theme }) => theme.colors.primary};
-      background: ${({ theme }) => theme.colors.primarySubtle};
-      border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+      color: ${({ theme }) => theme.colors.green};
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px solid rgba(74, 222, 128, 0.25);
       padding: 2px 8px;
       border-radius: ${({ theme }) => theme.borderRadiusPill};
     }

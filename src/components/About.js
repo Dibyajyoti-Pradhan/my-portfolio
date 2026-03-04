@@ -152,16 +152,16 @@ const RoleLine = styled.div`
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.green};
     flex-shrink: 0;
     animation: ${pulseDot} 2.5s ease-in-out infinite;
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.green};
   }
 
   .availability {
     font-size: 11px;
     font-family: ${({ theme }) => theme.fonts.mono};
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.green};
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
