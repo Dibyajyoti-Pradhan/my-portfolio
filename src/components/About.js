@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
-import { MdLocationPin } from "react-icons/md";
+import { MdLocationPin as MdLocationPinBase } from "react-icons/md";
 import { personalInfo } from "../data/data";
+
+const MdLocationPin = styled(MdLocationPinBase)`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.primary} !important;
+  flex-shrink: 0;
+`;
 
 const charReveal = keyframes`
   from { opacity: 0; transform: translateY(36px); }
@@ -159,13 +165,7 @@ const RoleLine = styled.div`
     color: ${({ theme }) => theme.colors.green};
   }
 
-  .location-pin {
-    font-size: 14px;
-    color: ${({ theme }) => theme.colors.green};
-    flex-shrink: 0;
-  }
-
-  .availability {
+.availability {
     font-size: 11px;
     font-family: ${({ theme }) => theme.fonts.mono};
     color: ${({ theme }) => theme.colors.green};
@@ -322,7 +322,7 @@ const About = () => {
 
           <RoleLine $visible={isVisible}>
             <span className="role-text">{personalInfo.description}</span>
-            <MdLocationPin className="location-pin hide-mobile" />
+            <MdLocationPin className="hide-mobile" />
             <span className="role-text hide-mobile">London, UK</span>
             <span className="dot" />
             <span className="availability">Available</span>
