@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
+import { MdLocationPin } from "react-icons/md";
 import { personalInfo } from "../data/data";
 
 const charReveal = keyframes`
@@ -156,6 +157,12 @@ const RoleLine = styled.div`
     flex-shrink: 0;
     animation: ${pulseDot} 2.5s ease-in-out infinite;
     color: ${({ theme }) => theme.colors.green};
+  }
+
+  .location-pin {
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.green};
+    flex-shrink: 0;
   }
 
   .availability {
@@ -315,7 +322,7 @@ const About = () => {
 
           <RoleLine $visible={isVisible}>
             <span className="role-text">{personalInfo.description}</span>
-            <span className="dot hide-mobile" />
+            <MdLocationPin className="location-pin hide-mobile" />
             <span className="role-text hide-mobile">London, UK</span>
             <span className="dot" />
             <span className="availability">Available</span>
