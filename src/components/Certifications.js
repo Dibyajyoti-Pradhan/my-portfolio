@@ -11,11 +11,7 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
+import { fadeInUp } from "../styles/animations";
 
 const scaleIn = keyframes`
   from { opacity: 0; transform: scale(0.97); }

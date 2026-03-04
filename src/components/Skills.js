@@ -16,11 +16,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0);  }
-`;
+import { fadeInUp } from "../styles/animations";
 
 const slideIn = keyframes`
   from { opacity: 0; transform: translateX(-14px); }

@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled, { keyframes, css } from "styled-components";
 import { experiences } from "../data/data";
 import Button from "./common/Button";
-
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
+import { fadeInUp } from "../styles/animations";
 
 const slideIn = keyframes`
   from { opacity: 0; transform: translateX(-16px); }

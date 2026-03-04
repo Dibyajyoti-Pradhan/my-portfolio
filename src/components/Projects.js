@@ -3,11 +3,7 @@ import styled, { keyframes, css } from "styled-components";
 import { projects } from "../data/data";
 import { FaGithub, FaArrowRight } from "react-icons/fa";
 import Button from "./common/Button";
-
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
+import { fadeInUp } from "../styles/animations";
 
 const scaleIn = keyframes`
   from { opacity: 0; transform: scale(0.96); }
