@@ -226,21 +226,21 @@ const RegularCard = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 
     .folder-sm {
-      width: 28px;
-      height: 28px;
-      background: ${({ theme }) => theme.colors.accent};
-      border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-      border-radius: 7px;
+      width: 36px;
+      height: 36px;
+      background: ${({ theme }) => theme.colors.primarySubtle};
+      border: 1px solid ${({ theme }) => theme.colors.primaryBorder};
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
 
       svg {
-        color: ${({ theme }) => theme.colors.textTertiary};
-        font-size: 13px;
+        color: ${({ theme }) => theme.colors.primary};
+        font-size: 16px;
       }
     }
 
@@ -253,43 +253,40 @@ const RegularCard = styled.div`
   }
 
   .title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: ${({ theme }) => theme.colors.text};
-    letter-spacing: -0.018em;
-    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
     line-height: 1.35;
     transition: color 0.2s ease;
   }
 
   .description {
-    color: ${({ theme }) => theme.colors.textTertiary};
-    font-size: 12.5px;
-    line-height: 1.68;
+    color: ${({ theme }) => theme.colors.textSecondary};
+    font-size: 13.5px;
+    line-height: 1.72;
     flex: 1;
-    margin-bottom: 14px;
-    letter-spacing: -0.003em;
+    margin-bottom: 20px;
+    letter-spacing: -0.004em;
   }
 
   .tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: 5px;
     margin-top: auto;
 
     span {
-      background: transparent;
+      background: ${({ theme }) => theme.colors.accent};
       color: ${({ theme }) => theme.colors.textTertiary};
-      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10.5px;
       font-family: ${({ theme }) => theme.fonts.mono};
-      border-right: 1px solid ${({ theme }) => theme.colors.divider};
-      padding-right: 6px;
+      font-weight: 500;
+      border: 1px solid ${({ theme }) => theme.colors.cardBorder};
       letter-spacing: 0.01em;
-
-      &:last-child {
-        border-right: none;
-        padding-right: 0;
-      }
     }
   }
 `;

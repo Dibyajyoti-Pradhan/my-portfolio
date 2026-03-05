@@ -262,7 +262,6 @@ export const projects = [
     url: "https://github.com/Dibyajyoti-Pradhan/cloud-storage-system",
     external: "https://github.com/Dibyajyoti-Pradhan/cloud-storage-system",
     stars: 0,
-    badge: "Imperial College London",
   },
   {
     id: 2,
@@ -273,7 +272,6 @@ export const projects = [
     url: "https://github.com/Dibyajyoti-Pradhan/Crawler",
     external: "https://github.com/Dibyajyoti-Pradhan/Crawler",
     stars: 0,
-    badge: "Imperial College London",
   },
   {
     id: 5,
