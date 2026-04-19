@@ -393,7 +393,12 @@ export const certifications = [
     department: "",
     duration: "25 Weeks",
     date: "2025 - 2026",
-    status: "In Progress",
+    status: "Completed",
+    issuedDate: "April 9, 2026",
+    credentialUrl: "https://certificates.emeritus.org/cc32b358-67db-440e-8d7e-b34e017f1f29#acc.HJN0mXxZ",
+    certificatePdf: "/ImperialAI.pdf",
+    certificateThumb: "/ImperialAI_thumb.png",
+    blockchainId: "0xd8c36175de634850a1b6fc7ae86da566385f7ebb6dfc5479efd9d18c83486853",
     curriculum: [
       "Foundation: Intro to ML, Data Analysis with Pandas, Supervised Learning",
       "Core ML: Classification, Regression, Clustering, Dimensionality Reduction",
@@ -414,7 +419,7 @@ export const certifications = [
       }
     ],
     techStack: ["Python", "NumPy", "Pandas", "Scikit-learn", "PyTorch", "Matplotlib", "Jupyter"],
-    outcome: "Verified Digital Certificate from Imperial Executive Education",
+    outcome: "",
     repositoryUrl: "https://github.com/Dibyajyoti-Pradhan/Capstone-Project-Imperial-College-London",
   },
 ];
