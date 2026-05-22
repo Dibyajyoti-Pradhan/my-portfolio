@@ -14,6 +14,11 @@ import ShutterCurtain from "./ShutterCurtain";
 import LightningCurtain from "./LightningCurtain";
 import SandCurtain from "./SandCurtain";
 import StampCurtain from "./StampCurtain";
+import GravityWellCurtain from "./GravityWellCurtain";
+import CrystalGrowthCurtain from "./CrystalGrowthCurtain";
+import MercuryCurtain from "./MercuryCurtain";
+import ThreadCurtain from "./ThreadCurtain";
+import HourglassCurtain from "./HourglassCurtain";
 
 const variants = [
   ClassicCurtain,
@@ -31,6 +36,11 @@ const variants = [
   LightningCurtain,
   SandCurtain,
   StampCurtain,
+  GravityWellCurtain,
+  CrystalGrowthCurtain,
+  MercuryCurtain,
+  ThreadCurtain,
+  HourglassCurtain,
 ];
 
 const isMobile = () => {
