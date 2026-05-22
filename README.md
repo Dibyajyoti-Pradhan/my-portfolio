@@ -2,7 +2,7 @@
 
 A personal portfolio website built with React, showcasing 6+ years of software engineering experience across HubSpot, Meta, and Amazon. Designed with a focus on performance, clean aesthetics, and thoughtful UX.
 
-**Live:** [dibyajyoti-pradhan.github.io/my-portfolio](https://dibyajyoti-pradhan.github.io/my-portfolio)
+**Live:** [https://dibyajyoti-pradhan.github.io/my-portfolio](https://dibyajyoti-pradhan.github.io/my-portfolio)
 
 ---
 
