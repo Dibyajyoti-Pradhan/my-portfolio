@@ -1,46 +1,27 @@
-import React, { useRef } from "react";
-import ClassicCurtain from "./ClassicCurtain";
-import ParticleCurtain from "./ParticleCurtain";
-import ToonCurtain from "./ToonCurtain";
-import SlotCurtain from "./SlotCurtain";
-import OrigamiCurtain from "./OrigamiCurtain";
-import SkywriterCurtain from "./SkywriterCurtain";
-import SmokeCurtain from "./SmokeCurtain";
-import TetrisCurtain from "./TetrisCurtain";
-import SketchCurtain from "./SketchCurtain";
-import HologramCurtain from "./HologramCurtain";
-import MagneticCurtain from "./MagneticCurtain";
-import ShutterCurtain from "./ShutterCurtain";
-import LightningCurtain from "./LightningCurtain";
-import SandCurtain from "./SandCurtain";
-import StampCurtain from "./StampCurtain";
-import GravityWellCurtain from "./GravityWellCurtain";
-import CrystalGrowthCurtain from "./CrystalGrowthCurtain";
-import MercuryCurtain from "./MercuryCurtain";
-import ThreadCurtain from "./ThreadCurtain";
-import HourglassCurtain from "./HourglassCurtain";
+import React, { lazy, Suspense, useRef } from "react";
 
+// Each variant becomes its own webpack chunk — only the selected one downloads.
 const variants = [
-  ClassicCurtain,
-  ParticleCurtain,
-  ToonCurtain,
-  SlotCurtain,
-  OrigamiCurtain,
-  SkywriterCurtain,
-  SmokeCurtain,
-  TetrisCurtain,
-  SketchCurtain,
-  HologramCurtain,
-  MagneticCurtain,
-  ShutterCurtain,
-  LightningCurtain,
-  SandCurtain,
-  StampCurtain,
-  GravityWellCurtain,
-  CrystalGrowthCurtain,
-  MercuryCurtain,
-  ThreadCurtain,
-  HourglassCurtain,
+  lazy(() => import("./ClassicCurtain")),
+  lazy(() => import("./ParticleCurtain")),
+  lazy(() => import("./ToonCurtain")),
+  lazy(() => import("./SlotCurtain")),
+  lazy(() => import("./OrigamiCurtain")),
+  lazy(() => import("./SkywriterCurtain")),
+  lazy(() => import("./SmokeCurtain")),
+  lazy(() => import("./TetrisCurtain")),
+  lazy(() => import("./SketchCurtain")),
+  lazy(() => import("./HologramCurtain")),
+  lazy(() => import("./MagneticCurtain")),
+  lazy(() => import("./ShutterCurtain")),
+  lazy(() => import("./LightningCurtain")),
+  lazy(() => import("./SandCurtain")),
+  lazy(() => import("./StampCurtain")),
+  lazy(() => import("./GravityWellCurtain")),
+  lazy(() => import("./CrystalGrowthCurtain")),
+  lazy(() => import("./MercuryCurtain")),
+  lazy(() => import("./ThreadCurtain")),
+  lazy(() => import("./HourglassCurtain")),
 ];
 
 const isMobile = () => {
@@ -49,12 +30,15 @@ const isMobile = () => {
 };
 
 const CurtainLoader = (props) => {
-  // Mobile always Classic; desktop rotates variants every 10s by user clock
   const choiceRef = useRef(
     isMobile() ? 0 : Math.floor(Date.now() / 10000) % variants.length
   );
   const Variant = variants[choiceRef.current];
-  return <Variant {...props} />;
+  return (
+    <Suspense fallback={null}>
+      <Variant {...props} />
+    </Suspense>
+  );
 };
 
 export default CurtainLoader;
