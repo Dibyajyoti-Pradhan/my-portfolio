@@ -4,6 +4,14 @@ import styled, { keyframes } from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useResize } from '../hooks/useResize';
 import { ResizableContainer } from './common/ResizeHandle';
+import {
+  contactInfo,
+  experiences,
+  personalInfo,
+  projects,
+  skills,
+  socialLinks,
+} from '../data/data';
 
 const terminalBlink = keyframes`
   0%, 50% { opacity: 1; }
@@ -153,6 +161,7 @@ const GeekTerminal = forwardRef(({ gameMode, onActivityClick, onCpuClick, onNote
   const contentRef = useRef(null);
 
   const { size, isResizing, startResize: originalStartResize } = useResize(500, 300, 300, 200, window.innerWidth * 0.9, window.innerHeight * 0.9);
+  const socialUrl = (name) => socialLinks.find((link) => link.name === name)?.url || "Not listed";
 
   // Custom resize handler that also handles position for north resizing
   const startResize = (e, direction) => {
@@ -212,39 +221,24 @@ const GeekTerminal = forwardRef(({ gameMode, onActivityClick, onCpuClick, onNote
       '  notepad - Open hacker notepad'
     ],
     about: () => [
-      'Dibyajyoti Pradhan - Senior Software Engineer',
-      'Location: London, UK',
-      'Current: HubSpot',
-      'Experience: 5+ years in tech',
-      'Specialization: Full-stack development, System architecture'
+      `${personalInfo.name} - ${personalInfo.description}`,
+      `Location: ${personalInfo.location}`,
+      `Current: ${personalInfo.currentCompany.name}`,
+      `Experience: ${personalInfo.experienceYears} years across HubSpot, Meta, and Amazon`,
+      `Focus: ${personalInfo.specialization}`
     ],
-    skills: () => [
-      'Programming Languages: C++, Python, Java, JavaScript, TypeScript',
-      'Frameworks: React, React Native, Spring MVC, Google Guice',
-      'Web Technologies: HTML, CSS, GraphQL',
-      'Tools: Git, Docker, Kubernetes, Kafka, AWS',
-      'Databases: MySQL, MongoDB, DynamoDB, Vitess DB'
-    ],
-    projects: () => [
-      'Cloud Storage System - Java-based file management',
-      'Concurrent Web Crawler - Multi-threaded crawler in Java',
-      'Cron Parser - CLI application for cron expressions',
-      'Cookie Log Parser - CSV log analysis tool',
-      'Pokemon CSS Project - Advanced CSS showcase',
-      'Netflix Clone - React & Firebase app'
-    ],
-    experience: () => [
-      'Senior Software Engineer @ HubSpot (07/2024 - Present)',
-      'Software Engineer II @ Meta (04/2022 - 05/2024)',
-      'Software Development Engineer II @ Amazon (10/2021 - 02/2022)',
-      'Software Development Engineer I @ Amazon (07/2019 - 09/2021)',
-      'SDE Intern @ Amazon (05/2018 - 07/2018)'
-    ],
+    skills: () => skills.map(({ category, items }) => `${category}: ${items.join(', ')}`),
+    projects: () => projects.map(
+      ({ title, techStack }) => `${title} - ${techStack.slice(0, 5).join(', ')}`
+    ),
+    experience: () => experiences.map(
+      ({ position, company, date }) => `${position} @ ${company} (${date})`
+    ),
     contact: () => [
-      'Email: dibyojyotipradhan@gmail.com',
-      'LinkedIn: dibyajyoti-pradhan-83a649146',
-      'GitHub: Dibyajyoti-Pradhan',
-      'Location: London, UK'
+      `Email: ${contactInfo.email}`,
+      `LinkedIn: ${socialUrl("LinkedIn")}`,
+      `GitHub: ${socialUrl("GitHub")}`,
+      `Location: ${personalInfo.location}`
     ],
     resume: () => {
       // Trigger resume download
@@ -285,13 +279,13 @@ const GeekTerminal = forwardRef(({ gameMode, onActivityClick, onCpuClick, onNote
       'ERROR: Nice try! This portfolio is hack-proof 😎',
       'But you get points for trying!'
     ],
-    whoami: () => ['portfolio-visitor'],
+    whoami: () => [`portfolio-visitor@${personalInfo.shortName.toLowerCase()}`],
     pwd: () => ['/Users/visitor/portfolio-quest'],
     ls: () => ['about.txt', 'skills.md', 'projects/', 'experience.log', 'contact.vcf', 'resume.pdf', 'achievements.json'],
     cat: (args) => {
       const file = args[0];
       if (file === 'about.txt') return ['This is an interactive portfolio by Dibyajyoti Pradhan'];
-      if (file === 'skills.md') return ['# Skills', 'JavaScript, React, Python, Java...'];
+      if (file === 'skills.md') return ['# Skills', ...skills.map(({ category, items }) => `${category}: ${items.join(', ')}`)];
       if (file === 'resume.pdf') return ['📄 PDF file detected!', 'Use "resume" command to download the file instead.'];
       return [`cat: ${file || 'filename'}: No such file or directory`];
     },

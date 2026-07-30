@@ -263,7 +263,7 @@ const Header = () => {
     <HeaderContainer>
       <div className="logo-block">
         <div className="name">
-          <a href="/">{personalInfo.name}</a>
+          <a href={`${process.env.PUBLIC_URL || ""}/`}>{personalInfo.name}</a>
         </div>
         <div className="title">{personalInfo.description}</div>
         <div className="status-row">

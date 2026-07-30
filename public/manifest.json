@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Dibyajyoti",
+  "name": "Dibyajyoti Pradhan — Senior Software Engineer",
+  "description": "Portfolio of Dibyajyoti Pradhan, a senior full-stack software engineer specialising in distributed systems and AI-assisted products.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#050505",
+  "background_color": "#050505"
 }

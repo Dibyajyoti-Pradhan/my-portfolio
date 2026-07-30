@@ -326,7 +326,7 @@ const MobileNav = () => {
   return (
     <>
       <TopBar>
-        <Logo href="/">
+        <Logo href={`${process.env.PUBLIC_URL || ""}/`}>
           {personalInfo.name.split(" ")[0]}
           <span>.</span>
         </Logo>

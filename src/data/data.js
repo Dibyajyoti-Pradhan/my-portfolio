@@ -34,9 +34,12 @@ export const personalInfo = {
   name: "Dibyajyoti Pradhan",
   shortName: "Dibyajyoti",
   description: "Senior Software Engineer",
+  location: "London, UK",
+  experienceYears: "7+",
+  specialization: "Full-stack products, distributed systems, and AI-assisted trust platforms",
   about: [
-    `Senior Software Engineer based in London. Over the past 6 years I’ve shipped products at <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a> — across payments, advertising infrastructure, and AI-powered CRM. At Meta I worked on the Ads Manager, shipping features that moved top-line revenue. At HubSpot I’ve worked on Account Insights — a real-time recommendation engine that improved user retention by 10% and drove 40% platform adoption across the CRM.`,
-    `Currently completing a Professional Certificate in ML and AI at Imperial College London — and applying it directly to the AI-powered systems I'm building at HubSpot.`,
+    `Senior Software Engineer based in London with 7+ years at <a href="https://en.wikipedia.org/wiki/HubSpot" target="_blank" rel="noopener noreferrer">HubSpot</a>, <a href="https://en.wikipedia.org/wiki/Meta_Platforms" target="_blank" rel="noopener noreferrer">Meta</a>, and <a href="https://en.wikipedia.org/wiki/Amazon_(company)" target="_blank" rel="noopener noreferrer">Amazon</a>. I work across the full stack—building user-facing experiences and the distributed systems behind them—across payments, advertising, CRM, trust, governance, and safety.`,
+    `At HubSpot, I design approval workflows, audit systems, abuse-detection tooling, event-driven services, and LLM-powered experiences with human-in-the-loop controls. Previously, I shipped revenue-driving Ads Manager experiences at Meta and helped build Amazon Pay for Business from the ground up. I also hold a Professional Certificate in Machine Learning and Artificial Intelligence from Imperial College London.`,
     `Outside of work, I love to travel, play chess, run marathons, and work out to stay fit and active.`,
   ],
   currentCompany: {
@@ -46,37 +49,65 @@ export const personalInfo = {
   contact: {
     heading: "Get In Touch",
     message: `I'm open to new roles, collaborations, and interesting problems. My inbox is always open.`,
-    email: "dibyojyotipradhan@gmail.com",
+    email: "dibyajyotipradhan.official@gmail.com",
   },
 };
 
 export const skills = [
   {
     category: "Languages",
-    items: ["C++", "Python", "Java", "JavaScript", "TypeScript", "Hack", "SQL"],
+    items: ["Java", "Python", "TypeScript", "JavaScript", "C", "C++", "Hack", "SQL"],
   },
   {
-    category: "Frameworks",
-    items: ["React", "React Native", "Spring MVC", "Google Guice", "Dagger 2.0"],
+    category: "Full-Stack & Frameworks",
+    items: [
+      "React",
+      "React Native",
+      "Spring MVC",
+      "Google Guice",
+      "Dagger 2.0",
+      "CHIRP RPC",
+      "GraphQL",
+      "HTML",
+      "CSS",
+    ],
   },
   {
-    category: "AI",
-    items: ["GPT-4o", "Claude AI", "LLM Integration", "Prompt Engineering", "GenAI"],
+    category: "AI Systems",
+    items: [
+      "GPT-4o",
+      "Claude AI",
+      "LLM Integration",
+      "Agents & Tool-Use Design",
+      "Human-in-the-Loop Workflows",
+      "Prompt Engineering",
+      "Evaluations",
+      "GenAI",
+    ],
   },
   {
-    category: "Web Technologies",
-    items: ["HTML", "CSS", "GraphQL"],
+    category: "Distributed Systems & Infrastructure",
+    items: [
+      "Kafka",
+      "Event-Driven Architecture",
+      "Task Queues",
+      "Caching",
+      "Idempotency",
+      "Microservices",
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "CI/CD",
+      "Incident Response",
+      "Git",
+    ],
   },
   {
-    category: "Tools",
-    items: ["Git", "Docker", "Kubernetes", "Kafka", "AWS", "CI/CD"],
+    category: "Data & Caching",
+    items: ["MySQL", "PostgreSQL", "MongoDB", "DynamoDB", "Vitess DB", "Memcached"],
   },
   {
-    category: "Databases",
-    items: ["MySQL", "PostgreSQL", "MongoDB", "DynamoDB", "Vitess DB"],
-  },
-  {
-    category: "Other",
+    category: "Engineering",
     items: [
       "System Design",
       "Scalable Architecture",
@@ -100,11 +131,11 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/HubSpot",
     date: "07/2024 - Present",
     responsibilities: [
-      "Designed and built Account Insights, a real-time recommendation engine — 10% user retention increase and 40% platform adoption (highest across the platform).",
-      "Architected GPT-4 powered audit log summarization — RPC infrastructure with JinJava templating and memcached caching, processing 100k+ audit events with sub-second response. Reduced enterprise security analysis from hours to minutes.",
-      "Built AI-powered admin agents using GPT-4o to automate cleanup of stale CRM assets, reducing 70% of recurring customer costs.",
-      "Currently contributing to the Product Approvals platform — building high-throughput, low-latency services for gated access, approval workflows, and audit trail integration across HubSpot products.",
-      "Mentored junior developers and collaborated across engineering, product, and design.",
+      "Designed and delivered an AI-powered approval automation platform for 40k+ upmarket portals, cutting eligible pre-review work from 72-minute median decision cycles to seconds while preserving permission checks, auditability, and human-in-the-loop controls.",
+      "Architected GPT-4 powered audit log summarisation and the AuditTools assistant — natural-language queries, grounded event retrieval, JinJava templating, and Memcached caching — reducing enterprise security investigations from hours to minutes across 100k+ events.",
+      "Built audit-log security alerts for abuse patterns such as brute-force logins, bulk exports, and sensitive permission changes on a platform ingesting tens of millions of events daily.",
+      "Migrated approval-event publishing to asynchronous Unified Events using Kafka WBL and task queues, with shadow validation and a controlled rollout — removing up to 30 seconds of request-thread blocking.",
+      "Also delivered Account Insights (10% higher retention and 40% platform adoption) and GPT-4o admin-cleanup agents that reduced recurring customer costs by 70%.",
     ],
     techStack: [
       "Java",
@@ -124,6 +155,11 @@ export const experiences = [
       "HBase",
       "Backend",
       "Frontend",
+      "GPT-4o",
+      "LLM Agents",
+      "Memcached",
+      "Event-Driven Architecture",
+      "Human-in-the-Loop Workflows",
     ],
   },
   {
@@ -134,8 +170,8 @@ export const experiences = [
     url: "https://en.wikipedia.org/wiki/Meta_Platforms",
     date: "04/2022 - 05/2024",
     responsibilities: [
-      "Built mid-flight recommendation flows (Placements, Campaign Budget) in Ads Manager — drove a 0.04% lift in Meta’s top-line revenue weighted adoptions and 12,000+ weekly resolutions.",
-      "Cut screen load times by 20% across 8 high-traffic interfaces via Relay query pre-fetching.",
+      "Led mid-flight recommendation flows (Placements, Campaign Budget) in Ads Manager end-to-end — delivering a 0.04% top-line revenue lift, 12,000+ weekly resolutions, and the highest adoption among comparable recommendations.",
+      "Platformised instant-resolution flows, reducing new-flow implementation from roughly 3 weeks to 3–4 days, while improving load times by 20% across 8 high-traffic surfaces through Relay query prefetching.",
       "Revamped the ad duplication flow for ODAX objectives — 14% revenue increase and 18% growth in ad duplications.",
     ],
     techStack: [
@@ -330,9 +366,9 @@ export const achievements = [
   },
   {
     id: 3,
-    title: "Scholarship Recognition",
+    title: "Scholarship",
     description:
-      "Recognized with the Jagadis Bose National Talent Search Scholarship, selected as one of 56 scholars from over 3000 applicants from top-tier colleges.",
+      "Earned the Jagadis Bose National Talent Search Scholarship as one of 56 scholars selected from more than 3,000 applicants across top-tier colleges.",
   },
 ];
 
@@ -381,7 +417,7 @@ export const education = [
 export const contactInfo = {
   heading: "Get In Touch",
   message: `I'm open to new roles, collaborations, and interesting problems. My inbox is always open.`,
-  email: "dibyojyotipradhan@gmail.com",
+  email: "dibyajyotipradhan.official@gmail.com",
 };
 
 export const certifications = [
