@@ -49,7 +49,7 @@ export const personalInfo = {
   contact: {
     heading: "Get In Touch",
     message: `I'm open to new roles, collaborations, and interesting problems. My inbox is always open.`,
-    email: "dibyajyotipradhan.official@gmail.com",
+    email: "dibyojyotilondon@gmail.com",
   },
 };
 
@@ -417,7 +417,7 @@ export const education = [
 export const contactInfo = {
   heading: "Get In Touch",
   message: `I'm open to new roles, collaborations, and interesting problems. My inbox is always open.`,
-  email: "dibyajyotipradhan.official@gmail.com",
+  email: "dibyojyotilondon@gmail.com",
 };
 
 export const certifications = [

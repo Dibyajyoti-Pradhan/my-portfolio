@@ -115,7 +115,7 @@ This runs `npm run build` (via `predeploy`) and then publishes the `build/` dire
 ## Contact
 
 **Dibyajyoti Pradhan**
-- Email: [dibyojyotipradhan@gmail.com](mailto:dibyojyotipradhan@gmail.com)
+- Email: [dibyojyotilondon@gmail.com](mailto:dibyojyotilondon@gmail.com)
 - LinkedIn: [dibyajyoti-pradhan-83a649146](https://www.linkedin.com/in/dibyajyoti-pradhan-83a649146/)
 - GitHub: [Dibyajyoti-Pradhan](https://github.com/Dibyajyoti-Pradhan)
 - LeetCode: [dibyojyotipradhan](https://leetcode.com/u/dibyojyotipradhan/)
